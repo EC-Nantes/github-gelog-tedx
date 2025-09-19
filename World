@@ -1,0 +1,13 @@
+public class World {
+    Personnage Archer = new Personnage();
+    Personnage Paysan = new Personnage();
+    Personnage Lapin = new Personnage();
+    
+    /*méthodes de la classe World*/
+    public void World(){
+    
+    }
+    public void creerMondeAlea(){
+    
+    }
+}
