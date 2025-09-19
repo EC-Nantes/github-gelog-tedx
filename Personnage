@@ -1,0 +1,96 @@
+public class Personnage {
+    private String nom;
+    private int degAtt;
+    private int ptVie;
+    private int ptPar;
+    private int pageAtt;
+    private int pagePar;
+    private int distAttMax;
+    private Point2D pos;
+    
+    public Personnage(String n, int pV, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p){
+        nom=n;
+        ptVie=pV;
+        degAtt=dA;
+        ptPar=pPar;
+        pagePar=paPar;
+        pageAtt=paAtt;
+        distAttMax=dMax;
+        pos=p;
+    }
+    
+    public Personnage(Personnage perso){
+        this(perso.nom, perso.ptVie, perso.degAtt, perso.ptPar, perso.pagePar, perso.pageAtt, perso.distAttMax, perso.pos);
+    }
+    
+    public Personnage(){
+        this("grognon", 20, 30, 40, 10, 10, 10, new Point2D(0,0));
+    }
+    
+    public String getNom(){
+        return(nom);
+    }
+    
+    public void setNom(String n){
+        nom=n;
+    }
+    public void deplace(){
+        Random genx = new Random();
+        Random geny = new Random();
+        int dx = genx.nextInt(10);
+        int dy = geny.nextInt(10);
+        pos.translate(dx,dy);
+    }
+    
+    public void affiche(){
+         System.out.println(ptVie+pos.affichePOINT2D());       
+    }
+
+    public int getDegAtt() {
+        return degAtt;
+    }
+
+    public void setDegAtt(int degAtt) {
+        this.degAtt = degAtt;
+    }
+
+    public int getPtVie() {
+        return ptVie;
+    }
+
+    public void setPtVie(int ptVie) {
+        this.ptVie = ptVie;
+    }
+
+    public int getPtPar() {
+        return ptPar;
+    }
+
+    public void setPtPar(int ptPar) {
+        this.ptPar = ptPar;
+    }
+
+    public int getPagePar() {
+        return pagePar;
+    }
+
+    public void setPagePar(int PagePar) {
+        this.pagePar = PagePar;
+    }
+
+    public int getDistAttMax() {
+        return distAttMax;
+    }
+
+    public void setDistAttMax(int distAttMax) {
+        this.distAttMax = distAttMax;
+    }
+
+    public Point2D getPos() {
+        return pos;
+    }
+
+    public void setPos(Point2D pos) {
+        this.pos = pos;
+    }
+}
