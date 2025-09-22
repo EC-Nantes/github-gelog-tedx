@@ -3,9 +3,12 @@ public class Paysan extends Personnage{
     
     public Paysan(String n, int pV, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p){
         super(n, pV, dA, pPar, paPar, paAtt, dMax, p);
-
-        
-        
+    }
+    public Paysan(Paysan l){
+        super((Personnage)l);
     }
     
+    public Paysan(){
+        super(5,1,1,5,5,new Point2D(0,0));
+    }
 }
