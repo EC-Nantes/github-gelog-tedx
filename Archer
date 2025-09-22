@@ -7,5 +7,11 @@ public class Archer extends Personnage{
         
         
     }
+    public Archer(Archer l){
+        super((Personnage)l);
+    }
     
+    public Archer(){
+        super(5,1,1,5,5,new Point2D(0,0));
+    }
 }
