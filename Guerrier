@@ -1,0 +1,40 @@
+public class Guerrier extends Personnage{
+
+    /**
+     *
+     * @param n
+     * @param pV
+     * @param dA
+     * @param pPar
+     * @param paPar
+     * @param paAtt
+     * @param dMax
+     * @param p
+     */
+    
+    
+    public Guerrier(String n, int pV, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p){
+        super(n, pV, dA, pPar, paPar, paAtt, dMax, p);    
+    }
+
+    /**
+     *
+     * @param g
+     */
+    public Guerrier(Guerrier g){
+        super((Personnage)g);
+        
+        
+    }
+
+    /**
+     *
+     */
+    public Guerrier(){
+            
+        super("guerrier", 10, 10, 10, 10, 20, 30, new Point2D(5,3));
+        
+        
+    }
+    
+}
