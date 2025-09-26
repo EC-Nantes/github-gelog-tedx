@@ -1,3 +1,14 @@
+package org.centrale.objet.WoE;
+
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+/**
+ *
+ * @author rapha
+ */
 public class Objet {
     private int Pdurabilite;
     private boolean etat;
@@ -6,11 +17,31 @@ public class Objet {
     public Objet(int Pdurabilite, boolean etat, int niveau){
         this.Pdurabilite=Pdurabilite;
         this.etat=etat;
+        this.niveau=niveau;
     }
-    public void setetat(boolean etat){
-        this.etat=etat;
-    } 
-    public boolean getetat(){
-        System.out.println(etat);
+
+    public int getPdurabilite() {
+        return Pdurabilite;
     }
+
+    public void setPdurabilite(int Pdurabilite) {
+        this.Pdurabilite = Pdurabilite;
+    }
+
+    public boolean isEtat() {
+        return etat;
+    }
+
+    public void setEtat(boolean etat) {
+        this.etat = etat;
+    }
+
+    public int getNiveau() {
+        return niveau;
+    }
+
+    public void setNiveau(int niveau) {
+        this.niveau = niveau;
+    }
+
 }
