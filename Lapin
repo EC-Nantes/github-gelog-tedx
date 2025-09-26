@@ -1,4 +1,5 @@
-public Lapin(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p){
+public class Lapin extends Monstre{
+    public Lapin(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p){
         super(pV,dA,pPar,paAtt,paPar,p);
     }
     
@@ -9,3 +10,4 @@ public Lapin(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p){
     public Lapin(){
         super(5,1,1,5,5,new Point2D(0,0));
     }
+}
