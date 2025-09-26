@@ -1,0 +1,7 @@
+public class Epee extends Objet {
+    private int poids;
+    public Epee(int valeur, boolean etat, int poids){
+        super(valeur, etat);
+        this.poids=poids;
+    }
+}
