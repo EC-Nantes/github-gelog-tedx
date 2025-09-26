@@ -1,14 +1,82 @@
-public class World {
+// Attributs de la classe
+    /** 
+     * 1 archer robin (privé)
+     * 1 paysan peon (privé)
+     * 1 lapin bugs1 (privé)
+     * 1 lapin bugs2 (privé)
+     */
+    private Archer robin;
+    private Paysan peon;
+    private Lapin bugs1;
+    private Lapin bugs2;
     
+    /**
+     * Constructeur de la classe Wolrd sans paramètre qui associe à chaque attribut respectivement un nouvel archer, un nouveau paysan et deux nouveaux lapins
+     */
     
-    /*méthodes de la classe World*/
-    public void World(){
-        Personnage Archer = new Personnage();
-        Personnage Paysan = new Personnage();
-        Monstre Lapin1 = new Monstre();
-        Monstre Lapin2 = new Monstre();
+    public World(){
+        this.robin = new Archer();
+        this.peon = new Paysan();
+        this.bugs1 = new Lapin();
+        this.bugs2 = new Lapin();
     }
+    // Accesseurs
+    /**
+    * Accesseur sur l’attribut robin
+    * @return robin l'archer du monde
+    */
+    public Archer getArcher(){
+        return robin;
+    }
+    /**
+    * Accesseur sur l’attribut peon
+    * @return peon le paysan du monde
+    */
+    public Paysan getPaysan(){
+        return peon;
+    }
+    /**
+    * Accesseur sur l’attribut bugs1
+    * @return bugs1 le lapin 1 du monde
+    */
+    public Lapin getLapin1(){
+        return bugs1;
+    }
+    /**
+    * Accesseur sur l’attribut bugs2
+    * @return bugs2 le lapin 2 du monde
+    */
+    public Lapin getLapin2(){
+        return bugs2;
+    }
+    /**
+     * Méthode privé memePosition qui vérifie si deux points sont identiques
+     * @param A un point2D à tester
+     * @param B un 2e point2D à tester
+     * @return True si les coordonnées du point A et les coordonnées du points B sont identiques, False sinon
+     */
+    private boolean memePosition(Point2D A, Point2D B){
+        return A.x == B.x && A.y == B.y;
+    }
+    
+    /**
+     * Méthode de création d'un monde aléatoire qui ne prend pas de paramètre en entrée et qui initialise les positions des personnages et créatures du monde
+     * Les personnages et créatures ne sont pas initialisés à la même position
+     * La méthode memePosition() est utilisé pour s'assurer de cela
+     * Les coordonnées sont choisit aléatoirement entre 0(inclu) et 10(exclu) à l'aide du package java random
+     */
     public void creerMondeAlea(){
-    
+        Random alea = new Random();
+        while(memePosition(robin.getPos(),peon.getPos())){
+        this.robin.getPos().setPosition(alea.nextInt(10),alea.nextInt(10));
+        this.peon.getPos().setPosition(alea.nextInt(10),alea.nextInt(10));
+        }
+        this.bugs1.getPos().setPosition(alea.nextInt(10),alea.nextInt(10));
+        while(memePosition(bugs1.getPos(),peon.getPos())||memePosition(bugs1.getPos(),robin.getPos())){
+            this.bugs1.getPos().setPosition(alea.nextInt(10),alea.nextInt(10));
+        }
+        this.bugs2.getPos().setPosition(alea.nextInt(10),alea.nextInt(10));
+        while(memePosition(bugs2.getPos(),peon.getPos())||memePosition(bugs2.getPos(),robin.getPos())||memePosition(bugs2.getPos(),bugs1.getPos())){
+            this.bugs2.getPos().setPosition(alea.nextInt(10),alea.nextInt(10));
+        }
     }
-}
