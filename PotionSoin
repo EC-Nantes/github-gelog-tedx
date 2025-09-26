@@ -1,0 +1,12 @@
+public class PotionSoin extends Objet{
+    private int pV;
+    
+    public PotionSoin(int Pdurabilite, boolean etat, int pV){
+        super(Pdurabilite, etat);
+        this.pV=pV;
+    }
+    
+    public void glouglou(){
+        Pdurabilite=0;
+    }
+}
