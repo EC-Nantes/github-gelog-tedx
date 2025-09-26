@@ -1,0 +1,27 @@
+/**
+     *Constructeur Loup à partir de tous les paramètres
+     * @param pV
+     * @param dA
+     * @param pPar
+     * @param paAtt
+     * @param paPar
+     * @param p
+     */
+    public Loup(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p){
+        super(pV,dA,pPar,paAtt,paPar,p);
+    }
+    
+    /**
+     *Constructeur Loup à partir d'un loup
+     * @param l
+     */
+    public Loup(Lapin l){
+        super((Monstre)l);
+    }
+    
+    /**
+     * Constructeur Loup par défaut 
+     */
+    public Loup(){
+        super(15,4,2,20,5,new Point2D(0,0));
+    }
