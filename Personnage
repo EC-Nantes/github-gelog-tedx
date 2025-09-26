@@ -1,4 +1,23 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+import java.util.Random;
+/**
+ *
+ * @author rapha
+ */
 public class Personnage {
+    /**@param nom est le nom du personnage
+     * @param degAtt est le nombre de degats d'attaque
+     * @param PtVie est le nombre de point de vie du personnage
+     * @param ptPar est le nombre de point de parade
+     * @param pageAtt est le pourcentage d'attaque 
+     * @param pargePar est le pourcentage de parade
+     * @param DistAttMax est la distance maximale d'attaque
+     * @param pos est la position du personnage
+     */
     private String nom;
     private int degAtt;
     private int ptVie;
@@ -8,7 +27,18 @@ public class Personnage {
     private int distAttMax;
     private Point2D pos;
     
-    public Personnage(String n, int pV, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p){
+    /**
+     * constructeur renvoyant un personnage en prenanten parametres les parametres suivant:
+     *@param n est le nom du personnage
+     * @param dA est les degats d'attaque
+     * @param pV est le nombre de point de vie du personnage
+     * @param pPar est le nombre de point de parade
+     * @param paAtt est le pourcentage d'attaque 
+     * @param paPar est le pourcentage de parade
+     * @param dMax est la distance maximale d'attaque
+     * @param p est la position du personnage
+     */
+    public Personnage(String n, int pV, int dA, int pPar, int paPar, int paAtt, int dMax, Point2D p){
         nom=n;
         ptVie=pV;
         degAtt=dA;
@@ -19,77 +49,157 @@ public class Personnage {
         pos=p;
     }
     
+    /**
+     * constructeur renvoyant un personnage en prenant
+     * @param perso est un objet personnage
+     */
     public Personnage(Personnage perso){
         this(perso.nom, perso.ptVie, perso.degAtt, perso.ptPar, perso.pagePar, perso.pageAtt, perso.distAttMax, perso.pos);
     }
+    /**
+     * constructeur par defaut renvoyant un personnage en prenant aucun parametre
+     * 
+     */
     
     public Personnage(){
         this("grognon", 20, 30, 40, 10, 10, 10, new Point2D(0,0));
     }
     
+    /**
+     *
+     * @return le nom du personnage
+     */
     public String getNom(){
         return(nom);
     }
     
+    /**
+     *
+     * @param n change le nom du personnage
+     */
     public void setNom(String n){
         nom=n;
     }
-    public void deplace(){
+    
+    /*
+    methode permettant de déplacer le personnage sur une case adjacente (8 possibilites) 
+    utilisant la classe Random
+    et une boucle while permettant un deplcement hors de la ca initiale
+    */
+
+
+public void deplace(){
         Random genx = new Random();
         Random geny = new Random();
-        int dx = genx.nextInt(10);
-        int dy = geny.nextInt(10);
-        pos.translate(dx,dy);
+        int dx = 0;
+        int dy = 0;
+        while (dx == 0 && dy == 0){
+        dx = genx.nextInt(3)-1;
+        dy = geny.nextInt(3)-1;   
+        }
+        this.pos.translate(dx,dy);
     }
     
+/*
+cette méthode affiche la position du personnage
+*/
+
     public void affiche(){
          System.out.println(ptVie+pos.affichePOINT2D());       
     }
 
+    /**
+     *
+     * @return
+     */
     public int getDegAtt() {
         return degAtt;
     }
 
+    /**
+     *
+     * @param degAtt
+     */
     public void setDegAtt(int degAtt) {
         this.degAtt = degAtt;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getPtVie() {
         return ptVie;
     }
 
+    /**
+     *
+     * @param ptVie
+     */
     public void setPtVie(int ptVie) {
         this.ptVie = ptVie;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getPtPar() {
         return ptPar;
     }
 
+    /**
+     *
+     * @param ptPar
+     */
     public void setPtPar(int ptPar) {
         this.ptPar = ptPar;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getPagePar() {
         return pagePar;
     }
 
+    /**
+     *
+     * @param PagePar
+     */
     public void setPagePar(int PagePar) {
         this.pagePar = PagePar;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getDistAttMax() {
         return distAttMax;
     }
 
+    /**
+     *
+     * @param distAttMax
+     */
     public void setDistAttMax(int distAttMax) {
         this.distAttMax = distAttMax;
     }
 
+    /**
+     *
+     * @return
+     */
     public Point2D getPos() {
         return pos;
     }
 
+    /**
+     *
+     * @param pos
+     */
     public void setPos(Point2D pos) {
         this.pos = pos;
     }
