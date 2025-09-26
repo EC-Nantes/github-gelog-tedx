@@ -1,12 +1,24 @@
 public class PotionSoin extends Objet{
-    private int pV;
+    private int ptV;
     
-    public PotionSoin(int Pdurabilite, boolean etat, int pV){
-        super(Pdurabilite, etat);
-        this.pV=pV;
+    public PotionSoin(int Pdurabilite, boolean etat, int niveau,int pV){
+        super(Pdurabilite, etat, niveau);
+        this.ptV=pV;
     }
     
     public void glouglou(){
-        Pdurabilite=0;
+        
+        setPdurabilite(0);
+        
+        if(getNiveau()==1){
+            setPtVie(getptVie()+5);
+        }
+        else if(getNiveau()==2){
+            setPtVie(getptVie()+10);
+        }
+        else (getNiveau()==3){
+            setPtVie(getptVie()+15);
+        }
+        
     }
 }
