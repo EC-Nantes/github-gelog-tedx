@@ -1,5 +1,6 @@
 public class Archer extends Personnage{
     private int nbFleches;
+
     
     public Archer(String n, int pV, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p,int nbFleches){
         super(n, pV, dA, pPar, paPar, paAtt, dMax, p);
@@ -7,11 +8,16 @@ public class Archer extends Personnage{
         
         
     }
-    public Archer(Archer l){
-        super((Personnage)l);
+    public Archer(Archer a){
+        super((Personnage)a);
+        
+        
+    }
+    public Archer(){
+            
+        super("archer", 10, 10, 10, 10, 20, 30, new Point2D(5,3));
+        this.nbFleches=12;
+        
     }
     
-    public Archer(){
-        super(5,1,1,5,5,new Point2D(0,0));
-    }
 }
