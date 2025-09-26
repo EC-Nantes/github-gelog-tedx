@@ -1,12 +1,16 @@
 public class Objet {
-    private int valeur;
+    private int Pdurabilite;
     private boolean etat;
+    private int niveau;
     
-    public Objet(int valeur, boolean etat){
-        this.valeur=valeur;
+    public Objet(int Pdurabilite, boolean etat, int niveau){
+        this.Pdurabilite=Pdurabilite;
         this.etat=etat;
     }
     public void setetat(boolean etat){
         this.etat=etat;
     } 
+    public boolean getetat(){
+        System.out.println(etat);
+    }
 }
