@@ -1,0 +1,13 @@
+    /*le tour de jeu consiste au déplacement de tous les créatures 
+        * lorsqu'une creature peut attaquer avec sa portée alors elle le fait
+        *boucle for sur toutes les creatures du monde avec les actions deplace et combattre qui y sont faites
+        */
+    
+
+    
+    
+    public void tourDeJeu(){
+        
+       
+        
+    }
