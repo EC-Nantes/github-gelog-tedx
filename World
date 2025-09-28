@@ -1,4 +1,17 @@
-// Attributs de la classe
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+import java.util.Random ;
+import java.util.ArrayList;
+
+/**
+ * Classe de gestion d'un monde contenant un archer, un paysan et 2 lapins
+ * @author vdufo
+ */
+public class World {
+    // Attributs de la classe
     /** 
      * 1 archer robin (privé)
      * 1 paysan peon (privé)
@@ -9,6 +22,10 @@
     private Paysan peon;
     private Lapin bugs1;
     private Lapin bugs2;
+    private Archer guillaumeT;
+    private Guerrier grosBill;
+    private Loup wolfie;
+    private ArrayList<Point2D> position;
     
     /**
      * Constructeur de la classe Wolrd sans paramètre qui associe à chaque attribut respectivement un nouvel archer, un nouveau paysan et deux nouveaux lapins
@@ -19,35 +36,83 @@
         this.peon = new Paysan();
         this.bugs1 = new Lapin();
         this.bugs2 = new Lapin();
+        this.guillaumeT = new Archer();
+        this.grosBill = new Guerrier();
+        this.wolfie = new Loup();
+        this.position = new ArrayList<>();
+        position.add(robin.getPos());
+        position.add(peon.getPos());
+        position.add(bugs1.getPos());
+        position.add(bugs2.getPos());
+        position.add(guillaumeT.getPos());
+        position.add(grosBill.getPos());
+        position.add(wolfie.getPos());
     }
+
     // Accesseurs
     /**
     * Accesseur sur l’attribut robin
-    * @return robin l'archer du monde
+    * @return robin 
     */
-    public Archer getArcher(){
+    public Archer getRobin(){
         return robin;
     }
     /**
     * Accesseur sur l’attribut peon
-    * @return peon le paysan du monde
+    * @return peon 
     */
-    public Paysan getPaysan(){
+    public Paysan getPeon(){
         return peon;
     }
     /**
     * Accesseur sur l’attribut bugs1
-    * @return bugs1 le lapin 1 du monde
+    * @return bugs1
     */
     public Lapin getLapin1(){
         return bugs1;
     }
     /**
     * Accesseur sur l’attribut bugs2
-    * @return bugs2 le lapin 2 du monde
+    * @return bugs2
     */
     public Lapin getLapin2(){
         return bugs2;
+    }
+    
+    /**
+    * Accesseur sur l’attribut guillaumeT
+    * @return guillaumeT 
+    */
+    
+    public Archer getGuillaumeT(){
+        return guillaumeT;
+    }
+    
+    /**
+    * Accesseur sur l’attribut grosBill
+    * @return grosBill
+    */
+    
+    public Guerrier getGrosBill(){
+        return grosBill;
+    }
+    
+    /**
+    * Accesseur sur l’attribut wolfie
+    * @return wolfie
+    */
+    
+    public Loup getWolfie(){
+        return wolfie;
+    }
+    
+    /**
+    * Accesseur sur l’attribut position
+    * @return position
+    */
+    
+    public ArrayList<Point2D> getPosition(){
+        return position;
     }
     /**
      * Méthode privé memePosition qui vérifie si deux points sont identiques
@@ -55,8 +120,12 @@
      * @param B un 2e point2D à tester
      * @return True si les coordonnées du point A et les coordonnées du points B sont identiques, False sinon
      */
-    private boolean memePosition(Point2D A, Point2D B){
-        return A.x == B.x && A.y == B.y;
+    private boolean memePosition(Point2D A, ArrayList<Point2D> liste){
+        return liste.contains(A);
+    }
+    
+    public void testCopie(){
+        this.guillaumeT = new Archer(this.robin);
     }
     
     /**
@@ -65,18 +134,44 @@
      * La méthode memePosition() est utilisé pour s'assurer de cela
      * Les coordonnées sont choisit aléatoirement entre 0(inclu) et 10(exclu) à l'aide du package java random
      */
+    
+   
     public void creerMondeAlea(){
         Random alea = new Random();
-        while(memePosition(robin.getPos(),peon.getPos())){
-        this.robin.getPos().setPosition(alea.nextInt(10),alea.nextInt(10));
-        this.peon.getPos().setPosition(alea.nextInt(10),alea.nextInt(10));
+        while(memePosition(this.robin.getPos(), position)){
+        this.robin.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
         }
-        this.bugs1.getPos().setPosition(alea.nextInt(10),alea.nextInt(10));
-        while(memePosition(bugs1.getPos(),peon.getPos())||memePosition(bugs1.getPos(),robin.getPos())){
-            this.bugs1.getPos().setPosition(alea.nextInt(10),alea.nextInt(10));
-        }
-        this.bugs2.getPos().setPosition(alea.nextInt(10),alea.nextInt(10));
-        while(memePosition(bugs2.getPos(),peon.getPos())||memePosition(bugs2.getPos(),robin.getPos())||memePosition(bugs2.getPos(),bugs1.getPos())){
-            this.bugs2.getPos().setPosition(alea.nextInt(10),alea.nextInt(10));
-        }
+        while(memePosition(this.peon.getPos(), position)){
+        this.peon.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
+        }  
+        while(memePosition(this.bugs1.getPos(), position)){
+        this.bugs1.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
+        }  
+        while(memePosition(this.bugs2.getPos(), position)){
+        this.bugs2.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
+        }  
+        while(memePosition(this.guillaumeT.getPos(), position)){
+        this.guillaumeT.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
+        }  
+        while(memePosition(this.grosBill.getPos(), position)){
+        this.grosBill.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
+        }  
+        this.wolfie.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
+        while(memePosition(this.wolfie.getPos(), position)){
+        this.wolfie.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
+        }  
+    }  
+    
+    public void afficheWorld(){
+        System.out.println("Affichage du monde : ");
+        System.out.println("Archer / Point de vie : "+this.getRobin().getPtVie()+"Position : "+this.getRobin().getPos());
+        System.out.println("Paysan / Point de vie : "+this.getPeon().getPtVie()+"Position : "+this.getPeon().getPos());
+        System.out.println("Lapin 1 / Point de vie : "+this.getLapin1().getPtVie()+"Position : "+this.getLapin1().getPos());
+        System.out.println("Lapin 2 / Point de vie : "+this.getLapin2().getPtVie()+"Position : "+this.getLapin2().getPos());
+        System.out.println("GuillaumeT / Point de vie : "+this.getGuillaumeT().getPtVie()+"Position : "+this.getGuillaumeT().getPos());
+        System.out.println("GrosBill / Point de vie : "+this.getGrosBill().getPtVie()+"Position : "+this.getGrosBill().getPos());
+        System.out.println("Wolfie / Point de vie : "+this.getWolfie().getPtVie()+"Position : "+this.getWolfie().getPos());
     }
+    
+    
+}
