@@ -1,7 +1,20 @@
 public class Epee extends Objet {
-    private int poids;
-    public Epee(int valeur, boolean etat, int poids){
-        super(valeur, etat);
-        this.poids=poids;
+
+    public Epee(int Pdurabilite, boolean etat,int niveau){
+        super(Pdurabilite,etat,niveau);
+        
     }
+    public void Power (Creature c, Epee e){
+        
+        setPdurabilite(e.getPdurabilite()-1);
+        /*ici ptvie fait référence au nombre de vie de la créature*/
+        if(e.getNiveau()==1){
+            c.setDegAtt(c.getDegAtt()+5);
+        }
+        else if(e.getNiveau()==2){
+            c.setDegAtt(c.getDegAtt()+10);
+        }
+        else{
+            c.setDegAtt(c.getDegAtt()+15);
+        }
 }
