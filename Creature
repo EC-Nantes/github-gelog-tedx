@@ -25,7 +25,7 @@
     }
     
     public Creature(Creature c){
-        this(c.ptVie,c.degAtt,c.ptPar,c.pageAtt,c.pagePar,c.pos);
+        this(c.ptVie,c.degAtt,c.ptPar,c.pageAtt,c.pagePar,new Point2D(c.pos));
     }
     
     public Creature(){
