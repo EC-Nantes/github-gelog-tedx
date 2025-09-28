@@ -18,3 +18,4 @@ public class Epee extends Objet {
             c.setDegAtt(c.getDegAtt()+15);
         }
 }
+}
