@@ -5,19 +5,28 @@ public class PotionSoin extends Objet{
         super(Pdurabilite, etat, niveau);
         this.ptV=pV;
     }
+
+    public int getPtV() {
+        return ptV;
+    }
+
+    public void setPtV(int ptV) {
+        this.ptV = ptV;
+    }
     
-    public void glouglou(){
+    /*la methode glouglou permet d'utiliser la potion de soin direct sur une créture en fonction de son niveau*/
+    public void glouglou(Creature c, PotionSoin p){
         
         setPdurabilite(0);
-        
-        if(getNiveau()==1){
-            setPtVie(getptVie()+5);
+        /*ici ptvie fait référence au nombre de vie de la créature*/
+        if(p.getNiveau()==1){
+            c.setPtVie(c.getPtVie()+5);
         }
-        else if(getNiveau()==2){
-            setPtVie(getptVie()+10);
+        else if(p.getNiveau()==2){
+            c.setPtVie(c.getPtVie()+10);
         }
-        else (getNiveau()==3){
-            setPtVie(getptVie()+15);
+        else{
+            c.setPtVie(c.getPtVie()+15);
         }
         
     }
