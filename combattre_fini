@@ -1,4 +1,12 @@
-    public void combattre(Creature c){
+!!!attention méthode à rajouter dans Creature!!!
+    public double distanceCrea(Creature autre) {
+        return this.getPos().distancecrea(autre.getPos(),this.getPos());
+    }
+
+
+
+
+public void combattre(Creature c){
         Random alea = new Random();
         /*combat corps a corps*/
         if (c.distanceCrea(this)==1){
