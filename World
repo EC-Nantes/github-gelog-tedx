@@ -120,10 +120,10 @@ public class World {
      * @param B un 2e point2D à tester
      * @return True si les coordonnées du point A et les coordonnées du points B sont identiques, False sinon
      */
-    private boolean memePosition(Point2D A, Point2D[] liste){
+    private boolean memePosition(Point2D A, Point2D[] liste, int nbr){
         boolean b = false;
-        for(Point2D i : liste){
-            if(A.getY()==i.getY() && A.getX()==i.getX()){
+        for(int i =0; i<nbr;i++){
+            if(A.getY()==liste[i].getY() && A.getX()==liste[i].getX()){
                 b = true;
                 break;
             }
@@ -147,35 +147,41 @@ public class World {
         this.robin.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
         listePosition[0] = new Point2D(this.robin.getPos().getX(),this.robin.getPos().getY());
         
-        while(memePosition(this.peon.getPos(), listePosition) == false){
         this.peon.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
+        while(memePosition(this.peon.getPos(), listePosition,1)){
+        this.peon.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
+        }  
         listePosition[1] = new Point2D(this.peon.getPos().getX(),this.peon.getPos().getY());
-        }  
         
-        while(memePosition(this.bugs1.getPos(), listePosition) == false){
         this.bugs1.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
+        while(memePosition(this.bugs1.getPos(), listePosition,2)){
+        this.bugs1.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
+        }  
         listePosition[2] = new Point2D(this.bugs1.getPos().getX(),this.bugs1.getPos().getY());
-        }  
         
-        while(memePosition(this.bugs2.getPos(), listePosition) == false){
         this.bugs2.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
+        while(memePosition(this.bugs2.getPos(), listePosition,3)){
+        this.bugs2.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
+        }  
         listePosition[3] = new Point2D(this.bugs2.getPos().getX(),this.bugs2.getPos().getY());
-        }  
         
-        while(memePosition(this.guillaumeT.getPos(), listePosition) == false){
         this.guillaumeT.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
+        while(memePosition(this.guillaumeT.getPos(), listePosition,4)){
+        this.guillaumeT.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
+        }  
         listePosition[4] = new Point2D(this.guillaumeT.getPos().getX(),this.guillaumeT.getPos().getY());
-        }  
         
-        while(memePosition(this.grosBill.getPos(), listePosition) == false){
         this.grosBill.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
+        while(memePosition(this.grosBill.getPos(), listePosition,5)){
+        this.grosBill.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
+        }  
         listePosition[5] = new Point2D(this.grosBill.getPos().getX(),this.grosBill.getPos().getY());
-        }  
         
-        while(memePosition(this.wolfie.getPos(), listePosition) == false){
         this.wolfie.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
-        listePosition[6] = new Point2D(this.wolfie.getPos().getX(),this.wolfie.getPos().getY());
+        while(memePosition(this.wolfie.getPos(), listePosition,6)){
+        this.wolfie.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
         }  
+        listePosition[6] = new Point2D(this.wolfie.getPos().getX(),this.wolfie.getPos().getY());
     }  
     
     public void afficheWorld(){
@@ -190,6 +196,4 @@ public class World {
         System.out.println("Wolfie / Point de vie : "+this.getWolfie().getPtVie()+" Position : "+this.getWolfie().getPos());
         System.out.println(" ");
     }
-    
-    
 }
