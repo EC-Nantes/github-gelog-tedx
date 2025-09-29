@@ -1,4 +1,6 @@
 a mettre dans Creature
+
+on pourrait mettre juste une liste des positions des creatures
   
     public void deplace(ArrayList<Creature> lescreatures){
         
