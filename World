@@ -120,8 +120,15 @@ public class World {
      * @param B un 2e point2D à tester
      * @return True si les coordonnées du point A et les coordonnées du points B sont identiques, False sinon
      */
-    private boolean memePosition(Point2D A, ArrayList<Point2D> liste){
-        return liste.contains(A);
+    private boolean memePosition(Point2D A, Point2D[] liste){
+        boolean b = false;
+        for(Point2D i : liste){
+            if(A.getY()==i.getY() && A.getX()==i.getX()){
+                b = true;
+                break;
+            }
+        }
+        return b;
     }
     
     public void testCopie(){
@@ -134,43 +141,54 @@ public class World {
      * La méthode memePosition() est utilisé pour s'assurer de cela
      * Les coordonnées sont choisit aléatoirement entre 0(inclu) et 10(exclu) à l'aide du package java random
      */
-    
-   
     public void creerMondeAlea(){
         Random alea = new Random();
-        while(memePosition(this.robin.getPos(), position)){
-        this.robin.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
-        }
-        while(memePosition(this.peon.getPos(), position)){
-        this.peon.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
+        Point2D[] listePosition = new Point2D[8];
+        this.robin.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
+        listePosition[0] = new Point2D(this.robin.getPos().getX(),this.robin.getPos().getY());
+        
+        while(memePosition(this.peon.getPos(), listePosition) == false){
+        this.peon.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
+        listePosition[1] = new Point2D(this.peon.getPos().getX(),this.peon.getPos().getY());
         }  
-        while(memePosition(this.bugs1.getPos(), position)){
-        this.bugs1.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
+        
+        while(memePosition(this.bugs1.getPos(), listePosition) == false){
+        this.bugs1.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
+        listePosition[2] = new Point2D(this.bugs1.getPos().getX(),this.bugs1.getPos().getY());
         }  
-        while(memePosition(this.bugs2.getPos(), position)){
-        this.bugs2.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
+        
+        while(memePosition(this.bugs2.getPos(), listePosition) == false){
+        this.bugs2.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
+        listePosition[3] = new Point2D(this.bugs2.getPos().getX(),this.bugs2.getPos().getY());
         }  
-        while(memePosition(this.guillaumeT.getPos(), position)){
-        this.guillaumeT.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
+        
+        while(memePosition(this.guillaumeT.getPos(), listePosition) == false){
+        this.guillaumeT.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
+        listePosition[4] = new Point2D(this.guillaumeT.getPos().getX(),this.guillaumeT.getPos().getY());
         }  
-        while(memePosition(this.grosBill.getPos(), position)){
-        this.grosBill.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
+        
+        while(memePosition(this.grosBill.getPos(), listePosition) == false){
+        this.grosBill.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
+        listePosition[5] = new Point2D(this.grosBill.getPos().getX(),this.grosBill.getPos().getY());
         }  
-        this.wolfie.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
-        while(memePosition(this.wolfie.getPos(), position)){
-        this.wolfie.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
+        
+        while(memePosition(this.wolfie.getPos(), listePosition) == false){
+        this.wolfie.getPos().setPosition(alea.nextInt(21)-10,alea.nextInt(21)-10);
+        listePosition[6] = new Point2D(this.wolfie.getPos().getX(),this.wolfie.getPos().getY());
         }  
     }  
     
     public void afficheWorld(){
+        System.out.println(" ");
         System.out.println("Affichage du monde : ");
-        System.out.println("Archer / Point de vie : "+this.getRobin().getPtVie()+"Position : "+this.getRobin().getPos());
-        System.out.println("Paysan / Point de vie : "+this.getPeon().getPtVie()+"Position : "+this.getPeon().getPos());
-        System.out.println("Lapin 1 / Point de vie : "+this.getLapin1().getPtVie()+"Position : "+this.getLapin1().getPos());
-        System.out.println("Lapin 2 / Point de vie : "+this.getLapin2().getPtVie()+"Position : "+this.getLapin2().getPos());
-        System.out.println("GuillaumeT / Point de vie : "+this.getGuillaumeT().getPtVie()+"Position : "+this.getGuillaumeT().getPos());
-        System.out.println("GrosBill / Point de vie : "+this.getGrosBill().getPtVie()+"Position : "+this.getGrosBill().getPos());
-        System.out.println("Wolfie / Point de vie : "+this.getWolfie().getPtVie()+"Position : "+this.getWolfie().getPos());
+        System.out.println("Archer / Point de vie : "+this.getRobin().getPtVie()+" Position : "+this.getRobin().getPos());
+        System.out.println("Paysan / Point de vie : "+this.getPeon().getPtVie()+" Position : "+this.getPeon().getPos());
+        System.out.println("Lapin 1 / Point de vie : "+this.getLapin1().getPtVie()+" Position : "+this.getLapin1().getPos());
+        System.out.println("Lapin 2 / Point de vie : "+this.getLapin2().getPtVie()+" Position : "+this.getLapin2().getPos());
+        System.out.println("GuillaumeT / Point de vie : "+this.getGuillaumeT().getPtVie()+" Position : "+this.getGuillaumeT().getPos());
+        System.out.println("GrosBill / Point de vie : "+this.getGrosBill().getPtVie()+" Position : "+this.getGrosBill().getPos());
+        System.out.println("Wolfie / Point de vie : "+this.getWolfie().getPtVie()+" Position : "+this.getWolfie().getPos());
+        System.out.println(" ");
     }
     
     
