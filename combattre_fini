@@ -2,7 +2,11 @@
     public double distanceCrea(Creature autre) {
         return this.getPos().distancecrea(autre.getPos(),this.getPos());
     }
-
+!!!attention méthode à rajouter dans Creature!!!
+    public double distancecrea(Point2D p1,Point2D p2){
+        return Math.sqrt(Math.pow(p1.x*p1.x-p2.x*p2.x,2) + Math.pow(p1.y*p1.y-p2.y*p2.y,2));
+    }
+    
 
 
 
