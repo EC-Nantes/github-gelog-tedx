@@ -1,0 +1,33 @@
+a mettre dans Creature
+  
+    public void deplace(ArrayList<Creature> lescreatures){
+        
+        Random alea1 = new Random();
+        Random alea2 = new Random();
+        int dx = 0;
+        int dy = 0;
+        while (dx == 0 && dy == 0){
+        dx = alea1.nextInt(3)-1;
+        dy = alea2.nextInt(3)-1;
+        /**copie profonde de la position de la creture voulant se deplacer afin de tester la possibilite
+         * de se deplacer sur la case voulue*/
+        
+        Point2D nouvelleposition = this.getPos();
+        
+        nouvelleposition.translate(dx,dy);
+        }
+        boolean occupee = false;
+        for (Creature c : lescreatures) {
+            if ((c != this) && (c.getPos().equals(nouvelleposition))) {
+                occupee = true;
+                break;
+        }
+    }
+
+    /** Si la case est libre, la creature se déplace*/
+    if (!occupee) {
+        this.setPos(nouvelleposition);
+        System.out.println("Déplacement effectué vers " + nouvelleposition);
+        this.getPos().translate(dx,dy);
+    }
+    }
