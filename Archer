@@ -1,23 +1,82 @@
-public class Archer extends Personnage{
-    private int nbFleches;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
 
+import java.util.Random;
+
+/**
+ *
+ * @author vdufo
+ */
+public class Archer extends Personnage {
+    private int nbFleches;
     
-    public Archer(String n, int pV, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p,int nbFleches){
-        super(n, pV, dA, pPar, paPar, paAtt, dMax, p);
-        this.nbFleches=nbFleches;
-        
-        
+    /**
+     *
+     * @param n
+     * @param pV
+     * @param pVmax
+     * @param dA
+     * @param pPar
+     * @param paAtt
+     * @param paPar
+     * @param dMax
+     * @param p
+     * @param nbF
+     */
+    public Archer(String n,int pV, int pVmax, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p, int nbF) {
+        super(n,pV,pVmax,dA,pPar,paAtt,paPar,dMax,p);
+        this.nbFleches = nbF;
     }
+    
+    /**
+     *
+     * @param a
+     */
     public Archer(Archer a){
         super((Personnage)a);
-        
-        
-    }
-    public Archer(){
-            
-        super("archer", 10, 10, 10, 10, 20, 30, new Point2D(5,3));
-        this.nbFleches=12;
-        
+        this.nbFleches = a.nbFleches;
     }
     
+    /**
+     *
+     */
+    public Archer(){
+        super("Archer1",40,40, 30, 40, 10, 10, 10, new Point2D(0,0));
+        this.nbFleches = 10;
+    }
+    
+    public int getnbFleches(){
+        return nbFleches;
+    }
+    
+    public void setnbFleches(int f){
+        this.nbFleches = f;
+    }
+    
+    public void combattre(Creature c){
+        Random alea = new Random();
+        /*combat corps a corps*/
+        if (c.distanceCrea(this)==1){
+            if (alea.nextInt(101)>this.getPageAtt()){
+                if (alea.nextInt(101)>c.getPagePar()){
+                    this.setPtVie(this.getPtVie()-this.getDegAtt()+c.getPagePar());
+                }
+                else {
+                    this.setPtVie(this.getPtVie()-this.getDegAtt());
+                }
+            }
+        }
+        /**combat a distance*/
+        else if((c.distanceCrea(this)>1)&&(c.distanceCrea(this)<this.getDistAttMax())){
+            if (alea.nextInt(101)>this.getPageAtt()){
+                if (alea.nextInt(101)>c.getPagePar()){
+                    this.setPtVie(this.getPtVie()-this.getDegAtt());
+                    this.setnbFleches(this.getnbFleches()-1);
+                }
+            }   
+        }
+    }
 }
