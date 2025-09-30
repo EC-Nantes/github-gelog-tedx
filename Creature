@@ -1,4 +1,16 @@
-// Attributs de la classe
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+import java.util.Random ;
+
+/**
+ *
+ * @author vdufo
+ */
+public class Creature {
+    // Attributs de la classe
     /**
      * dégât d'attaque du personnage (prive)
      * point de vie du personnage (prive)
@@ -10,14 +22,16 @@
     
     private int degAtt;
     private int ptVie;
+    private int ptVieMax;
     private int ptPar;
     private int pageAtt;
     private int pagePar;
     private Point2D pos;
     
-    public Creature(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p){
+    public Creature(int pV,int pVmax, int dA, int pPar, int paAtt, int paPar, Point2D p){
         this.degAtt = dA;
         this.ptVie = pV;
+        this.ptVieMax = pVmax;
         this.ptPar = pPar;
         this.pageAtt = paAtt;
         this.pagePar = paPar;
@@ -25,11 +39,11 @@
     }
     
     public Creature(Creature c){
-        this(c.ptVie,c.degAtt,c.ptPar,c.pageAtt,c.pagePar,new Point2D(c.pos));
+        this(c.ptVie,c.ptVieMax,c.degAtt,c.ptPar,c.pageAtt,c.pagePar,new Point2D(c.pos));
     }
     
     public Creature(){
-        this(10,2,1,20,20,new Point2D(0,0));
+        this(30,30,2,1,20,20,new Point2D(0,0));
     }
     
     /**
@@ -62,6 +76,22 @@
      */
     public void setPtVie(int ptVie) {
         this.ptVie = ptVie;
+    }
+    
+    /**
+     * Accesseurs de l'attribut ptVieMax
+     * @return le nombre de point de vie max
+     */
+    public int getPtVieMax() {
+        return ptVieMax;
+    }
+
+    /**
+     * Modificateur de l'attribut ptVieMax
+     * @param pvmax
+     */
+    public void setPtVieMax(int pvmax) {
+        this.ptVieMax = pvmax;
     }
 
     /**
@@ -127,3 +157,8 @@
     public void setPos(Point2D pos) {
         this.pos = pos;
     }
+    
+     public double distanceCrea(Creature autre) {
+        return this.getPos().distancecrea(autre.getPos(),this.getPos());
+    }
+}
