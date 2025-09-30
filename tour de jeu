@@ -1,13 +1,30 @@
-    /*le tour de jeu consiste au déplacement de tous les créatures 
+ /*le tour de jeu consiste au déplacement de tous les créatures 
         * lorsqu'une creature peut attaquer avec sa portée alors elle le fait
-        *boucle for sur toutes les creatures du monde avec les actions deplace et combattre qui y sont faites
-        */
-    
-
-    
-    
-    public void tourDeJeu(){
-        
-       
-        
+        *boucle for sur toutes les creatures du monde avec les actions deplace et combattre qui y sont faites*/
+    public void tourdeJeu(){
+        for(Creature c : lescreatures) {
+            c.deplace(lescreatures);
+            if (c instanceof Guerrier){
+                for(Creature C : lescreatures){
+                    if (C!=c){
+                        ((Guerrier)c).combattre(C);
+                    }
+                }
+            }
+            if (c instanceof Loup){
+                for(Creature C : lescreatures){
+                    if (C!=c){
+                        ((Guerrier)c).combattre(C);
+                    }
+                }
+            }
+            if (c instanceof Archer){
+                for(Creature C : lescreatures){
+                    if (C!=c){
+                        ((Guerrier)c).combattre(C);
+                    }
+                }
+            }
+        }
+ 
     }
