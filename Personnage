@@ -1,4 +1,15 @@
-// Attributs de la classe
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+import java.util.Random ;
+/**
+ *
+ * @author vdufo
+ */
+public class Personnage extends Creature {
+    // Attributs de la classe
     /**
      * nom du personnage (prive)
      * distance max d'attaque du personnage (prive)
@@ -11,6 +22,7 @@
      * Constructeur d'un personnage à partir de données de l'utilisateur
      * @param n nom du personnage
      * @param pV nombre de point de vie du personnage
+     * @param pVmax nombre de point de vie maximum du personnage
      * @param dA nombre de degats d'attaque
      * @param pPar nombre de point de parade
      * @param paPar pourcentage de parade
@@ -18,8 +30,8 @@
      * @param dMax distance maximale d'attaque
      * @param p position du personnage
      */
-    public Personnage(String n, int pV, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p){
-        super(pV,dA,pPar,paPar,paAtt,p);
+    public Personnage(String n, int pV, int pVmax,int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p){
+        super(pV,pVmax,dA,pPar,paPar,paAtt,p);
         this.nom=n;
         this.distAttMax=dMax;
     }
@@ -40,7 +52,7 @@
      * nom "grogon", ptVie 20, degAtt 5, ptPar 5, pagePar 10, pageAtt 10, distAttMax 2, position (0,0)
      */
     public Personnage(){
-        super(20, 5, 5, 10, 10, new Point2D(0,0));
+        super(40,40, 5, 5, 10, 10, new Point2D(0,0));
         this.nom = "grogon";
         this.distAttMax = 2;
     }
@@ -77,6 +89,7 @@
         dy = geny.nextInt(3)-1;   
         }
         this.getPos().translate(dx,dy);
+        
     }
     
     /**
@@ -103,4 +116,5 @@
      */
     public void setDistAttMax(int distAttMax) {
         this.distAttMax = distAttMax;
-    }
+    } 
+}
