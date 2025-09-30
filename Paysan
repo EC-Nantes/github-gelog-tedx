@@ -1,16 +1,43 @@
-public class Paysan extends Personnage{
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
 
+/**
+ *
+ * @author vdufo
+ */
+public class Paysan extends Personnage {
     
-    public Paysan(String n, int pV, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p){
-        super(n, pV, dA, pPar, paPar, paAtt, dMax, p);
-  
+    /**
+     *
+     * @param n
+     * @param pV
+     * @param pVmax
+     * @param dA
+     * @param pPar
+     * @param paPar
+     * @param paAtt
+     * @param dMax
+     * @param p
+     */
+    public Paysan(String n, int pV,int pVmax, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p){
+        super(n, pV,pVmax, dA, pPar, paPar, paAtt, dMax, p);    
     }
-    public Paysan(Paysan pa){
-        super((Personnage)pa);   
+    
+    /**
+     *
+     * @param p
+     */
+    public Paysan(Paysan p){
+        super((Paysan)p);
     }
+    
+    /**
+     *
+     */
     public Paysan(){
-        super("paysan", 10, 10, 10, 10, 20, 30, new Point2D(5,3));
-        
-        
+        super("PaysanInit",40,40, 1, 15, 10, 10, 10, new Point2D(0,0));
     }
 }
