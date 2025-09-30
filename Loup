@@ -1,14 +1,28 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+
+import java.util.Random;
+
 /**
+ *
+ * @author vdufo
+ */
+public class Loup extends Monstre {
+    /**
      *Constructeur Loup à partir de tous les paramètres
      * @param pV
+     * @param pVmax
      * @param dA
      * @param pPar
      * @param paAtt
      * @param paPar
      * @param p
      */
-    public Loup(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p){
-        super(pV,dA,pPar,paAtt,paPar,p);
+    public Loup(int pV,int pVmax, int dA, int pPar, int paAtt, int paPar, Point2D p){
+        super(pV,pVmax,dA,pPar,paAtt,paPar,p);
     }
     
     /**
@@ -23,5 +37,21 @@
      * Constructeur Loup par défaut 
      */
     public Loup(){
-        super(15,4,2,20,5,new Point2D(0,0));
+        super(20,20,4,2,20,5,new Point2D(0,0));
     }
+    
+    public void combattre(Creature c){
+        Random alea = new Random();
+        /*combat corps a corps*/
+        if (c.distanceCrea(this)==1){
+            if (alea.nextInt(101)>this.getPageAtt()){
+                if (alea.nextInt(101)>c.getPagePar()){
+                    this.setPtVie(this.getPtVie()-this.getDegAtt()+c.getPagePar());
+                }
+                else {
+                    this.setPtVie(this.getPtVie()-this.getDegAtt());
+                }
+            }
+        }
+    }
+}
