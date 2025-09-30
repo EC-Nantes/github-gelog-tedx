@@ -1,32 +1,54 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+
+/**
+ *
+ * @author vdufo
+ */
 public class PotionSoin extends Objet{
-    private int ptV;
     
     public PotionSoin(int Pdurabilite, boolean etat, int niveau,int pV){
         super(Pdurabilite, etat, niveau);
-        this.ptV=pV;
-    }
-
-    public int getPtV() {
-        return ptV;
-    }
-
-    public void setPtV(int ptV) {
-        this.ptV = ptV;
     }
     
     /*la methode glouglou permet d'utiliser la potion de soin direct sur une créture en fonction de son niveau*/
-    public void glouglou(Creature c, PotionSoin p){
+
+    /**
+     * Permet de soigner une créature à partir d'une potion d'un certain niveau (1,2 ou 3) qui soigne plus ou moins le personnage
+     * @param c Creature à soigner
+     * @param p Potion à utiliser
+     */
+
+    public void boirePotion(Creature c, PotionSoin p){
         
         setPdurabilite(0);
         /*ici ptvie fait référence au nombre de vie de la créature*/
         if(p.getNiveau()==1){
+            if (c.getPtVie() <= c.getPtVieMax() -5){
             c.setPtVie(c.getPtVie()+5);
+            }
+            else{
+                c.setPtVie(c.getPtVieMax());
+            }
         }
         else if(p.getNiveau()==2){
+            if (c.getPtVie() <= c.getPtVieMax() -10){
             c.setPtVie(c.getPtVie()+10);
+            }
+            else{
+                c.setPtVie(c.getPtVieMax());
+            }
         }
         else{
+            if (c.getPtVie() <= c.getPtVieMax() -15){
             c.setPtVie(c.getPtVie()+15);
+            }
+            else{
+                c.setPtVie(c.getPtVieMax());
+            }
         }
         
     }
