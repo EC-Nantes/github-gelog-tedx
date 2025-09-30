@@ -1,9 +1,20 @@
-public class Guerrier extends Personnage{
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
 
-    /**
-     *
+import java.util.Random;
+
+/**
+ *
+ * @author vdufo
+ */
+public class Guerrier extends Personnage{
+     /**
      * @param n
      * @param pV
+     * @param pVmax
      * @param dA
      * @param pPar
      * @param paPar
@@ -13,8 +24,8 @@ public class Guerrier extends Personnage{
      */
     
     
-    public Guerrier(String n, int pV, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p){
-        super(n, pV, dA, pPar, paPar, paAtt, dMax, p);    
+    public Guerrier(String n, int pV, int pVmax, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p){
+        super(n, pV,pVmax, dA, pPar, paPar, paAtt, dMax, p);    
     }
 
     /**
@@ -23,18 +34,35 @@ public class Guerrier extends Personnage{
      */
     public Guerrier(Guerrier g){
         super((Personnage)g);
-        
-        
     }
 
     /**
      *
      */
-    public Guerrier(){
-            
-        super("guerrier", 10, 10, 10, 10, 20, 30, new Point2D(5,3));
-        
-        
+    public Guerrier(){     
+        super("guerrier", 40,40, 10, 10, 10, 20, 30, new Point2D(0,0)); 
     }
     
+    public void combattre(Creature c){
+        Random alea = new Random();
+        /*combat corps a corps*/
+        if (c.distanceCrea(this)==1){
+            if (alea.nextInt(101)>this.getPageAtt()){
+                if (alea.nextInt(101)>c.getPagePar()){
+                    this.setPtVie(this.getPtVie()-this.getDegAtt()+c.getPagePar());
+                }
+                else {
+                    this.setPtVie(this.getPtVie()-this.getDegAtt());
+                }
+            }
+        }
+        /**combat a distance*/
+        else if((c.distanceCrea(this)>1)&&(c.distanceCrea(this)<this.getDistAttMax())){
+            if (alea.nextInt(101)>this.getPageAtt()){
+                if (alea.nextInt(101)>c.getPagePar()){
+                    this.setPtVie(this.getPtVie()-this.getDegAtt());
+                }
+            }   
+        }
+    }
 }
