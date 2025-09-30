@@ -56,13 +56,4 @@ public class Guerrier extends Personnage{
                 }
             }
         }
-        /**combat a distance*/
-        else if((c.distanceCrea(this)>1)&&(c.distanceCrea(this)<this.getDistAttMax())){
-            if (alea.nextInt(101)>this.getPageAtt()){
-                if (alea.nextInt(101)>c.getPagePar()){
-                    this.setPtVie(this.getPtVie()-this.getDegAtt());
-                }
-            }   
-        }
-    }
 }
