@@ -47,6 +47,14 @@ public class World {
         position.add(guillaumeT.getPos());
         position.add(grosBill.getPos());
         position.add(wolfie.getPos());
+        this.lescreatures = new ArrayList<Creature>();
+        lescreatures.add(robin);
+        lescreatures.add(peon);
+        lescreatures.add(bugs1);
+        lescreatures.add(bugs2);
+        lescreatures.add(guillaumeT);
+        lescreatures.add(grosBill);
+        lescreatures.add(wolfie);
     }
 
     // Accesseurs
