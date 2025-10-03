@@ -1,0 +1,73 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+import java.util.ArrayList;
+import java.util.Random ;
+/**
+ *
+ * @author rapha
+ */
+public class Conteneur {
+    
+    
+    public static void main(String args[]){
+        /**parcours de liste*/
+    /**
+        LinkedList<Personnage> maListePerso1 = new LinkedList<>();
+        
+        Personnage archer = new Archer();
+        maListePerso1.add(archer);
+        Personnage guerrier = new Guerrier();
+        maListePerso1.add(guerrier);
+        Personnage paysan = new Paysan();
+        maListePerso1.add(paysan);
+        
+        for (int i =0; i<maListePerso1.size() ;i++){
+           maListePerso1.get(i);
+        }
+    */
+        ArrayList<Personnage> maListePerso1 = new ArrayList<>();
+        
+        /**for (Personnage j : maListePerso2){
+            maListePerso1.get(j);
+        }*/
+        
+        
+        Random alea = new Random();
+        
+        /**calcul avec taille de Array du nombre de point de vie de toutes les personnages*/
+        for (int i =0; i<100 ;i++){
+           Personnage archer = new Personnage("perso" +i, 1,alea.nextInt(20),alea.nextInt(20),alea.nextInt(20),alea.nextInt(20),alea.nextInt(20), new Point2D(alea.nextInt(20),alea.nextInt(20)));
+           maListePerso1.add(archer);
+        }
+        
+        System.out.println("taille de la liste: " + maListePerso1.size());
+        int S = 0;
+        long debut=System.nanoTime();
+        for (int i =0; i<maListePerso1.size() ;i++){
+            S+=maListePerso1.get(i).getPtVie();
+        }
+        long fin=System.nanoTime();
+        System.out.println("Point de vie totale: "+S);
+        System.out.println("temps d'execution: "+(fin-debut));
+        
+        /**calcul avec itérateur du nombre de point de vie de toutes les personnages*/
+        
+        System.out.println("taille de la liste: " + maListePerso1.size());
+        int s = 0;
+        long debut2=System.nanoTime();
+        for (Personnage p : maListePerso1){
+            s+=p.getPtVie();
+        }
+        long fin2=System.nanoTime();
+        System.out.println("Point de vie totale: "+s);
+        System.out.println("temps d'execution: "+(fin2-debut2));
+        
+        
+        
+
+
+    }
+}
