@@ -1,0 +1,70 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+import java.util.LinkedList;
+import java.util.Iterator;
+import java.util.Random ;
+        
+/**
+ *
+ * @author vdufo
+ */
+public class TestConteneur {
+    
+    public static void main(String args[]){
+        LinkedList<Creature> perso = new LinkedList<>();
+        Random alea = new Random();
+        
+        for(int i = 0; i<100000;i++){
+            int nbr = alea.nextInt(5);
+            switch (nbr) {
+                case 0:
+                    perso.add(new Archer());
+                    break;
+                case 1:
+                    perso.add(new Paysan());
+                    break;
+                case 2:
+                    perso.add(new Lapin());
+                    break;
+                case 3:
+                    perso.add(new Guerrier());
+                    break;
+                default:
+                    perso.add(new Loup());
+                    break;
+            }
+        } 
+
+        int totalPtVieTaille = 0;
+        long debutTaille = System.nanoTime();
+        long debutTailleMilli = System.currentTimeMillis();
+        for(int i=0;i<perso.size();i++){
+            totalPtVieTaille += perso.get(i).getPtVie();
+        }
+        long finTaille = System.nanoTime();
+        long finTailleMilli = System.currentTimeMillis();
+        int totalPtVieIterator = 0;
+        
+        Iterator<Creature> listIt = perso.iterator();
+        long debutIterator = System.nanoTime();
+        long debutIteratorMilli = System.currentTimeMillis();
+        while(listIt.hasNext()) {
+            Creature p = listIt.next();
+            totalPtVieIterator += p.getPtVie();
+        }
+        long finIterator = System.nanoTime();
+        long finIteratorMilli = System.currentTimeMillis();
+        
+        System.out.println("Le nombre de point de vie total des personnages du monde est : "+totalPtVieTaille);
+        System.out.println("Le nombre de point de vie total des personnages du monde est : "+totalPtVieIterator);
+        System.out.println(" ");
+        System.out.println("Temps d'execution boucle sur la taille de la liste en ns : "+(finTaille-debutTaille));
+        System.out.println("Temps d'execution boucle avec les iterateurs en ns  : "+ (finIterator-debutIterator));
+        System.out.println(" ");
+        System.out.println("Temps d'execution boucle sur la taille de la liste en ms : "+(finTailleMilli-debutTailleMilli));
+        System.out.println("Temps d'execution boucle avec les iterateurs en ms  : "+ (finIteratorMilli-debutIteratorMilli));
+    } 
+}
