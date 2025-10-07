@@ -19,33 +19,20 @@ public class testWoE {
         
         World testWorld = new World();
         
-        System.out.println(testWorld.getPosition());
-        testWorld.getRobin().deplace();
-        System.out.println(testWorld.getPosition());
-        
+        //test creerMondeAlea()
+        System.out.println("Test creerMondeAlea() : ");
         testWorld.creerMondeAlea();
-        System.out.println("Position paysan : "+testWorld.getPeon().getPos());
-        System.out.println("Position archer : "+testWorld.getRobin().getPos());
-        System.out.println("Position lapin1 : "+testWorld.getLapin1().getPos());
-        System.out.println("Position lapin2 : "+testWorld.getLapin2().getPos());
+        testWorld.afficheWorld();
         
-        System.out.println("On les fait maintenant tous se déplacer de manière aléatoire, voici leurs nouvelles positions : ");
+        System.out.println("Test pour la liste de position() : ");
+        System.out.println(" ");
+        System.out.println(testWorld.getPosition());
         
-        testWorld.getPeon().deplace();
-        testWorld.getRobin().deplace();
-        testWorld.getLapin1().deplace();
-        testWorld.getLapin2().deplace();
+
+        //test deplace
         
-        System.out.println("Nouvelle position paysan : "+testWorld.getPeon().getPos());
-        System.out.println("Nouvelle position archer : "+testWorld.getRobin().getPos());
-        System.out.println("Nouvelle position lapin1 : "+testWorld.getLapin1().getPos());
-        System.out.println("Nouvelle position lapin2 : "+testWorld.getLapin2().getPos());
-        
-        testWorld.testCopie();
-        System.out.println("Position robin : "+testWorld.getRobin().getPos());
-        System.out.println("Position guillaumeT : "+testWorld.getGuillaumeT().getPos());
-        testWorld.getRobin().deplace();
-        System.out.println("Position après dep robin : "+testWorld.getRobin().getPos());
-        System.out.println("Position après dep guillaumeT : "+testWorld.getGuillaumeT().getPos());
+        testWorld.getRobin().get(0).deplace(testWorld.getPosition());
+        System.out.println(" ");
+        System.out.println(testWorld.getPosition());
     }
 }
