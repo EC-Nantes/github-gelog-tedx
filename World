@@ -273,4 +273,34 @@ public class World {
         }
  
     }
+        public void tourdeJeu(){
+        
+        for(Creature c : lescreatures) {
+            c.deplace(position);
+        }
+        
+        for (Guerrier g : warrior){
+            for(Creature C : lescreatures){
+                if (C!=g){
+                     ((Guerrier)g).combattre(C);
+                    }
+                }
+            }
+        for (Loup w : wolfie){
+            for(Creature C : lescreatures){
+                if (C!=w){
+                     ((Loup)w).combattre(C);
+                    }
+                }
+            }
+        for (Archer a : robin){
+            for(Creature C : lescreatures){
+                if (C!=a){
+                    ((Archer)a).combattre(C);
+                    }
+                }
+            }
+        }
+
+
 }
