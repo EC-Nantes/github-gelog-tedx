@@ -34,5 +34,19 @@ public class testWoE {
         testWorld.getRobin().get(0).deplace(testWorld.getPosition());
         System.out.println(" ");
         System.out.println(testWorld.getPosition());
+
+        //test tour de jeu 
+        System.out.println(testWorld.getLescreatures());
+        
+        for (int i =0;i<5;i++){
+            System.out.println(testWorld.getPosition());
+            testWorld.tourdeJeu();
+            testWorld.afficheWorld();
+        }
+         
+        
+        System.out.println(" ");
+        System.out.println(testWorld.getPosition());
+        
     }
 }
