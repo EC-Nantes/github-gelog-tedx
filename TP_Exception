@@ -1,0 +1,69 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+import java.util.ArrayList;
+
+
+        
+/**
+ *
+ * @author vdufo
+ */
+public class test {
+    private static ArrayList<Point2D> liste1;
+    private static ArrayList<Point2D> liste2;
+    
+    public static void delete(ArrayList<Point2D> liste2){
+        for (Point2D p : liste2){
+            liste2.remove(p);
+        }
+    }
+    
+    public static void methode_a(){
+        methode_b();
+    }
+    public static void methode_b(){
+        methode_a();
+    }
+    
+    
+    public static void main(String[] args) {
+         ArrayList<Point2D> liste1 = null;
+         Point2D p = new Point2D();
+         liste2 = new ArrayList<>();
+         liste2.add(p);
+         float[] tableau = new float[7];
+         Object x = new Object();
+         String nom = "jfgslgklknefd";
+         
+// on fait volontairement une betise
+        /*System.out.println(liste1.size());
+        System.out.println(tableau[7]);
+        System.out.println(1/0);
+        System.out.println((String)x);
+        Integer.parseInt(nom);
+        delete(liste2);
+        methode_a();*/
+}
+    
+    
+    public void doIt(String n, int pV, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p)  {
+        System.out.println("marqueur 1");
+        try {
+            Personnage perso = new Personnage(n,pV,dA, pPar, paPar, paAtt, dMax, p);
+            System.out.println("personnage créé");
+            }
+           
+       catch(NumberFormatException ex){
+           System.out.println("l'un des paramêtre n'est pas dans le bon format");
+       }
+    }
+    public void method2(String n, int pV, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p) throws NumberFormatException {
+        Personnage perso = new Personnage(n,pV,dA, pPar, paPar, paAtt, dMax, p);
+        System.out.println("personnage créé");
+    }
+
+
+}
