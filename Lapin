@@ -4,23 +4,26 @@
  */
 package org.centrale.objet.WoE;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 /**
  *
- * @author vdufo
+ * @author rapha
  */
-public class Lapin extends Monstre {
+public class Lapin extends Monstre implements Deplacable{
 
     /**
+     *
      * @param pV
-     * @param pVmax
      * @param dA
      * @param pPar
      * @param paAtt
      * @param paPar
      * @param p
      */
-    public Lapin(int pV, int pVmax, int dA, int pPar, int paAtt, int paPar, Point2D p){
-        super(pV,pVmax,dA,pPar,paAtt,paPar,p);
+    public Lapin(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p){
+        super(pV,dA,pPar,paAtt,paPar,p);
     }
     
     /**
@@ -35,6 +38,59 @@ public class Lapin extends Monstre {
      *
      */
     public Lapin(){
-        super(10,10,1,1,5,5,new Point2D(0,0));
+        super(5,1,1,5,5,new Point2D(0,0));
+    }
+        private boolean verif(Point2D A, ArrayList<Point2D> liste){
+       boolean rep = false;
+        for(Point2D element: liste){
+            if (A.equals(element)){
+                rep = true;
+                break;
+            }
+        } 
+        return rep;
+    }
+    
+    private void modifListe(ArrayList<Point2D> liste, Point2D anciennePos, Point2D nouvellePos){
+        for (int i =0;i<liste.size();i++){
+            if (liste.get(i).equals(anciennePos)){
+                liste.set(i, nouvellePos);
+            }
+        }
+    }
+    
+    /**
+     * Méthode sans paramètre d'entrée qui modifie en place la position d'un personnage.
+     * Il peut se déplacer de manière aléatoire sur une case adjacente à la sienne.
+     * On suppose qu'il ne peut pas rester sur la même case.
+     * @param liste liste de Point2D cette liste représente toutes les cases occupées par les elements du jeu
+     */
+    public void deplace(ArrayList<Point2D> liste){
+        Random genx = new Random();
+        Random geny = new Random();
+        int dx = 0;
+        int dy = 0;
+        while (dx == 0 && dy == 0){
+        dx = genx.nextInt(3)-1;
+        dy = geny.nextInt(3)-1;   
+        }
+        Point2D tempo = new Point2D(this.getPos());
+        tempo.translate(dx,dy);
+        
+        // vérification qu'il est dans la liste
+        boolean rep = verif(tempo,liste);
+        while(rep){
+            tempo.translate(-dx,-dy);
+            while (dx == 0 && dy == 0){
+                dx = genx.nextInt(3)-1;
+                dy = geny.nextInt(3)-1;   
+            }
+            tempo.translate(dx,dy);
+            verif(tempo,liste);
+        }
+        
+        //Si on sort de la boucle while, alors positionpas dans la liste on deplace et on l'actualise
+        modifListe(liste,tempo,this.getPos());
+        this.getPos().translate(dx,dy);  
     }
 }
