@@ -1,52 +1,18 @@
- private boolean memePosition(Point2D A, ArrayList<Point2D> liste){
-        return liste.contains(A);
-    }
-    
-    public void testCopie(){
-        this.guillaumeT = new Archer(this.robin);
-    }
-    
-    /**
-     * Méthode de création d'un monde aléatoire qui ne prend pas de paramètre en entrée et qui initialise les positions des personnages et créatures du monde
-     * Les personnages et créatures ne sont pas initialisés à la même position
-     * La méthode memePosition() est utilisé pour s'assurer de cela
-     * Les coordonnées sont choisit aléatoirement entre 0(inclu) et 10(exclu) à l'aide du package java random
-     */
-    
-   
-    public void creerMondeAlea(){
+public void creerMondeAlea(){
         Random alea = new Random();
-        while(memePosition(this.robin.getPos(), position)){
-        this.robin.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
+        ArrayList<Point2D> listePosition = new ArrayList<>();
+        listePosition.add(new Point2D(0,0)); // (0,0) position initiale du personnage joué
+        final int hauteurMonde = 5;
+        final int longueurMonde = 5;
+        
+        for(int i = 0;i<this.lescreatures.size();i++){
+            Point2D position = this.lescreatures.get(i).getPos();
+            position.setPosition(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde));
+            while(memePosition(position,listePosition)){
+                System.out.println("MEME POSITION : "+position+" "+listePosition);
+                position.setPosition(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde));
+            }
+            listePosition.add(position);
+            this.position.set(i,position);
         }
-        while(memePosition(this.peon.getPos(), position)){
-        this.peon.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
-        }  
-        while(memePosition(this.bugs1.getPos(), position)){
-        this.bugs1.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
-        }  
-        while(memePosition(this.bugs2.getPos(), position)){
-        this.bugs2.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
-        }  
-        while(memePosition(this.guillaumeT.getPos(), position)){
-        this.guillaumeT.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
-        }  
-        while(memePosition(this.grosBill.getPos(), position)){
-        this.grosBill.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
-        }  
-        this.wolfie.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
-        while(memePosition(this.wolfie.getPos(), position)){
-        this.wolfie.getPos().setPosition(alea.nextInt(22)-10,alea.nextInt(22)-10);
-        }  
     }  
-    
-    public void afficheWorld(){
-        System.out.println("Affichage du monde : ");
-        System.out.println("Archer / Point de vie : "+this.getRobin().getPtVie()+"Position : "+this.getRobin().getPos());
-        System.out.println("Paysan / Point de vie : "+this.getPeon().getPtVie()+"Position : "+this.getPeon().getPos());
-        System.out.println("Lapin 1 / Point de vie : "+this.getLapin1().getPtVie()+"Position : "+this.getLapin1().getPos());
-        System.out.println("Lapin 2 / Point de vie : "+this.getLapin2().getPtVie()+"Position : "+this.getLapin2().getPos());
-        System.out.println("GuillaumeT / Point de vie : "+this.getGuillaumeT().getPtVie()+"Position : "+this.getGuillaumeT().getPos());
-        System.out.println("GrosBill / Point de vie : "+this.getGrosBill().getPtVie()+"Position : "+this.getGrosBill().getPos());
-        System.out.println("Wolfie / Point de vie : "+this.getWolfie().getPtVie()+"Position : "+this.getWolfie().getPos());
-    }
