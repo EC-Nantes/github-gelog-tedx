@@ -4,67 +4,138 @@
  */
 package org.centrale.objet.WoE;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
  *
- * @author vdufo
+ * @author rapha
  */
-public class Archer extends Personnage {
+public class Archer extends Personnage implements Combattant, Deplacable{
     private int nbFleches;
-    
+
     /**
      *
      * @param n
      * @param pV
-     * @param pVmax
      * @param dA
      * @param pPar
-     * @param paAtt
      * @param paPar
+     * @param paAtt
      * @param dMax
      * @param p
-     * @param nbF
+     * @param nbFleches
      */
-    public Archer(String n,int pV, int pVmax, int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p, int nbF) {
-        super(n,pV,pVmax,dA,pPar,paAtt,paPar,dMax,p);
-        this.nbFleches = nbF;
+    public Archer(String n, int pV, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p,int nbFleches){
+        super(n, pV, dA, pPar, paPar, paAtt, dMax, p);
+        this.nbFleches=nbFleches;
+        
+        
     }
-    
+
+    public int getNbFleches() {
+        return nbFleches;
+    }
+
+    public void setNbFleches(int nbFleches) {
+        this.nbFleches = nbFleches;
+    }
+
     /**
      *
      * @param a
      */
     public Archer(Archer a){
         super((Personnage)a);
-        this.nbFleches = a.nbFleches;
+        
+        
     }
-    
+
     /**
      *
      */
     public Archer(){
-        super("Archer1",40,40, 30, 40, 10, 10, 10, new Point2D(0,0));
-        this.nbFleches = 10;
+            
+        super("archer", 10, 10, 10, 10, 20, 30, new Point2D(5,3));
+        this.nbFleches=12;
+        
     }
     
-    public int getnbFleches(){
-        return nbFleches;
-    }
-    
-    public void setnbFleches(int f){
-        this.nbFleches = f;
-    }
     
     public void combattre(Creature c){
         Random alea = new Random();
-        
-        /**combat a distance*/
-        else if((c.distanceCrea(this)>1)&&(c.distanceCrea(this)<this.getDistAttMax())){
-            if (alea.nextInt(101)>this.getPageAtt())&&(getnbFleches!=0){
-                    this.setPtVie(this.getPtVie()-this.getDegAtt());
-                    this.setnbFleches(this.getnbFleches()-1);
-            }   
+            /**combat a distance*/
+        if((Point2D.distancecrea(c.getPos(),this.getPos())>1)&&(Point2D.distancecrea(c.getPos(),this.getPos())<this.getDistAttMax())){
+            if (alea.nextInt(101)>this.getPageAtt())&&(this.getNbFleches()>0){
+                if (alea.nextInt(101)>c.getPagePar()){
+                    c.setPtVie(c.getPtVie()-this.getDegAtt());
+                    this.setNbFleches(this.getNbFleches()-1);
+                    this.affiche();
+                    System.out.println("créature attaque par un loup ayant "+c.getPtVie()+"de point de vie apres l'attaque");
+                    
+                }
+            }
         }
+     }
+        private boolean verif(Point2D A, ArrayList<Point2D> liste){
+       boolean rep = false;
+        for(Point2D element: liste){
+            if (A.equals(element)){
+                rep = true;
+                break;
+            }
+        } 
+        return rep;
+    }
+    
+    private void modifListe(ArrayList<Point2D> liste, Point2D anciennePos, Point2D nouvellePos){
+        for (int i =0;i<liste.size();i++){
+            if (liste.get(i).equals(anciennePos)){
+                liste.set(i, nouvellePos);
+            }
+        }
+    }
+    
+    /**
+     * Méthode sans paramètre d'entrée qui modifie en place la position d'un personnage.
+     * Il peut se déplacer de manière aléatoire sur une case adjacente à la sienne.
+     * On suppose qu'il ne peut pas rester sur la même case.
+     * @param liste liste de Point2D cette liste représente toutes les cases occupées par les elements du jeu
+     */
+    public void deplace(ArrayList<Point2D> liste){
+        Random genx = new Random();
+        Random geny = new Random();
+        int dx = 0;
+        int dy = 0;
+        while (dx == 0 && dy == 0){
+        dx = genx.nextInt(3)-1;
+        dy = geny.nextInt(3)-1;   
+        }
+        Point2D tempo = new Point2D(this.getPos());
+        tempo.translate(dx,dy);
+        
+        // vérification qu'il est dans la liste
+        boolean rep = verif(tempo,liste);
+        while(rep){
+            tempo.translate(-dx,-dy);
+            while (dx == 0 && dy == 0){
+                dx = genx.nextInt(3)-1;
+                dy = geny.nextInt(3)-1;   
+            }
+            tempo.translate(dx,dy);
+            verif(tempo,liste);
+        }
+        
+        //Si on sort de la boucle while, alors positionpas dans la liste on deplace et on l'actualise
+        modifListe(liste,tempo,this.getPos());
+        this.getPos().translate(dx,dy);  
+    }
+        /**
+     *Méthode qui affiche le nombre de point de vie et la position d'un personnage
+     */
+    public void affiche(){
+        // Quand on cherche à afficher un monstre, on veut voir son nombre de point de vie et sa position
+        System.out.println("Point de vie : "+ this.getPtVie());
+        System.out.println("Position : "+ this.getPos().toString());      
     }
 }
