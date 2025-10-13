@@ -1,0 +1,230 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+import java.util.Random ;
+import java.util.ArrayList;
+
+/**
+ * Classe de gestion d'un monde contenant un archer, un paysan et 2 lapins
+ * @author vdufo
+ */
+public class World {
+    // Attributs de la classe
+    /** 
+     * robin liste d'archers (privé)
+     * peon liste de paysans (privé)
+     * bugs liste de lapins (privé)
+     * warrior liste de guerriers (privé)
+     * wolfie liste de loups (privé)
+     * lescreatures liste de toutes les créatures(privé)
+     * position liste des positions de tous les personnages (privé)
+     */
+    private ArrayList<Archer> robin;
+    private ArrayList<Paysan> peon;
+    private ArrayList<Lapin> bugs;
+    private ArrayList<Guerrier> warrior;
+    private ArrayList<Loup> wolfie;
+    private ArrayList<Creature> lescreatures;
+    private ArrayList<Point2D> position;
+    
+    /**
+     * Constructeur de la classe Wolrd sans paramètre qui créer un monde alétoire de 1 à 20 créatures de chaque classe
+     */
+    
+    public World(){
+        this.lescreatures = new ArrayList<>();
+        this.position = new ArrayList<>();
+        
+        Random alea = new Random();
+        int construire = alea.nextInt(20)+1;
+        for(int i=0; i< construire;i++){
+            this.lescreatures.add(new Archer());
+            this.position.add(this.lescreatures.get(i).getPos());
+        }
+        construire = alea.nextInt(20)+1;
+        for(int i=0; i< construire;i++){
+            this.lescreatures.add(new Paysan());
+            this.position.add(this.lescreatures.get(i).getPos());
+        }
+        construire = alea.nextInt(20)+1;
+        for(int i=0; i< construire;i++){
+            this.lescreatures.add(new Lapin());
+            this.position.add(this.lescreatures.get(i).getPos());
+        }
+        construire = alea.nextInt(20)+1;
+        for(int i=0; i< construire;i++){
+            this.lescreatures.add(new Guerrier());
+            this.position.add(this.lescreatures.get(i).getPos());
+        }
+        construire = alea.nextInt(20)+1;
+        for(int i=0; i< construire;i++){
+            this.lescreatures.add(new Loup());
+            this.position.add(this.lescreatures.get(i).getPos());
+        }
+    }
+
+
+
+    public ArrayList<Creature> getLescreatures() {
+        return lescreatures;
+    }
+
+    public void setLescreatures(ArrayList<Creature> lescreatures) {
+        this.lescreatures = lescreatures;
+    }
+
+   /**
+    * Accesseur sur l’attribut robin
+    * @return robin 
+    */
+  
+    
+    /**
+    * Accesseur sur l’attribut position
+    * @return position
+    */
+    public ArrayList<Point2D> getPosition(){
+        return position;
+    }
+    
+    /**
+    * Accesseur sur l’attribut creature
+    * @return lescreatures
+    */
+    public ArrayList<Creature> getCreature(){
+        return lescreatures;
+    }
+    
+
+    /**
+     * Méthode privé memePosition qui vérifie si deux points sont identiques
+     * @param A un point2D à tester
+     * @param B un 2e point2D à tester
+     * @return True si les coordonnées du point A et les coordonnées du points B sont identiques, False sinon
+     */
+    private boolean memePosition(Point2D A, ArrayList<Point2D> liste){
+        boolean b = false;
+        for(int i =0; i<liste.size();i++){
+            if(A.getY()==liste.get(i).getY() && A.getX()==liste.get(i).getX()){
+                b = true;
+                break;
+            }
+        }
+        return b;
+    }
+    
+    
+    /**
+     * Méthode de création d'un monde aléatoire qui ne prend pas de paramètre en entrée et qui initialise les positions des personnages et créatures du monde
+     * Les personnages et créatures ne sont pas initialisés à la même position
+     * La méthode memePosition() est utilisé pour s'assurer de cela
+     * Les coordonnées sont choisit aléatoirement sur une grille 10x10 à l'aide du package java random
+     */
+    public void creerMondeAlea(){
+        Random alea = new Random();
+        ArrayList<Point2D> listePosition = new ArrayList<>();
+        
+        for(int i = 0;i<this.lescreatures.size();i++){
+            this.lescreatures.get(i).getPos().setPosition(alea.nextInt(20),alea.nextInt(20));
+            while(memePosition(this.lescreatures.get(i).getPos(),listePosition)){
+                System.out.println("MEME POSITION : "+lescreatures.get(i).getPos()+" "+listePosition);
+                this.lescreatures.get(i).getPos().setPosition(alea.nextInt(20),alea.nextInt(20));
+            }
+            listePosition.add(this.lescreatures.get(i).getPos());
+        }
+        
+        
+        
+        
+    }  
+    
+    /**
+     * Méthode sans paramètre en entrée qui permet d'afficher la position de tous les personnages ainsi que leur nombre de point de vie 
+     */
+    public void afficheWorld(){
+        System.out.println(" ");
+        
+        for(int i = 0;i<this.lescreatures.size();i++){
+            int s1=1;
+            int s2=1;
+            int s3=1;
+            int s4=1;
+            int s5=1;
+            if (this.lescreatures.get(i) instanceof Guerrier){
+                
+                System.out.println("Guerrier numero"+s1+" :  Point de vie : "+this.lescreatures.get(i).getPtVie()+", Position : "+this.lescreatures.get(i).getPos().affichePOINT2D());
+                s1+=1;
+            }
+            if (this.lescreatures.get(i) instanceof Paysan){
+                
+                System.out.println("Paysan numero"+s2+" :  Point de vie : "+this.lescreatures.get(i).getPtVie()+", Position : "+this.lescreatures.get(i).getPos().affichePOINT2D());
+                s2+=1;
+            }
+            if (this.lescreatures.get(i) instanceof Lapin){
+                
+                System.out.println("Lapin numero"+i+" :  Point de vie : "+this.lescreatures.get(i).getPtVie()+", Position : "+this.lescreatures.get(i).getPos().affichePOINT2D());
+                s3+=1;
+            }
+            if (this.lescreatures.get(i) instanceof Loup){
+                
+                System.out.println("Loup numero"+s4+" :  Point de vie : "+this.lescreatures.get(i).getPtVie()+", Position : "+this.lescreatures.get(i).getPos().affichePOINT2D());
+                s4+=1;
+            }
+            if (this.lescreatures.get(i) instanceof Guerrier){
+                
+                System.out.println("Guerrier numero"+s5+" :  Point de vie : "+this.lescreatures.get(i).getPtVie()+", Position : "+this.lescreatures.get(i).getPos().affichePOINT2D());
+                s5+=1;
+            }
+            
+        }
+    }
+        
+        
+    /*Méthode Tourdejeu qui simule un tour de jeu complet
+    * le tour de jeu consiste au déplacement de tous les créatures 
+    * lorsqu'une creature peut attaquer avec sa portée alors elle le fait
+    * boucle for sur toutes les creatures du monde avec les actions deplace et combattre qui y sont faites
+    */
+    
+    public void tourdeJeu(){
+        
+        for(Creature c : lescreatures) {
+            c.getPos().affichePOINT2D();
+            c.deplace(position);
+            c.getPos().affichePOINT2D();
+        
+        
+            if (c instanceof Guerrier){
+                for(Creature C : lescreatures){
+                    if (C!=c){
+                        ((Guerrier)c).combattre(C);
+                        }
+                    }
+                }
+            if (c instanceof Loup){
+                for(Creature C : lescreatures){
+                    if (C!=c){
+                        ((Loup)c).combattre(C);
+                        }
+                    }
+                }
+            if (c instanceof Archer){
+                for(Creature C : lescreatures){
+                    if (C!=c){
+                        ((Archer)c).combattre(C);
+                     }
+                 }
+            }
+        }
+    }
+ 
+    }
+
+
+        
+    
+
+    
+    
