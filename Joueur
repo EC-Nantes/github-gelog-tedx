@@ -26,8 +26,8 @@ public class Joueur {
             
         switch(p){
             case "Guerrier":
-                this.perso = new Guerrier();
                 this.nom = n;
+                this.perso = new Guerrier(this.nom,80,80,30,10,12,100,15,new Point2D(0,0));
                 rep = false;
                 break;
             case "Archer":
@@ -112,31 +112,36 @@ public class Joueur {
         ArrayList<Point2D> positionPossible = monde.getPosition();
         Point2D positionActuel = this.perso.getPos();
         ArrayList<Point2D> positionAdj = positionActuel.caseAdj();
-        ArrayList<Point2D> positionDep = new ArrayList<>();
-        ArrayList<Creature> crea = monde.getLesCreatures();
+        ArrayList<Creature> creaAComb = new ArrayList<>();
+        ArrayList<Creature> creaMonde = monde.getLesCreatures();
         
-        // System.out.println("Position adj : "+positionAdj);
-        // System.out.println("Position des perso du monde : "+positionPossible);
+        System.out.println("Position adj : "+positionAdj);
+        System.out.println("Position des perso du monde : "+positionPossible);
         
-        for (Point2D position : positionAdj){
-            if(verif(position,positionPossible)){
-                positionDep.add(position);
+        for (Creature c : creaMonde){
+            if(verif(c.getPos(),positionAdj)){
+                creaAComb.add(c);
             }
         }
         
-        if (positionDep.isEmpty()){
+        int vie = 0;
+        
+        if (creaAComb.isEmpty()){
             System.out.println("Aucun personnage à combattre");
         }
         else{
-            for (Creature c :crea){
-            if (this.perso instanceof Guerrier guerrier){
+            for (Creature c :creaAComb){
+                vie = c.getPtVie();
+                if (this.perso instanceof Guerrier guerrier){
                     guerrier.combattre(c);
-            }
-            else{
+                }
+                else{
                 ((Archer)this.perso).combattre(c);
+                }
+                vie -= c.getPtVie();
+                System.out.println("Votre personnage a combattu un "+c.typeCrea());
+                System.out.println("Il a fait "+vie+" degats.");
             }
-        }
-        System.out.println();
         }
         
     }
@@ -159,6 +164,10 @@ public class Joueur {
                     System.out.println("Nouvelle position : "+perso.getPos());
                     break;
                 case "Ne rien faire":
+                    repTDJ = false;
+                    System.out.println("Le personnage ne fait rien.");
+                    break;
+                case "nrf":
                     repTDJ = false;
                     System.out.println("Le personnage ne fait rien.");
                     break;
