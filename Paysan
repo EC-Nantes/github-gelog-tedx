@@ -4,17 +4,19 @@
  */
 package org.centrale.objet.WoE;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 /**
  *
- * @author vdufo
+ * @author rapha
  */
-public class Paysan extends Personnage {
-    
+public class Paysan extends Personnage implements Deplacable{
+
     /**
      *
      * @param n
      * @param pV
-     * @param pVmax
      * @param dA
      * @param pPar
      * @param paPar
@@ -22,22 +24,86 @@ public class Paysan extends Personnage {
      * @param dMax
      * @param p
      */
-    public Paysan(String n, int pV,int pVmax, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p){
-        super(n, pV,pVmax, dA, pPar, paPar, paAtt, dMax, p);    
+    public Paysan(String n, int pV, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p){
+        super(n, pV, dA, pPar, paPar, paAtt, dMax, p);
+  
     }
-    
+
     /**
      *
-     * @param p
+     * @param pa
      */
-    public Paysan(Paysan p){
-        super((Paysan)p);
+    public Paysan(Paysan pa){
+        super((Personnage)pa);   
     }
-    
+
     /**
      *
      */
     public Paysan(){
-        super("PaysanInit",40,40, 1, 15, 10, 10, 10, new Point2D(0,0));
+        super("paysan", 10, 10, 10, 10, 20, 30, new Point2D(5,3));
+        
+        
+    }
+        private boolean verif(Point2D A, ArrayList<Point2D> liste){
+       boolean rep = false;
+        for(Point2D element: liste){
+            if (A.equals(element)){
+                rep = true;
+                break;
+            }
+        } 
+        return rep;
+    }
+    
+    private void modifListe(ArrayList<Point2D> liste, Point2D anciennePos, Point2D nouvellePos){
+        for (int i =0;i<liste.size();i++){
+            if (liste.get(i).equals(anciennePos)){
+                liste.set(i, nouvellePos);
+            }
+        }
+    }
+    
+    /**
+     * Méthode sans paramètre d'entrée qui modifie en place la position d'un personnage.
+     * Il peut se déplacer de manière aléatoire sur une case adjacente à la sienne.
+     * On suppose qu'il ne peut pas rester sur la même case.
+     * @param liste liste de Point2D cette liste représente toutes les cases occupées par les elements du jeu
+     */
+    public void deplace(ArrayList<Point2D> liste){
+        Random genx = new Random();
+        Random geny = new Random();
+        int dx = 0;
+        int dy = 0;
+        while (dx == 0 && dy == 0){
+        dx = genx.nextInt(3)-1;
+        dy = geny.nextInt(3)-1;   
+        }
+        Point2D tempo = new Point2D(this.getPos());
+        tempo.translate(dx,dy);
+        
+        // vérification qu'il est dans la liste
+        boolean rep = verif(tempo,liste);
+        while(rep){
+            tempo.translate(-dx,-dy);
+            while (dx == 0 && dy == 0){
+                dx = genx.nextInt(3)-1;
+                dy = geny.nextInt(3)-1;   
+            }
+            tempo.translate(dx,dy);
+            verif(tempo,liste);
+        }
+        
+        //Si on sort de la boucle while, alors positionpas dans la liste on deplace et on l'actualise
+        modifListe(liste,tempo,this.getPos());
+        this.getPos().translate(dx,dy);  
+    }
+        /**
+     *Méthode qui affiche le nombre de point de vie et la position d'un personnage
+     */
+    public void affiche(){
+        // Quand on cherche à afficher un monstre, on veut voir son nombre de point de vie et sa position
+        System.out.println("Point de vie : "+ this.getPtVie());
+        System.out.println("Position : "+ this.getPos().toString());      
     }
 }
