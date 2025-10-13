@@ -1,28 +1,27 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package org.centrale.objet.WoE;
-
+import java.util.ArrayList;
 import java.util.Random;
-
 /**
  *
- * @author vdufo
+ * @author rapha
  */
-public class Loup extends Monstre {
+public class Loup extends Monstre implements Combattant {
     /**
      *Constructeur Loup à partir de tous les paramètres
      * @param pV
-     * @param pVmax
      * @param dA
      * @param pPar
      * @param paAtt
      * @param paPar
      * @param p
      */
-    public Loup(int pV,int pVmax, int dA, int pPar, int paAtt, int paPar, Point2D p){
-        super(pV,pVmax,dA,pPar,paAtt,paPar,p);
+    public Loup(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p){
+        super(pV,dA,pPar,paAtt,paPar,p);
     }
     
     /**
@@ -37,21 +36,80 @@ public class Loup extends Monstre {
      * Constructeur Loup par défaut 
      */
     public Loup(){
-        super(20,20,4,2,20,5,new Point2D(0,0));
+        super(15,4,2,20,5,new Point2D(0,0));
     }
-    
     public void combattre(Creature c){
         Random alea = new Random();
         /*combat corps a corps*/
-        if (c.distanceCrea(this)==1){
+        if (Point2D.distancecrea(c.getPos(),this.getPos())==1){
             if (alea.nextInt(101)>this.getPageAtt()){
                 if (alea.nextInt(101)>c.getPagePar()){
-                    this.setPtVie(this.getPtVie()-this.getDegAtt()+c.getPagePar());
+                    c.setPtVie(c.getPtVie()-this.getDegAtt()+c.getPagePar());
+                    
+                    this.affiche();
+                    System.out.println("créature attaque par un loup ayant "+c.getPtVie()+"de point de vie apres l'attaque");
                 }
                 else {
-                    this.setPtVie(this.getPtVie()-this.getDegAtt());
+                    c.setPtVie(c.getPtVie()-this.getDegAtt());
+                    this.affiche();
+                    System.out.println("créature attaque par un loup ayant "+c.getPtVie()+"de point de vie apres l'attaque");
                 }
             }
         }
+
+        
+    }
+        private boolean verif(Point2D A, ArrayList<Point2D> liste){
+       boolean rep = false;
+        for(Point2D element: liste){
+            if (A.equals(element)){
+                rep = true;
+                break;
+            }
+        } 
+        return rep;
+    }
+    
+    private void modifListe(ArrayList<Point2D> liste, Point2D anciennePos, Point2D nouvellePos){
+        for (int i =0;i<liste.size();i++){
+            if (liste.get(i).equals(anciennePos)){
+                liste.set(i, nouvellePos);
+            }
+        }
+    }
+    
+    /**
+     * Méthode sans paramètre d'entrée qui modifie en place la position d'un personnage.
+     * Il peut se déplacer de manière aléatoire sur une case adjacente à la sienne.
+     * On suppose qu'il ne peut pas rester sur la même case.
+     * @param liste liste de Point2D cette liste représente toutes les cases occupées par les elements du jeu
+     */
+    public void deplace(ArrayList<Point2D> liste){
+        Random genx = new Random();
+        Random geny = new Random();
+        int dx = 0;
+        int dy = 0;
+        while (dx == 0 && dy == 0){
+        dx = genx.nextInt(3)-1;
+        dy = geny.nextInt(3)-1;   
+        }
+        Point2D tempo = new Point2D(this.getPos());
+        tempo.translate(dx,dy);
+        
+        // vérification qu'il est dans la liste
+        boolean rep = verif(tempo,liste);
+        while(rep){
+            tempo.translate(-dx,-dy);
+            while (dx == 0 && dy == 0){
+                dx = genx.nextInt(3)-1;
+                dy = geny.nextInt(3)-1;   
+            }
+            tempo.translate(dx,dy);
+            verif(tempo,liste);
+        }
+        
+        //Si on sort de la boucle while, alors positionpas dans la liste on deplace et on l'actualise
+        modifListe(liste,tempo,this.getPos());
+        this.getPos().translate(dx,dy);  
     }
 }
