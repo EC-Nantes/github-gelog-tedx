@@ -1,0 +1,31 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+
+/**
+ *
+ * @author vdufo
+ */
+public class Nourriture extends Objet {
+    private boolean type; // true = Bonus, false = Malus
+    
+    public Nourriture(boolean etat, Point2D pos, boolean t) {
+        super(1, etat, 1, pos);
+        this.type = t;
+    }
+    
+    public boolean getType(){
+        return this.type;
+    }
+    
+    public void setType(boolean t){
+        this.type = t;
+    }
+    
+    public String nomClasse(){
+        return "nourriture";
+    }
+    
+}
