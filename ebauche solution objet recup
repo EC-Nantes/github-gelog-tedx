@@ -1,0 +1,82 @@
+    private ArrayList<Utilisable> effets;
+    private ArrayList<Utilisable> inventaire;
+
+    
+   public void tourDeJeuPerso(World monde){
+        Scanner demande = new Scanner(System.in);
+        System.out.println("Voulez-vous 'Combattre', 'Deplacer' ou 'Ne rien faire' ? ");
+        String aFaire = demande.nextLine();
+        boolean repTDJ = true;
+        while(repTDJ){
+            switch(aFaire){
+                case "Combattre":
+                    repTDJ = false;
+                    this.combattrePerso(monde);
+                    break;
+                case "Deplacer":
+                    repTDJ = false;
+                    System.out.println("Position actuelle : "+perso.getPos());
+                    this.deplacePerso(monde);
+                    /** si le joueur se trouve au même endroit qu'un objet il peut soit le garder dans son inventaire soit l'activer*/
+                    this.recuperer(monde);
+                    System.out.println("Nouvelle position : "+perso.getPos());
+                    break;
+                case "Ne rien faire":
+                    repTDJ = false;
+                    System.out.println("Le personnage ne fait rien.");
+                    break;
+                case "nrf":
+                    repTDJ = false;
+                    System.out.println("Le personnage ne fait rien.");
+                    break;
+                default:
+                    System.out.println("Demande erronée, veuillez à bien entrer ce que vous voulez faire.");
+                    System.out.println("Voulez-vous 'Combattre', 'Deplacer' ou 'Ne rien faire' ? ");
+                    aFaire = demande.nextLine();
+                    break;
+            }
+        }
+        
+    }
+    
+    public void activation(Utilisable o){
+        o.active(this.perso); 
+         /**ici o est un utilisable*/
+        /**boucle --> à chaque tour de jeu variable d'incrémentation*/
+        (o.getClass())o).setPdurabilite((o.getClass())o).getPdurabilite()-1);
+        if (o.getPdurabilite()<0){
+            /**remove effet de effets*/
+        }
+    }
+    public void recuperer(World monde){
+        /* il faut boucler sur les utilisablesµ*/
+        for (Objet o : monde.getObjets()){
+            /** rajouter une condition sur le fait que c'est avtivable*/
+        
+            if (distancecrea(this.perso.getPos(),o.getPos())==0){
+                
+            
+                Scanner demande = new Scanner(System.in);
+                System.out.println("Voulez-vous 'recuperer l'objet, 'activer l'objet");
+                String aFaire = demande.nextLine();
+                boolean repTDJ = true;
+                while(repTDJ){
+                    switch(aFaire){
+                        case "recuperer":
+                            repTDJ = false;
+                            this.inventaire.add(o);
+                            break;
+                        case "activer":
+                            repTDJ = false;
+                            this.activation(o);
+                            break;
+                        default:
+                            System.out.println("Demande erronée, veuillez à bien entrer ce que vous voulez faire.");
+                            break;
+                          
+            }
+        }
+        
+    }
+}
+}
