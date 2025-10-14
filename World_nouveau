@@ -21,58 +21,66 @@ public class World {
      * lescreatures liste de toutes les créatures(privé)
      * position liste des positions de tous les personnages (privé)
      */
-    private ArrayList<Archer> robin;
-    private ArrayList<Paysan> peon;
-    private ArrayList<Lapin> bugs;
-    private ArrayList<Guerrier> warrior;
-    private ArrayList<Loup> wolfie;
-    private ArrayList<Creature> lescreatures;
+
+    private ArrayList<Creature> lesCreatures;
     private ArrayList<Point2D> position;
+    private ArrayList<Objet> Objets;
+    private ArrayList<Utilisable> effets;
+    final int hauteurMonde = 5;
+    final int longueurMonde = 5;
     
     /**
      * Constructeur de la classe Wolrd sans paramètre qui créer un monde alétoire de 1 à 20 créatures de chaque classe
      */
     
     public World(){
-        this.lescreatures = new ArrayList<>();
+        this.lesCreatures = new ArrayList<>();
         this.position = new ArrayList<>();
-        
+        final int nbrCrea =20;
         Random alea = new Random();
-        int construire = alea.nextInt(20)+1;
+        int construire = alea.nextInt(nbrCrea)+1;
+        /**creation d'objets dans le jeu*/
         for(int i=0; i< construire;i++){
-            this.lescreatures.add(new Archer());
-            this.position.add(this.lescreatures.get(i).getPos());
+            this.Objets.add(new PotionSoin(3,true,alea.nextInt(3),alea.nextInt(3),new Point2D(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde))));
+            this.Objets.add(new PotionSoin(3,true,alea.nextInt(3),alea.nextInt(3),new Point2D(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde))));
+            this.position.add(this.Objets.get(i).getPos());
         }
-        construire = alea.nextInt(20)+1;
+        
+        
         for(int i=0; i< construire;i++){
-            this.lescreatures.add(new Paysan());
-            this.position.add(this.lescreatures.get(i).getPos());
+            this.lesCreatures.add(new Archer());
+            this.position.add(this.lesCreatures.get(i).getPos());
         }
-        construire = alea.nextInt(20)+1;
+        construire = alea.nextInt(nbrCrea)+1;
         for(int i=0; i< construire;i++){
-            this.lescreatures.add(new Lapin());
-            this.position.add(this.lescreatures.get(i).getPos());
+            this.lesCreatures.add(new Paysan());
+            this.position.add(this.lesCreatures.get(i).getPos());
         }
-        construire = alea.nextInt(20)+1;
+        construire = alea.nextInt(nbrCrea)+1;
         for(int i=0; i< construire;i++){
-            this.lescreatures.add(new Guerrier());
-            this.position.add(this.lescreatures.get(i).getPos());
+            this.lesCreatures.add(new Lapin());
+            this.position.add(this.lesCreatures.get(i).getPos());
         }
-        construire = alea.nextInt(20)+1;
+        construire = alea.nextInt(nbrCrea)+1;
         for(int i=0; i< construire;i++){
-            this.lescreatures.add(new Loup());
-            this.position.add(this.lescreatures.get(i).getPos());
+            this.lesCreatures.add(new Guerrier());
+            this.position.add(this.lesCreatures.get(i).getPos());
+        }
+        construire = alea.nextInt(nbrCrea)+1;
+        for(int i=0; i< construire;i++){
+            this.lesCreatures.add(new Loup());
+            this.position.add(this.lesCreatures.get(i).getPos());
         }
     }
 
 
 
     public ArrayList<Creature> getLescreatures() {
-        return lescreatures;
+        return lesCreatures;
     }
 
-    public void setLescreatures(ArrayList<Creature> lescreatures) {
-        this.lescreatures = lescreatures;
+    public void setLescreatures(ArrayList<Creature> lesCreatures) {
+        this.lesCreatures = lesCreatures;
     }
 
    /**
@@ -94,7 +102,7 @@ public class World {
     * @return lescreatures
     */
     public ArrayList<Creature> getCreature(){
-        return lescreatures;
+        return lesCreatures;
     }
     
 
@@ -122,22 +130,22 @@ public class World {
      * La méthode memePosition() est utilisé pour s'assurer de cela
      * Les coordonnées sont choisit aléatoirement sur une grille 10x10 à l'aide du package java random
      */
-    public void creerMondeAlea(){
+  public void creerMondeAlea(){
         Random alea = new Random();
         ArrayList<Point2D> listePosition = new ArrayList<>();
+        listePosition.add(new Point2D(0,0)); // (0,0) position initiale du personnage joué
         
-        for(int i = 0;i<this.lescreatures.size();i++){
-            this.lescreatures.get(i).getPos().setPosition(alea.nextInt(20),alea.nextInt(20));
-            while(memePosition(this.lescreatures.get(i).getPos(),listePosition)){
-                System.out.println("MEME POSITION : "+lescreatures.get(i).getPos()+" "+listePosition);
-                this.lescreatures.get(i).getPos().setPosition(alea.nextInt(20),alea.nextInt(20));
+        
+        for(int i = 0;i<this.lesCreatures.size();i++){
+            Point2D position = this.lesCreatures.get(i).getPos();
+            position.setPosition(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde));
+            while(memePosition(position,listePosition)){
+                System.out.println("MEME POSITION : "+position+" "+listePosition);
+                position.setPosition(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde));
             }
-            listePosition.add(this.lescreatures.get(i).getPos());
+            listePosition.add(position);
+            this.position.set(i,position);
         }
-        
-        
-        
-        
     }  
     
     /**
@@ -145,36 +153,36 @@ public class World {
      */
     public void afficheWorld(){
         System.out.println(" ");
-        
-        for(int i = 0;i<this.lescreatures.size();i++){
-            int s1=1;
-            int s2=1;
-            int s3=1;
-            int s4=1;
-            int s5=1;
-            if (this.lescreatures.get(i) instanceof Guerrier){
+        int s1=1;
+        int s2=1;
+        int s3=1;
+        int s4=1;
+        int s5=1;
+        for(int i = 0;i<this.lesCreatures.size();i++){
+            
+            if (this.lesCreatures.get(i) instanceof Guerrier){
                 
-                System.out.println("Guerrier numero"+s1+" :  Point de vie : "+this.lescreatures.get(i).getPtVie()+", Position : "+this.lescreatures.get(i).getPos().affichePOINT2D());
+                System.out.println("Guerrier numero "+s1+" :  Point de vie : "+this.lesCreatures.get(i).getPtVie()+", Position : "+this.lesCreatures.get(i).getPos().toString());
                 s1+=1;
             }
-            if (this.lescreatures.get(i) instanceof Paysan){
+            if (this.lesCreatures.get(i) instanceof Paysan){
                 
-                System.out.println("Paysan numero"+s2+" :  Point de vie : "+this.lescreatures.get(i).getPtVie()+", Position : "+this.lescreatures.get(i).getPos().affichePOINT2D());
+                System.out.println("Paysan numero "+s2+" :  Point de vie : "+this.lesCreatures.get(i).getPtVie()+", Position : "+this.lesCreatures.get(i).getPos().toString());
                 s2+=1;
             }
-            if (this.lescreatures.get(i) instanceof Lapin){
+            if (this.lesCreatures.get(i) instanceof Lapin){
                 
-                System.out.println("Lapin numero"+i+" :  Point de vie : "+this.lescreatures.get(i).getPtVie()+", Position : "+this.lescreatures.get(i).getPos().affichePOINT2D());
+                System.out.println("Lapin numero "+s3+" :  Point de vie : "+this.lesCreatures.get(i).getPtVie()+", Position : "+this.lesCreatures.get(i).getPos().toString());
                 s3+=1;
             }
-            if (this.lescreatures.get(i) instanceof Loup){
+            if (this.lesCreatures.get(i) instanceof Loup){
                 
-                System.out.println("Loup numero"+s4+" :  Point de vie : "+this.lescreatures.get(i).getPtVie()+", Position : "+this.lescreatures.get(i).getPos().affichePOINT2D());
+                System.out.println("Loup numero "+s4+" :  Point de vie : "+this.lesCreatures.get(i).getPtVie()+", Position : "+this.lesCreatures.get(i).getPos().toString());
                 s4+=1;
             }
-            if (this.lescreatures.get(i) instanceof Guerrier){
+            if (this.lesCreatures.get(i) instanceof Guerrier){
                 
-                System.out.println("Guerrier numero"+s5+" :  Point de vie : "+this.lescreatures.get(i).getPtVie()+", Position : "+this.lescreatures.get(i).getPos().affichePOINT2D());
+                System.out.println("Guerrier numero "+s5+" :  Point de vie : "+this.lesCreatures.get(i).getPtVie()+", Position : "+this.lesCreatures.get(i).getPos().toString());
                 s5+=1;
             }
             
@@ -190,30 +198,52 @@ public class World {
     
     public void tourdeJeu(){
         
-        for(Creature c : lescreatures) {
-            c.getPos().affichePOINT2D();
-            c.deplace(position);
-            c.getPos().affichePOINT2D();
+        for(Utilisable e : effets){
+            if (e instanceof Epee){
+                ((Epee)e).setPdurabilite(((Epee)e).getPdurabilite()-1);
+            }
+            if (e instanceof Nourriture){
+                ((Nourriture)e).setPdurabilite(((Nourriture)e).getPdurabilite()-1);
+            }
+        }
         
         
+        
+        for(Creature c : lesCreatures) {
+            
+            
+            
+            if (c instanceof Lapin){
+                ((Lapin)c).deplace(position);
+            }
+            if (c instanceof Paysan){
+                ((Paysan)c).deplace(position);
+            }
+                
             if (c instanceof Guerrier){
-                for(Creature C : lescreatures){
+                ((Guerrier)c).deplace(position);
+                for(Creature C : lesCreatures){
                     if (C!=c){
+                        
                         ((Guerrier)c).combattre(C);
+                        
                         }
                     }
                 }
             if (c instanceof Loup){
-                for(Creature C : lescreatures){
+                ((Loup)c).deplace(position);
+                for(Creature C : lesCreatures){
                     if (C!=c){
                         ((Loup)c).combattre(C);
+                        
                         }
                     }
                 }
             if (c instanceof Archer){
-                for(Creature C : lescreatures){
+                ((Archer)c).deplace(position);
+                for(Creature C : lesCreatures){
                     if (C!=c){
-                        ((Archer)c).combattre(C);
+                        ((Archer)c).combattre(C);                       
                      }
                  }
             }
