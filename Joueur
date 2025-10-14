@@ -3,7 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package org.centrale.objet.WoE;
+import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Scanner;
 
 /**
@@ -13,6 +15,8 @@ import java.util.Scanner;
 public class Joueur {
     private Personnage perso;
     private String nom;
+    private ArrayList<Utilisable> effets;
+    private ArrayList<Objet> inventaire;
     
     public Joueur(){
         Scanner scanner = new Scanner(System.in);
@@ -42,6 +46,7 @@ public class Joueur {
                 break;
             }
         } 
+        this.effets = new ArrayList<>();
     }
     
     public Personnage getPerso(){
@@ -105,6 +110,10 @@ public class Joueur {
         }
         
         perso.setPos(nouvellePosition);
+        
+        if verif(perso.getPos(),monde.getListeObjets()){
+            //// JE SUIS EN TRAIN DE MODIF MAIS J'AI DES PROBLEMES
+        }
     }
     
     public void combattrePerso(World monde){
@@ -146,28 +155,53 @@ public class Joueur {
         
     }
     
+    public void voirInventaire(){
+        int compteur = 1;
+        
+        if (inventaire.size() == 0){
+            System.out.println("L'inventaire est vide, vous ne pouvez rien faire");
+        }
+        else{
+            System.out.println("Voici les éléments de votre inventaire");
+            for(Objet objet : this.inventaire){
+                System.out.println(compteur+" : "+objet.nomClasse()+" de niveau "+objet.getNiveau());
+            }
+            Scanner demandeInv = new Scanner(System.in);
+            System.out.println("Quel élément voulez vous utiliser ?");
+            int obj = parseInt(demandeInv.nextLine())-1;
+            effets.add(inventaire.get(obj));
+            inventaire.remove(obj);
+            
+        }
+         
+    }
+    
+    public void ajouterInventaire(Objet o){
+        this.inventaire.add(o);
+    }
+    
     public void tourDeJeuPerso(World monde){
         Scanner demande = new Scanner(System.in);
-        System.out.println("Voulez-vous 'Combattre', 'Deplacer' ou 'Ne rien faire' ? ");
+        System.out.println("Voulez-vous combattre (1), vous déplacer (2), voir votre inventaire (3) ou ne rien faire (4) ? ");
         String aFaire = demande.nextLine();
         boolean repTDJ = true;
         while(repTDJ){
             switch(aFaire){
-                case "Combattre":
+                case "1":
                     repTDJ = false;
                     this.combattrePerso(monde);
                     break;
-                case "Deplacer":
+                case "2":
                     repTDJ = false;
                     System.out.println("Position actuelle : "+perso.getPos());
                     this.deplacePerso(monde);
                     System.out.println("Nouvelle position : "+perso.getPos());
                     break;
-                case "Ne rien faire":
+                case "3":
                     repTDJ = false;
-                    System.out.println("Le personnage ne fait rien.");
+                    this.voirInventaire();
                     break;
-                case "nrf":
+                case "4":
                     repTDJ = false;
                     System.out.println("Le personnage ne fait rien.");
                     break;
