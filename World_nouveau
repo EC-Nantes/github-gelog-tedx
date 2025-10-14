@@ -75,11 +75,11 @@ public class World {
 
 
 
-    public ArrayList<Creature> getLescreatures() {
+    public ArrayList<Creature> getLesCreatures() {
         return lesCreatures;
     }
 
-    public void setLescreatures(ArrayList<Creature> lesCreatures) {
+    public void setLesCreatures(ArrayList<Creature> lesCreatures) {
         this.lesCreatures = lesCreatures;
     }
 
