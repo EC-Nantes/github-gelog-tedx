@@ -28,6 +28,7 @@ public class World {
     private ArrayList<Utilisable> effets;
     final int hauteurMonde = 5;
     final int longueurMonde = 5;
+    int tourDeJeu=0;
     
     /**
      * Constructeur de la classe Wolrd sans paramètre qui créer un monde alétoire de 1 à 20 créatures de chaque classe
@@ -197,8 +198,10 @@ public class World {
     */
     
     public void tourdeJeu(){
-        
+        this.tourDeJeu+=1;
+
         for(Utilisable e : effets){
+/**ici effets est la liste des objets en cours d'utilisation par le Joueur*/
             if (e instanceof Epee){
                 ((Epee)e).setPdurabilite(((Epee)e).getPdurabilite()-1);
             }
