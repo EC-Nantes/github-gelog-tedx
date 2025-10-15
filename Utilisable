@@ -6,8 +6,10 @@ package org.centrale.objet.WoE;
 
 /**
  *
- * @author rapha
+ * @author vdufo
  */
 public interface Utilisable {
-    public void utiliser();
+    public void activer(Personnage p);
+    public void retirer(Personnage p);
+    public String nomClasse();
 }
