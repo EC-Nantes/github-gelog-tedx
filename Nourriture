@@ -8,7 +8,7 @@ package org.centrale.objet.WoE;
  *
  * @author vdufo
  */
-public class Nourriture extends Objet {
+public abstract class Nourriture extends Objet {
     private boolean type; // true = Bonus, false = Malus
     
     public Nourriture(boolean etat, Point2D pos, boolean t) {
@@ -27,5 +27,6 @@ public class Nourriture extends Objet {
     public String nomClasse(){
         return "nourriture";
     }
+    
     
 }
