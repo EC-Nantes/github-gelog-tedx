@@ -1,21 +1,47 @@
-public class Epee extends Objet {
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
 
-    public Epee(int Pdurabilite, boolean etat,int niveau){
-        super(Pdurabilite,etat,niveau);
-        
+/**
+ * Classe de gestion des épées de différents niveaux (1,2 ou 3)
+ * @author vdufo
+ */
+public class Epee extends Objet implements Utilisable{
+
+    
+    public Epee(int Pdurabilite, boolean etat,int niveau, Point2D pos){
+        super(Pdurabilite,etat,niveau,pos);    
     }
-    public void Power (Creature c, Epee e){
-        
-        setPdurabilite(e.getPdurabilite()-1);
+    /**
+     * Permet d'augmenter le nombre de point d'attaque d'une créature en la possession d'une épée par rapport à 3 niveaux d'attaque : 1 -> +5, 2 -> +10, 3 -> +15
+     * @param p Personnage à soigner
+     */
+    
+    @Override
+    public void activer(Personnage p){
+        setPdurabilite(this.getPdurabilite()-1);
         /*ici ptvie fait référence au nombre de vie de la créature*/
-        if(e.getNiveau()==1){
-            c.setDegAtt(c.getDegAtt()+5);
+        if(this.getNiveau()==1){
+            p.setDegAtt(p.getDegAtt()+5);
         }
-        else if(e.getNiveau()==2){
-            c.setDegAtt(c.getDegAtt()+10);
+        else if(this.getNiveau()==2){
+            p.setDegAtt(p.getDegAtt()+10);
         }
         else{
-            c.setDegAtt(c.getDegAtt()+15);
+            p.setDegAtt(p.getDegAtt()+15);
         }
+    }
+    
+    @Override
+    public void retirer(Personnage p){
+        
+    }
+    
+    @Override
+    public String nomClasse(){
+        return "epee";
+    }
 }
-}
+
