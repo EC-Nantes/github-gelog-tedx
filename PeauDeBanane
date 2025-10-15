@@ -1,0 +1,38 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+
+/**
+ *
+ * @author vdufo
+ */
+public class PeauDeBanane extends Nourriture implements Utilisable{
+    private int point;
+    private final int tourActif;
+
+    public PeauDeBanane(boolean etat, Point2D pos, boolean t, int p) {
+        super(etat, pos, t);
+        this.point = p;
+        this.tourActif = 3;
+    }
+    
+    /**
+     * Méthode qui retire 20 au pourcentage de parade au personnage qui mange la peau de banane
+     * @param p Personnage qui prend la peau de banane
+     */
+    @Override
+    public void activer(Personnage p){
+        p.setPtPar(p.getPtPar()-20);
+    }
+    
+    /**
+     * Méthode qui ajoute 20 au pourcentage de parade au personnage qui a mangé la peau de banane quand l'effet prend fin
+     * @param p Personnage qui a pris la peau de banane
+     */
+    @Override
+    public void retirer(Personnage p){
+        p.setPtPar(p.getPtPar()+20);
+    }
+}
