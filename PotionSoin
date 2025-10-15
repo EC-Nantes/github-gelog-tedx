@@ -4,52 +4,62 @@
  */
 package org.centrale.objet.WoE;
 
+import java.util.Random;
+
 /**
- *
+ * Classe de gestion des potions de soins de différents niveaux (1,2 ou 3)
  * @author vdufo
  */
-public class PotionSoin extends Objet{
+public class PotionSoin extends Objet implements Utilisable{
     
-    public PotionSoin(int Pdurabilite, boolean etat, int niveau,int pV){
-        super(Pdurabilite, etat, niveau);
+    public PotionSoin(int Pdurabilite, boolean etat, int niveau,Point2D pos){
+        super(Pdurabilite, etat, niveau, pos);
     }
     
     /*la methode glouglou permet d'utiliser la potion de soin direct sur une créture en fonction de son niveau*/
 
     /**
      * Permet de soigner une créature à partir d'une potion d'un certain niveau (1,2 ou 3) qui soigne plus ou moins le personnage
-     * @param c Creature à soigner
-     * @param p Potion à utiliser
+     * @param p Personnage à soigner
      */
 
-    public void boirePotion(Creature c, PotionSoin p){
+    @Override
+    public void activer(Personnage p){
         
         setPdurabilite(0);
         /*ici ptvie fait référence au nombre de vie de la créature*/
-        if(p.getNiveau()==1){
-            if (c.getPtVie() <= c.getPtVieMax() -5){
-            c.setPtVie(c.getPtVie()+5);
+        if(this.getNiveau()==1){
+            if (p.getPtVie() <= p.getPtVieMax() -5){
+            p.setPtVie(p.getPtVie()+5);
             }
             else{
-                c.setPtVie(c.getPtVieMax());
+                p.setPtVie(p.getPtVieMax());
             }
         }
-        else if(p.getNiveau()==2){
-            if (c.getPtVie() <= c.getPtVieMax() -10){
-            c.setPtVie(c.getPtVie()+10);
+        else if(this.getNiveau()==2){
+            if (p.getPtVie() <= p.getPtVieMax() -10){
+            p.setPtVie(p.getPtVie()+10);
             }
             else{
-                c.setPtVie(c.getPtVieMax());
+                p.setPtVie(p.getPtVieMax());
             }
         }
         else{
-            if (c.getPtVie() <= c.getPtVieMax() -15){
-            c.setPtVie(c.getPtVie()+15);
+            if (p.getPtVie() <= p.getPtVieMax() -15){
+            p.setPtVie(p.getPtVie()+15);
             }
             else{
-                c.setPtVie(c.getPtVieMax());
+                p.setPtVie(p.getPtVieMax());
             }
+        }  
+    }
+    
+    @Override
+    public void retirer(Personnage p) {
         }
-        
+    
+    @Override
+    public String nomClasse(){
+        return "potion de soin";
     }
 }
