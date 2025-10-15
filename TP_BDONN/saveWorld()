@@ -1,130 +1,128 @@
 /**
      * save world as sauvegarde in database
      * @param idJoueur : l'ID du joueur dans la BD
-     * @param idPartie : le nom de la partie
-     * @param idsauvegarde : le nom de la sauvegarde
+     * @param nomPartie : le nom de la partie
+     * @param nomSauvegarde : le nom de la sauvegarde
      * @param monde: le monde à enregistrer
      */
-    public void saveWorld(int idJoueur, int idPartie, int idsauvegarde, World monde) {
+    public void saveWorld(int idJoueur, String nomPartie, String nomSauvegarde, World monde) {
         try {
             Calendar cal = Calendar.getInstance();
             
             // Je récupère l'id de la partie
-            String query = "SELECT * FROM Partie where id_partie = ?";
+            String query = "SELECT * FROM Partie where nom_partie = ?";
             PreparedStatement stmt = connection.prepareStatement( query );
-            stmt.setInt(1,idPartie);
+            stmt.setString(1,nomPartie);
             ResultSet rs = stmt.executeQuery();
             
             //Si l'id n'existe pas alors on créé une partie
             if(!rs.next()){
-                String requete2 = "INSERT INTO Partie(hauteur,largeur,idjoueur) VALUES (?,?,?) returning id_partie";
+                String requete2 = "INSERT INTO Partie(hauteur,largeur,idjoueur) VALUES (?,?,?) returning nom_partie";
                 PreparedStatement stmt2 = connection.prepareStatement(requete2);
                 stmt2.setInt(1,monde.height);
                 stmt2.setInt(2,monde.width);
                 stmt2.setInt(3, idJoueur);
-                idPartie = stmt2.executeQuery().getInt("id_partie");
+                nomPartie = stmt2.executeQuery().getString("nom_partie");
             }
             
             // Je récupère l'id de la sauvegarde
             String requeteSauv = "SELECT * FROM Sauvegarde where id_sauvegarde = ?";
             PreparedStatement stmt3 = connection.prepareStatement(requeteSauv);
-            stmt3.setInt(1, idsauvegarde);
+            stmt3.setString(1, nomSauvegarde);
             ResultSet sauv = stmt.executeQuery();
             
             //Si la sauvegarde n'existe pas alors on en crée une nouvelle
             if(!sauv.next()){
-                String creationSauvegarde = "INSERT INTO Sauvegarde(date,id_partie,id_joueur) VALUES (?,?,?) returning id_sauv";
+                String creationSauvegarde = "INSERT INTO Sauvegarde(date,nom_partie,id_joueur) VALUES (?,?,?) returning id_sauv";
                 PreparedStatement stmt4 = connection.prepareStatement(creationSauvegarde);
                 stmt4.setDate(1,new java.sql.Date(cal.getTime().getTime()));
-                stmt4.setInt(2,idPartie);
+                stmt4.setString(2,nomPartie);
                 stmt4.setInt(3,idJoueur);
-                idsauvegarde = stmt4.executeQuery().getInt("id_sauv");
+                int idsauvegarde = stmt4.executeQuery().getInt("id_sauv");
             }
             
             else{ // Si la sauvegarde existe : on supprime tout
                 
                 // On commence par supprimer les tours de jeux de la base
-                String deleteTourDeJeu = "DELETE FROM TourDeJeu WHERE id_sauv=?";
+                String deleteTourDeJeu = "DELETE FROM TourDeJeu WHERE nom_sauv=?";
                 PreparedStatement DTJ = connection.prepareStatement(deleteTourDeJeu);
-                DTJ.setInt(1,idsauvegarde);
+                DTJ.setString(1,nomSauvegarde);
                 
                 // Ensuite, on supprime toutes les créatures humaines associées à la sauvegarde dont l'id est idsauvegarde
-                String deleteCreaHumaine = "DELETE FROM CreatureHumaine WHERE id_sauv=?";
+                String deleteCreaHumaine = "DELETE FROM CreatureHumaine WHERE nom_sauv=?";
                 PreparedStatement DCH = connection.prepareStatement(deleteCreaHumaine);
-                DCH.setInt(1, idsauvegarde); 
+                DCH.setString(1, nomSauvegarde); 
                 
                 // Puis on supprime tous les monstres associés à cette même sauvegarde
-                String deleteMonstre = "DELETE FROM Monstre WHERE id_sauv=?";
+                String deleteMonstre = "DELETE FROM Monstre WHERE nom_sauv=?";
                 PreparedStatement DM = connection.prepareStatement(deleteMonstre);
-                DM.setInt(1, idsauvegarde); 
+                DM.setString(1, nomSauvegarde); 
                 
                 // Et enfin tous les objets associés
-                String deleteObjet = "DELETE FROM Objet WHERE id_sauv=?";
+                String deleteObjet = "DELETE FROM Objet WHERE nom_sauv=?";
                 PreparedStatement DO = connection.prepareStatement(deleteObjet);
-                DO.setInt(1, idsauvegarde);
+                DO.setString(1, nomSauvegarde);
                 
                 // Puis on actualise les infos
-                String modifSauvegarde = "UPDATE Sauvegarde SET date = ?, id_partie = ?";
+                String modifSauvegarde = "UPDATE Sauvegarde SET date = ?, nom_partie = ?";
                 PreparedStatement MS = connection.prepareStatement(modifSauvegarde);
                 MS.setDate(1, new java.sql.Date(cal.getTime().getTime()));
-                MS.setInt(2, idPartie);
+                MS.setString(2, nomPartie);
             }
             
+            // On récupère l'id de la sauvegarde correspondant au nom
+            String recupIdSauvegarde = "SELECT id_sauv FROM Sauvegarde WHERE id_joueur = ? AND nom_sauv = ?";
+            PreparedStatement RIS = connection.prepareStatement(recupIdSauvegarde);
+            RIS.setInt(1,idJoueur);
+            RIS.setString(2, nomSauvegarde);
+            int idsauvegarde = RIS.executeQuery().getInt("id_sauv");
+            
             // Maintenant, on va ajouter un par un les créatures, monstres et objets à la sauvegarde
-            int compteurIdPerso = 0;
-            int compteurIdMonstre = 0;
-            int compteurIdObjet = 0;
             for (ElementDeJeu element: monde.getRoundElements()){
                 if (element instanceof Personnage personnage){
                     
                     // On ajoute le personnage dans la base
-                    String ajouterPerso = "INSERT INTO Creature(id_creature,genre,pageatt,degatt,metier,pagepar,ptpar,pageesq,resistance_nat,ptvie_max,ptvie_act,ptmag_act,ptmag_max,portee,nbFleches,id_sauv) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                    String ajouterPerso = "INSERT INTO Creature(genre,pageatt,degatt,metier,pagepar,ptpar,pageesq,resistance_nat,ptvie_max,ptvie_act,ptmag_act,ptmag_max,portee,nbFleches,id_sauv) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                     PreparedStatement AP = connection.prepareStatement(ajouterPerso);
-                    AP.setInt(1,compteurIdPerso);
-                    AP.setString(2, personnage.getGenre());
-                    AP.setFloat(3, ((Creature) element).getPourcentAttaque());
-                    AP.setFloat(4, personnage.getDegatsAttaque());
-                    AP.setString(5,personnage.getMetier());
-                    AP.setFloat(6,personnage.getPourcentParade());
-                    AP.setFloat(7, personnage.getValeurParade());
-                    AP.setFloat(8,((Creature) element).getPourcentEsquive());
-                    AP.setFloat(9,((Creature) element).getAbsorbe());
-                    AP.setFloat(10,((Creature) element).getPVieMax());
-                    AP.setFloat(11,((Creature) element).getPVie());
-                    AP.setFloat(12,personnage.getPMagie());
-                    AP.setFloat(13,personnage.getPMagieMax());
-                    AP.setFloat(14,personnage.getPortee());
-                    AP.setInt(15,personnage.getNbFleches());
-                    AP.setInt(16,idsauvegarde);
-                    compteurIdPerso += 1;
+                    AP.setString(1, personnage.getGenre());
+                    AP.setFloat(2, ((Creature) element).getPourcentAttaque());
+                    AP.setFloat(3, personnage.getDegatsAttaque());
+                    AP.setString(4,personnage.getMetier());
+                    AP.setFloat(5,personnage.getPourcentParade());
+                    AP.setFloat(6, personnage.getValeurParade());
+                    AP.setFloat(7,((Creature) element).getPourcentEsquive());
+                    AP.setFloat(8,((Creature) element).getAbsorbe());
+                    AP.setFloat(9,((Creature) element).getPVieMax());
+                    AP.setFloat(10,((Creature) element).getPVie());
+                    AP.setFloat(11,personnage.getPMagie());
+                    AP.setFloat(12,personnage.getPMagieMax());
+                    AP.setFloat(13,personnage.getPortee());
+                    AP.setInt(14,personnage.getNbFleches());
+                    AP.setInt(15,idsauvegarde);
                 }
                 
                 if (element instanceof Monstre monstre){
                     
                     // On ajoute le monstre dans la base
-                    String ajouterMonstre = "INSERT INTO Monstre(id_monstre,pageatt,arme_nat,degatt,pageesq,resistance_nat,ptvie_max,ptvie_act,id_sauv) VALUES(?,?,?,?,?,?,?,?,?)";
+                    String ajouterMonstre = "INSERT INTO Monstre(pageatt,arme_nat,degatt,pageesq,resistance_nat,ptvie_max,ptvie_act,id_sauv) VALUES(?,?,?,?,?,?,?,?)";
                     PreparedStatement AM = connection.prepareStatement(ajouterMonstre);
-                    AM.setInt(1,compteurIdMonstre);
-                    AM.setFloat(2, ((Creature) element).getPourcentAttaque());
-                    AM.setString(3, monstre.getRace());
-                    AM.setFloat(4, ((Personnage) element).getDegatsAttaque());
-                    AM.setFloat(5,((Creature) element).getPourcentEsquive());
-                    AM.setFloat(6,((Creature) element).getAbsorbe());
-                    AM.setFloat(7,((Creature) element).getPVieMax());
-                    AM.setFloat(8,((Creature) element).getPVie());
-                    AM.setInt(9,idsauvegarde);
-                    compteurIdMonstre += 1;
+                    AM.setFloat(1, ((Creature) element).getPourcentAttaque());
+                    AM.setString(2, monstre.getRace());
+                    AM.setFloat(3, ((Personnage) element).getDegatsAttaque());
+                    AM.setFloat(4,((Creature) element).getPourcentEsquive());
+                    AM.setFloat(5,((Creature) element).getAbsorbe());
+                    AM.setFloat(6,((Creature) element).getPVieMax());
+                    AM.setFloat(7,((Creature) element).getPVie());
+                    AM.setInt(8,idsauvegarde);
                 }
                 
                 if (element instanceof Objet objet){
                     
                     // On ajoute l'objet dans la base
-                    String ajouterObjet = "INSERT INTO Objet(id_objet,type,id_sauv) VALUES(?,?,?,?)";
+                    String ajouterObjet = "INSERT INTO Objet(type,id_sauv) VALUES(?,?)";
                     PreparedStatement AO = connection.prepareStatement(ajouterObjet);
-                    AO.setInt(1, compteurIdObjet);
-                    AO.setString(2,objet.getType());
-                    AO.setInt(3,idsauvegarde);
-                    compteurIdObjet += 1;
+                    AO.setString(1,objet.getType());
+                    AO.setInt(2,idsauvegarde);
                 }
             }
         }
