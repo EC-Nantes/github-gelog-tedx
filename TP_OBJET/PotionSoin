@@ -16,6 +16,10 @@ public class PotionSoin extends Objet implements Utilisable{
         super(Pdurabilite, etat, determinerNiveau(), pos);
     }
     
+    public PotionSoin(){
+        super(1,false,determinerNiveau(),new Point2D(0,0));
+    }
+    
     /**
      * Méthode privé qui donne un niveau de manière pseudo alétaoire (50% pour le niveau 1, 30% pour le niveau 2 et 20% pour le niveau 3)
      * @return entier 1, 2 ou 3 qui représente le niveau qu'on associera à l'objet
@@ -32,15 +36,13 @@ public class PotionSoin extends Objet implements Utilisable{
         }
     }
     
-    /*la methode glouglou permet d'utiliser la potion de soin direct sur une créture en fonction de son niveau*/
-
     /**
      * Permet de soigner une créature à partir d'une potion d'un certain niveau (1,2 ou 3) qui soigne plus ou moins le personnage
      * @param p Personnage à soigner
      */
 
     @Override
-    public void activer(Personnage p){
+    public void activer(Personnage p,int compteur){
         
         setPdurabilite(0);
         /*ici ptvie fait référence au nombre de vie de la créature*/
@@ -76,6 +78,12 @@ public class PotionSoin extends Objet implements Utilisable{
     
     @Override
     public String nomClasse(){
-        return "potion de soin";
+        return "Potion de soin";
+    }
+    
+    @Override
+    public void objetRamasse(){
+        System.out.println("Vous avez ramasse une potion de soin de niveau "+this.getNiveau()+" qui est maintenant dans votre inventaire.");
+        System.out.println("Vous pouvez l'utiliser à tout moment");
     }
 }
