@@ -17,6 +17,10 @@ public class Epee extends Objet implements Utilisable{
         super(Pdurabilite,etat,determinerNiveau(),pos);    
     }
     
+    /**
+     * Méthode privé qui donne un niveau de manière pseudo alétaoire (50% pour le niveau 1, 30% pour le niveau 2 et 20% pour le niveau 3)
+     * @return entier 1, 2 ou 3 qui représente le niveau qu'on associera à l'objet
+     */
     private static int determinerNiveau() {
         Random alea = new Random();
         int rarete = alea.nextInt(100) + 1;
