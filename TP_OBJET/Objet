@@ -1,23 +1,24 @@
-package org.centrale.objet.WoE;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+package org.centrale.objet.WoE;
 
 /**
- *
- * @author rapha
+ * Classe de gestion des objets
+ * @author vdufo
  */
-public class Objet {
+public abstract class Objet{
     private int Pdurabilite;
     private boolean etat;
     private int niveau;
+    private Point2D position;
     
-    public Objet(int Pdurabilite, boolean etat, int niveau){
+    public Objet(int Pdurabilite, boolean etat, int niveau,Point2D pos){
         this.Pdurabilite=Pdurabilite;
         this.etat=etat;
         this.niveau=niveau;
+        this.position = new Point2D(pos.getX(),pos.getY());
     }
 
     public int getPdurabilite() {
@@ -43,5 +44,16 @@ public class Objet {
     public void setNiveau(int niveau) {
         this.niveau = niveau;
     }
-
+    
+    public Point2D getPos(){
+        return position;
+    }
+    
+    public void setPos(Point2D pos){
+        this.position = pos;
+    }
+    
+    public String nomClasse(){
+        return "objet";
+    }
 }
