@@ -9,22 +9,28 @@ package org.centrale.objet.WoE;
  * @author vdufo
  */
 public class PeauDeBanane extends Nourriture implements Utilisable{
-    private int point;
-    private final int tourActif;
 
-    public PeauDeBanane(boolean etat, Point2D pos, boolean t, int p) {
-        super(etat, pos, t);
-        this.point = p;
-        this.tourActif = 3;
+    public PeauDeBanane(boolean etat, Point2D pos, boolean t) {
+        super(etat, pos, t,20,3);
     }
     
+    public PeauDeBanane(){
+        super(false,new Point2D(0,0), false,20,3);
+    }
     /**
      * Méthode qui retire 20 au pourcentage de parade au personnage qui mange la peau de banane
      * @param p Personnage qui prend la peau de banane
+     * @param c Numéro du tour de jeu auquel on active l'objet
      */
     @Override
-    public void activer(Personnage p){
-        p.setPtPar(p.getPtPar()-20);
+    public void activer(Personnage p,int c){
+        p.setPtPar(p.getPtPar()-this.getPoint());
+        this.setCompteur(c);
+    }
+    
+    @Override
+    public String nomClasse(){
+        return "Peau de banane";
     }
     
     /**
@@ -34,5 +40,11 @@ public class PeauDeBanane extends Nourriture implements Utilisable{
     @Override
     public void retirer(Personnage p){
         p.setPtPar(p.getPtPar()+20);
+    }
+    
+    @Override
+    public void objetRamasse(){
+        System.out.println("Vous avez ramasse une peau de banane qui est maintenant dans votre inventaire.");
+        System.out.println("Vous pouvez l'utiliser à tout moment");
     }
 }
