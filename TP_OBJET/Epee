@@ -17,6 +17,10 @@ public class Epee extends Objet implements Utilisable{
         super(Pdurabilite,etat,determinerNiveau(),pos);    
     }
     
+    public Epee(){
+        super(15,false,determinerNiveau(),new Point2D(0,0));
+    }
+    
     /**
      * Méthode privé qui donne un niveau de manière pseudo alétaoire (50% pour le niveau 1, 30% pour le niveau 2 et 20% pour le niveau 3)
      * @return entier 1, 2 ou 3 qui représente le niveau qu'on associera à l'objet
@@ -39,27 +43,48 @@ public class Epee extends Objet implements Utilisable{
      */
     
     @Override
-    public void activer(Personnage p){
+    public void activer(Personnage p,int compteur){
         setPdurabilite(this.getPdurabilite()-1);
         /*ici ptvie fait référence au nombre de vie de la créature*/
-        if(this.getNiveau()==1){
-            p.setDegAtt(p.getDegAtt()+5);
-        }
-        else if(this.getNiveau()==2){
-            p.setDegAtt(p.getDegAtt()+10);
-        }
-        else{
-            p.setDegAtt(p.getDegAtt()+15);
+        switch (this.getNiveau()) {
+            case 1:
+                p.setDegAtt(p.getDegAtt()+5);
+                break;
+            case 2:
+                p.setDegAtt(p.getDegAtt()+10);
+                break;
+            default:
+                p.setDegAtt(p.getDegAtt()+15);
+                break;
         }
     }
     
     @Override
     public void retirer(Personnage p){
-        
+        switch (this.getNiveau()) {
+            case 1:
+                p.setDegAtt(p.getDegAtt()-5);
+                break;
+            case 2:
+                p.setDegAtt(p.getDegAtt()-10);
+                break;
+            default:
+                p.setDegAtt(p.getDegAtt()-15);
+                break;
+        }
     }
     
     @Override
     public String nomClasse(){
-        return "epee";
+        return "Epee";
+    }
+    
+    /**
+     * Méthode qui affiche un message si le joueur a ramassé une épée
+     */
+    @Override
+    public void objetRamasse(){
+        System.out.println("Vous avez ramasse une epee de niveau "+this.getNiveau()+" qui est dans votre inventaire.");
+        System.out.println("Vous pouvez l'utiliser à tout moment");
     }
 }
