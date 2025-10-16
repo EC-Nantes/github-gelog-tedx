@@ -9,22 +9,27 @@ package org.centrale.objet.WoE;
  * @author vdufo
  */
 public class Coca extends Nourriture implements Utilisable{
-    private int point;
-    private final int tourActif;
 
-    public Coca(boolean etat, Point2D pos, boolean t, int p) {
-        super(etat, pos, t);
-        this.point = p;
-        this.tourActif = 2;
+    public Coca(boolean etat, Point2D pos, boolean t) {
+        super(etat, pos, t,5,2);
     }
-    
+
+    public Coca(){
+        super(false,new Point2D(0,0),false,5,2);
+    }
     /**
      * Méthode qui ajoute 5 dégâts d'attaque au personnage qui prend du coca
      * @param p Personnage qui prend le coca
      */
     @Override
-    public void activer(Personnage p){
-        p.setDegAtt(p.getDegAtt()+ 5);
+    public void activer(Personnage p,int c){
+        p.setDegAtt(p.getDegAtt()+ this.getPoint());
+        this.setCompteur(c);
+    }
+    
+    @Override
+    public String nomClasse(){
+        return "Coca";
     }
     
     /**
@@ -34,5 +39,11 @@ public class Coca extends Nourriture implements Utilisable{
     @Override
     public void retirer(Personnage p){
         p.setDegAtt(p.getDegAtt()-5);
+    }
+    
+    @Override
+    public void objetRamasse(){
+        System.out.println("Vous avez ramasse un coca qui est maintenant dans votre inventaire.");
+        System.out.println("Vous pouvez l'utiliser à tout moment");
     }
 }
