@@ -4,6 +4,8 @@
  */
 package org.centrale.objet.WoE;
 
+import java.util.Random;
+
 /**
  * Classe de gestion des épées de différents niveaux (1,2 ou 3)
  * @author vdufo
@@ -11,9 +13,22 @@ package org.centrale.objet.WoE;
 public class Epee extends Objet implements Utilisable{
 
     
-    public Epee(int Pdurabilite, boolean etat,int niveau, Point2D pos){
-        super(Pdurabilite,etat,niveau,pos);    
+    public Epee(int Pdurabilite, boolean etat, Point2D pos){
+        super(Pdurabilite,etat,determinerNiveau(),pos);    
     }
+    
+    private static int determinerNiveau() {
+        Random alea = new Random();
+        int rarete = alea.nextInt(100) + 1;
+        if (rarete <= 50) {
+            return 1;
+        } else if (rarete <= 80) {
+            return 2;
+        } else {
+            return 3;
+        }
+    }
+    
     /**
      * Permet d'augmenter le nombre de point d'attaque d'une créature en la possession d'une épée par rapport à 3 niveaux d'attaque : 1 -> +5, 2 -> +10, 3 -> +15
      * @param p Personnage à soigner
@@ -44,4 +59,3 @@ public class Epee extends Objet implements Utilisable{
         return "epee";
     }
 }
-
