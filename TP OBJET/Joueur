@@ -47,6 +47,7 @@ public class Joueur {
             }
         } 
         this.effets = new ArrayList<>();
+        this.inventaire = new ArrayList<>();
     }
     
     public void ajouterPerso(World monde){
@@ -92,8 +93,8 @@ public class Joueur {
         ArrayList<Point2D> positionDep = new ArrayList<>();
         
         // Affichage non nécessaire des positions adjacente à celle du personnage et des positions de tous les autres personnages
-        System.out.println("Position adj : "+positionAdj);
         System.out.println("Position des perso du monde : "+positionPossible);
+        System.out.println("Position des objets : "+monde.getPositionObjet());
         
         // Pour toutes les positions adjacentes, si un autre personnage est déjà à cette position, alors le joueur ne pourra pas aller là
         // On crée alors la liste des positions sur lesquelles le joueur va pouvoir aller
@@ -130,13 +131,26 @@ public class Joueur {
         
         // Affectation de la nouvelle position du personnage du joueur
         perso.setPos(nouvellePosition);
-        
         // Si il est sur une position sur laquelle il y a un objet, il le ramasse et l'ajoute donc à son inventaire
         Utilisable objetR = ramasserObjet(monde);
         if (objetR != null){
             objetR.objetRamasse();
+            System.out.println("Vous avez ramassé un objet, voulez vous voir votre inventaire ?");
+            String reponse = demandeDeplace.nextLine();
+            if ("oui".equals(reponse)){
+                if (inventaire.isEmpty()){
+                    System.out.println("L'inventaire est vide, vous ne pouvez rien faire");
+                }
+                else{
+                    int compteur = 1;
+                    System.out.println("Voici les éléments de votre inventaire");
+                    for(Utilisable util : this.inventaire){
+                        System.out.println(compteur+" : "+util.nomClasse()+" de niveau "+util.getNiveau());
+                        compteur++;
+                    }
+                }
+            }
         }
-        
     }
     
     /**
@@ -172,7 +186,6 @@ public class Joueur {
                 listeUtil.add(utilisable);
             }
         }
-        
         // Pour les objets utilisables, on regarde si ils se trouvent à la position du personnage joué
         ArrayList<Utilisable> objetSurPos = verif2(perso.getPos(),listeUtil);
         if (!objetSurPos.isEmpty()){
@@ -184,6 +197,7 @@ public class Joueur {
         else{
             return null;
         }
+        
     }
     
     /**
@@ -235,8 +249,9 @@ public class Joueur {
     /**
      * Méthode qui affiche l'inventaire du joueur et qui lui propose d'en utiliser un
      * Si
+     * @param nTDJ numéro du tour de jeu en cours
      */
-    public void voirInventaire(){
+    public void voirInventaire(int nTDJ){
         int compteur = 1;
         
         if (inventaire.isEmpty()){
@@ -246,20 +261,33 @@ public class Joueur {
             System.out.println("Voici les éléments de votre inventaire");
             for(Utilisable util : this.inventaire){
                 System.out.println(compteur+" : "+util.nomClasse()+" de niveau "+util.getNiveau());
+                compteur++;
             }
             // Demander s'il veut utiliser un objet
-            // Si oui, ajouter l'objet à utiliser et l'activer pour des tours de jeu
             Scanner demandeInv = new Scanner(System.in);
-            System.out.println("Quel élément voulez vous utiliser ?");
-            int obj = parseInt(demandeInv.nextLine())-1;
+            System.out.println("Voulez-vous utiliser un objet ?");
+            String answer = demandeInv.nextLine();
             
-            // On passe l'objet de l'inventaire à effets
-            effets.add(inventaire.get(obj));
-            inventaire.remove(obj);
+            // Si oui, ajouter l'objet à utiliser et l'activer pour des tours de jeu
+            if("oui".equals(answer)){
+                System.out.println("Quel élément voulez vous utiliser ?");
+                int obj = parseInt(demandeInv.nextLine())-1;
+            
+                // On passe l'objet de l'inventaire à effets
+                effets.add(inventaire.get(obj));
+                inventaire.get(obj).activer(this.perso, nTDJ);
+                inventaire.remove(obj);
+            }
+            
             
         } 
     }
     
+    /**
+     * Méthode qui parcourt la liste des effets du joueur et qui les enlève s'ils sont épuisés.
+     * Cette méthode doit être appelé à la fin de chaque tour de jeu
+     * @param compteur numéro du tour de jeu dans lequel on est 
+     */
     public void verifEffet(int compteur){
         for (Utilisable e :this.effets){
             if (e instanceof Nourriture nourriture){
@@ -275,7 +303,7 @@ public class Joueur {
         }
     }
     
-    public void tourDeJeuPerso(World monde){
+    public void tourDeJeuPerso(World monde, int numeroTDJ){
         Scanner demande = new Scanner(System.in);
         System.out.println("Voulez-vous combattre (1), vous déplacer (2), voir votre inventaire (3) ou ne rien faire (4) ? ");
         String aFaire = demande.nextLine();
@@ -294,7 +322,7 @@ public class Joueur {
                     break;
                 case "3":
                     repTDJ = false;
-                    this.voirInventaire();
+                    this.voirInventaire(numeroTDJ);
                     break;
                 case "4":
                     repTDJ = false;
