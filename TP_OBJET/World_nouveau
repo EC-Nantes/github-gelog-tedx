@@ -24,17 +24,28 @@ public class World {
 
     private ArrayList<Creature> lesCreatures;
     private ArrayList<Point2D> position;
-    private ArrayList<Objet> Objets;
-    private ArrayList<Utilisable> effets;
+    private ArrayList<Objet> lesObjets;
+    private ArrayList<Point2D> positionObjet;
+    private Joueur joueur;
+    
+    
     final int hauteurMonde = 5;
     final int longueurMonde = 5;
-    int tourDeJeu=0;
+
     
+    public ArrayList<Objet> getObjets(){
+        return lesObjets;
+    }
+
     /**
      * Constructeur de la classe Wolrd sans paramètre qui créer un monde alétoire de 1 à 20 créatures de chaque classe
      */
-    
-    public World(){
+    public void setObjets(ArrayList<Objet> lesObjets) {
+        this.lesObjets = lesObjets;
+    }
+
+    public World() {
+        joueur= new Joueur();
         this.lesCreatures = new ArrayList<>();
         this.position = new ArrayList<>();
         final int nbrCrea =20;
@@ -42,9 +53,12 @@ public class World {
         int construire = alea.nextInt(nbrCrea)+1;
         /**creation d'objets dans le jeu*/
         for(int i=0; i< construire;i++){
-            this.Objets.add(new PotionSoin(3,true,alea.nextInt(3),alea.nextInt(3),new Point2D(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde))));
-            this.Objets.add(new PotionSoin(3,true,alea.nextInt(3),alea.nextInt(3),new Point2D(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde))));
-            this.position.add(this.Objets.get(i).getPos());
+            this.lesObjets.add(new PotionSoin(3,true,new Point2D(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde))));
+            this.lesObjets.add(new Epee(3,true,new Point2D(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde))));
+            this.lesObjets.add(new PeauDeBanane(true,new Point2D(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde)),false,alea.nextInt(3)));
+            this.lesObjets.add(new Coca(true,new Point2D(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde)),true,alea.nextInt(3)));
+            this.lesObjets.add(new NuageToxique(3,true,alea.nextInt(3),new Point2D(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde))));
+            this.positionObjet.add(this.lesObjets.get(i).getPos());
         }
         
         
@@ -107,7 +121,7 @@ public class World {
     }
     
 
-    /**
+    /**!! a mettre dans poit2D
      * Méthode privé memePosition qui vérifie si deux points sont identiques
      * @param A un point2D à tester
      * @param B un 2e point2D à tester
@@ -132,11 +146,13 @@ public class World {
      * Les coordonnées sont choisit aléatoirement sur une grille 10x10 à l'aide du package java random
      */
   public void creerMondeAlea(){
+        joueur= new Joueur();
         Random alea = new Random();
         ArrayList<Point2D> listePosition = new ArrayList<>();
+        ArrayList<Point2D> listePositionObjet = new ArrayList<>();
         listePosition.add(new Point2D(0,0)); // (0,0) position initiale du personnage joué
         
-        
+        /**creation des creatures*/
         for(int i = 0;i<this.lesCreatures.size();i++){
             Point2D position = this.lesCreatures.get(i).getPos();
             position.setPosition(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde));
@@ -147,6 +163,18 @@ public class World {
             listePosition.add(position);
             this.position.set(i,position);
         }
+        /**creation des objets utilisation de la meme structure que precedemment*/
+        for(int i = 0;i<this.lesObjets.size();i++){
+            Point2D position = this.lesObjets.get(i).getPos();
+            position.setPosition(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde));
+            while(memePosition(position,listePosition)){
+                System.out.println("MEME POSITION : "+position+" "+listePosition);
+                position.setPosition(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde));
+            }
+            listePositionObjet.add(position);
+            this.position.set(i,position);
+        }
+        
     }  
     
     /**
@@ -198,18 +226,10 @@ public class World {
     */
     
     public void tourdeJeu(){
-        this.tourDeJeu+=1;
-
-        for(Utilisable e : effets){
-/**ici effets est la liste des objets en cours d'utilisation par le Joueur*/
-            if (e instanceof Epee){
-                ((Epee)e).setPdurabilite(((Epee)e).getPdurabilite()-1);
-            }
-            if (e instanceof Nourriture){
-                ((Nourriture)e).setPdurabilite(((Nourriture)e).getPdurabilite()-1);
-            }
-        }
         
+        
+        /**le jouer joue en premier*/
+        joueur.tourDeJeuPerso(this);
         
         
         for(Creature c : lesCreatures) {
