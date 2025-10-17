@@ -3,72 +3,83 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package org.centrale.objet.WoE;
+
 import java.util.ArrayList;
 import java.util.Random;
+
 /**
- *
- * @author rapha
+ * Classe de gestion des guerriers
+ * @author vdufo
  */
 public class Guerrier extends Personnage implements Combattant,Deplacable{
-
-    /**
-     *
-     * @param n
-     * @param pV
-     * @param dA
-     * @param pPar
-     * @param paPar
-     * @param paAtt
-     * @param dMax
-     * @param p
+     /**
+      * Constructeur à l'aide de tous les paramètres d'un guerrier
+     * @param n nom
+     * @param pV point de vie
+     * @param pVmax point de vie max
+     * @param dA degat d'attaque
+     * @param pPar point de parade
+     * @param paPar pourcentage de parade
+     * @param paAtt pourcentage d'attaque
+     * @param dMax distance max d'attaque
+     * @param p position
      */
-    
-    
-    public Guerrier(String n, int pV, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p){
-        super(n, pV, dA, pPar, paPar, paAtt, dMax, p);    
+    public Guerrier(String n, int pV, int pVmax, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p){
+        super(n, pV,pVmax, dA, pPar, paPar, paAtt, dMax, p);    
     }
 
     /**
-     *
+     * Constructeur d'un gerrier à partir d'un autre guerrier
      * @param g
      */
     public Guerrier(Guerrier g){
         super((Personnage)g);
-        
-        
     }
 
     /**
-     *
+     * Constructeur d'un guerrier par défaut
      */
-    public Guerrier(){
-            
-        super("guerrier", 10, 10, 10, 10, 20, 30, new Point2D(5,3));
-        
-        
+    public Guerrier(){     
+        super("guerrier", 40,40, 10, 10, 10, 20, 1, new Point2D(0,0)); 
     }
     
-    public void combattre(Creature c){
+    @Override
+    public String nomClasse(){
+        return "Guerrier";
+    }
+    
+    /**
+     * Méthode de combat corps à corps d'un guerrier.
+     * Tire un nombre de manière aléatoire entre 1 et 100, si ce nombre est supérieur au pourcentage d'attaque du guerrier, alors il attaque.
+     * On tire alors un nouveau nombre de manière aléatoire entre 1 et 100, si ce nombre est supérieur au pourcentage de parade du défenseur, alors l'attaque est diminué par son pourcentage.
+     * Et si le pourcentage de parade du défenseur est plus élevé, alors l'attaque ne fait rien.
+     * @param c créature à combattre pour le guerrier
+     * @param monde monde dans lequel se passe le combat
+     * @param liste liste des creatures qui meurent a actualiser à chaque fois
+     */
+    @Override
+    public void combattre(Creature c,World monde, ArrayList<Creature> liste){
         Random alea = new Random();
         /*combat corps a corps*/
-        if (Point2D.distancecrea(c.getPos(),this.getPos())==1){
+        if (c.distanceCrea(this)<1.5){
             if (alea.nextInt(101)>this.getPageAtt()){
                 if (alea.nextInt(101)>c.getPagePar()){
                     c.setPtVie(c.getPtVie()-this.getDegAtt()+c.getPagePar());
-                    this.affiche();
-                    System.out.println("créature attaque par un guerrier ayant "+c.getPtVie()+"de point de vie apres l'attaque");
                 }
                 else {
                     c.setPtVie(c.getPtVie()-this.getDegAtt());
-                    this.affiche();
-                    System.out.println("créature attaque par un guerrier ayant "+c.getPtVie()+"de point de vie apres l'attaque");
+                    System.out.println("PT "+c.getPtVie());
                 }
             }
         }
-
+        if (c.getPtVie() <=0){
+            System.out.println("La creature "+((Deplacable)c).nomClasse()+" est morte, tuee par un guerrier !");
+            liste.add(c);
+        }
         
     }
-        private boolean verif(Point2D A, ArrayList<Point2D> liste){
+    
+    private boolean verif(Point2D A, ArrayList<Point2D> liste){
        boolean rep = false;
         for(Point2D element: liste){
             if (A.equals(element)){
@@ -93,6 +104,7 @@ public class Guerrier extends Personnage implements Combattant,Deplacable{
      * On suppose qu'il ne peut pas rester sur la même case.
      * @param liste liste de Point2D cette liste représente toutes les cases occupées par les elements du jeu
      */
+    @Override
     public void deplace(ArrayList<Point2D> liste){
         Random genx = new Random();
         Random geny = new Random();
@@ -114,21 +126,23 @@ public class Guerrier extends Personnage implements Combattant,Deplacable{
                 dy = geny.nextInt(3)-1;   
             }
             tempo.translate(dx,dy);
-            verif(tempo,liste);
+            rep = verif(tempo,liste);
         }
         
         //Si on sort de la boucle while, alors positionpas dans la liste on deplace et on l'actualise
         modifListe(liste,tempo,this.getPos());
         this.getPos().translate(dx,dy);  
+
     }
 
     /**
      *Méthode qui affiche le nombre de point de vie et la position d'un personnage
      */
+    @Override
     public void affiche(){
         // Quand on cherche à afficher un monstre, on veut voir son nombre de point de vie et sa position
-        System.out.println("Point de vie : "+ this.getPtVie());
-        System.out.println("Position : "+ this.getPos().toString());      
+        //System.out.println("Point de vie : "+ this.getPtVie());
+        //System.out.println("Position : "+ this.getPos().toString());      
+        System.out.printf(" "+'G'+" ");
     }
 }
-
