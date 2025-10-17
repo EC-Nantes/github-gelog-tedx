@@ -8,44 +8,42 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- *
- * @author rapha
+ * Classe de gestion des paysans
+ * @author vdufo
  */
 public class Paysan extends Personnage implements Deplacable{
-
+    
     /**
-     *
-     * @param n
-     * @param pV
-     * @param dA
-     * @param pPar
-     * @param paPar
-     * @param paAtt
-     * @param dMax
+     * Constructeur d'un paysan
+     * @param n nom 
+     * @param pV point de vie
+     * @param pVmax point de vie max
+     * @param dA dégât d'attaque
+     * @param pPar point de parade
+     * @param paPar pourcentage de parade
+     * @param paAtt pourcentage d'attaque
+     * @param dMax distance d'attaque max
+     * @param p position
+     */
+    public Paysan(String n, int pV,int pVmax, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p){
+        super(n, pV,pVmax, dA, pPar, paPar, paAtt, dMax, p);    
+    }
+    
+    /**
+     * Constructeur d'un paysan à partir d'un autre paysan
      * @param p
      */
-    public Paysan(String n, int pV, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p){
-        super(n, pV, dA, pPar, paPar, paAtt, dMax, p);
-  
+    public Paysan(Paysan p){
+        super((Paysan)p);
     }
-
+    
     /**
-     *
-     * @param pa
-     */
-    public Paysan(Paysan pa){
-        super((Personnage)pa);   
-    }
-
-    /**
-     *
+     * Constructeur par défaut d'un paysan
      */
     public Paysan(){
-        super("paysan", 10, 10, 10, 10, 20, 30, new Point2D(5,3));
-        
-        
+        super("PaysanInit",40,40, 5, 15, 10, 10, 10, new Point2D(0,0));
     }
-        private boolean verif(Point2D A, ArrayList<Point2D> liste){
+    private boolean verif(Point2D A, ArrayList<Point2D> liste){
        boolean rep = false;
         for(Point2D element: liste){
             if (A.equals(element)){
@@ -54,6 +52,11 @@ public class Paysan extends Personnage implements Deplacable{
             }
         } 
         return rep;
+    }
+    
+    @Override
+    public String nomClasse(){
+        return "Paysan";
     }
     
     private void modifListe(ArrayList<Point2D> liste, Point2D anciennePos, Point2D nouvellePos){
@@ -70,6 +73,7 @@ public class Paysan extends Personnage implements Deplacable{
      * On suppose qu'il ne peut pas rester sur la même case.
      * @param liste liste de Point2D cette liste représente toutes les cases occupées par les elements du jeu
      */
+    @Override
     public void deplace(ArrayList<Point2D> liste){
         Random genx = new Random();
         Random geny = new Random();
@@ -91,19 +95,23 @@ public class Paysan extends Personnage implements Deplacable{
                 dy = geny.nextInt(3)-1;   
             }
             tempo.translate(dx,dy);
-            verif(tempo,liste);
+            rep = verif(tempo,liste);
         }
         
         //Si on sort de la boucle while, alors positionpas dans la liste on deplace et on l'actualise
         modifListe(liste,tempo,this.getPos());
         this.getPos().translate(dx,dy);  
+
     }
-        /**
+
+    /**
      *Méthode qui affiche le nombre de point de vie et la position d'un personnage
      */
+    @Override
     public void affiche(){
         // Quand on cherche à afficher un monstre, on veut voir son nombre de point de vie et sa position
-        System.out.println("Point de vie : "+ this.getPtVie());
-        System.out.println("Position : "+ this.getPos().toString());      
+        //System.out.println("Point de vie : "+ this.getPtVie());
+        //System.out.println("Position : "+ this.getPos().toString());  
+        System.out.printf(" "+'p'+" ");
     }
 }
