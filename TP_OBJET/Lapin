@@ -8,26 +8,26 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- *
- * @author rapha
+ * Classe de gestion des lapinss
+ * @author vdufo
  */
 public class Lapin extends Monstre implements Deplacable{
 
     /**
-     *
-     * @param pV
-     * @param dA
-     * @param pPar
-     * @param paAtt
-     * @param paPar
-     * @param p
+     * @param pV point de vie
+     * @param pVmax point de vie max
+     * @param dA degat d'attaque
+     * @param pPar point de parade
+     * @param paAtt pourcentage d'attaque
+     * @param paPar pourcentage de parade
+     * @param p position
      */
-    public Lapin(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p){
-        super(pV,dA,pPar,paAtt,paPar,p);
+    public Lapin(int pV, int pVmax, int dA, int pPar, int paAtt, int paPar, Point2D p){
+        super(pV,pVmax,dA,pPar,paAtt,paPar,p);
     }
     
     /**
-     *
+     * Constructeur d'un lapin à partir d'un autre lapin
      * @param l
      */
     public Lapin(Lapin l){
@@ -35,12 +35,18 @@ public class Lapin extends Monstre implements Deplacable{
     }
     
     /**
-     *
+     * Constructeur d'un lapin par défaut
      */
     public Lapin(){
-        super(5,1,1,5,5,new Point2D(0,0));
+        super(10,10,1,1,5,5,new Point2D(0,0));
     }
-        private boolean verif(Point2D A, ArrayList<Point2D> liste){
+    
+    @Override
+    public String nomClasse(){
+        return "Lapin";
+    }
+    
+    private boolean verif(Point2D A, ArrayList<Point2D> liste){
        boolean rep = false;
         for(Point2D element: liste){
             if (A.equals(element)){
@@ -65,6 +71,7 @@ public class Lapin extends Monstre implements Deplacable{
      * On suppose qu'il ne peut pas rester sur la même case.
      * @param liste liste de Point2D cette liste représente toutes les cases occupées par les elements du jeu
      */
+    @Override
     public void deplace(ArrayList<Point2D> liste){
         Random genx = new Random();
         Random geny = new Random();
@@ -86,11 +93,23 @@ public class Lapin extends Monstre implements Deplacable{
                 dy = geny.nextInt(3)-1;   
             }
             tempo.translate(dx,dy);
-            verif(tempo,liste);
+            rep = verif(tempo,liste);
         }
         
         //Si on sort de la boucle while, alors positionpas dans la liste on deplace et on l'actualise
         modifListe(liste,tempo,this.getPos());
         this.getPos().translate(dx,dy);  
+
+    }
+
+    /**
+     *Méthode qui affiche le nombre de point de vie et la position d'un personnage
+     */
+    @Override
+    public void affiche(){
+        // Quand on cherche à afficher un monstre, on veut voir son nombre de point de vie et sa position
+        //System.out.println("Point de vie : "+ this.getPtVie());
+        //System.out.println("Position : "+ this.getPos().toString());
+        System.out.printf(" "+'l'+" ");
     }
 }
