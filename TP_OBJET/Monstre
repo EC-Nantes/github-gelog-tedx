@@ -1,0 +1,44 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+import java.util.Random;
+
+
+
+/**
+ *
+ * @author rapha
+ */
+public abstract class Monstre extends Creature {
+     /**
+     * @param pV
+     * @param dA
+     * @param pPar
+     * @param paAtt
+     * @param paPar
+     * @param p
+     */
+    public Monstre(int pV,int pvMax, int dA, int pPar, int paAtt, int paPar, Point2D p){
+        super(pV,pvMax,dA,pPar,paAtt,paPar,p);
+    }
+    
+    /**
+     *
+     * @param m
+     */
+    public Monstre(Monstre m){ 
+        super(m);
+    }
+    
+    /**
+     *
+     */
+    public Monstre(){
+        super();
+    }
+    
+ 
+
+}
