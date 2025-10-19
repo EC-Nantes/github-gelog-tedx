@@ -18,7 +18,7 @@ public class Coca extends Nourriture implements Utilisable{
         super(false,new Point2D(0,0),false,5,2);
     }
     /**
-     * Méthode qui ajoute 5 dégâts d'attaque au personnage qui prend du coca
+     * Méthode qui ajoute un nombre de point de dégâts d'attaque au personnage qui prend du coca
      * @param p Personnage qui prend le coca
      */
     @Override
@@ -26,21 +26,26 @@ public class Coca extends Nourriture implements Utilisable{
         p.setDegAtt(p.getDegAtt()+ this.getPoint());
         this.setCompteur(c);
     }
-    
+    /**
+     * cette methode permet de connaitre la classe de l'instance (ici Coca)
+     * @return 
+     */
     @Override
     public String nomClasse(){
         return "Coca";
     }
     
     /**
-     * Méthode qui retire 5 dégâts d'attaque au personnage qui a pris du coca après que l'effet ait pris fin
+     * Méthode qui retire un nombre de point de dégâts d'attaque au personnage qui a pris du coca après que l'effet ait pris fin
      * @param p Personnage qui a pris le coca
      */
     @Override
     public void retirer(Personnage p){
-        p.setDegAtt(p.getDegAtt()-5);
+        p.setDegAtt(p.getDegAtt()-this.getPoint());
     }
-    
+    /**
+     * Methode communiquant au joueur qu'un objet a ete ramasse et qu'il peut l'utiliser
+     */
     @Override
     public void objetRamasse(){
         System.out.println("Vous avez ramasse un coca qui est maintenant dans votre inventaire.");
