@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Classe de test du monde
  * @author vdufo
  */
-public class testWoE {
+public class TestWoE {
 
     /**
      *
@@ -20,14 +20,23 @@ public class testWoE {
     public static void main(String args[]){
         System.setProperty("stdout.encoding", "UTF-8");
         int numTDJ = 0;
-        int nbTDJ = 6;
+        //nombre de tour de jeu a choisir
+        int nbTDJ = 10;
         World monMonde = new World();
         monMonde.creerMondeAlea();
-        System.out.println(monMonde.getPosition());
-        Joueur Victor = new Joueur();
-                
+        monMonde.affichePerso();
+        
+        
+        Joueur Victor = new Joueur(monMonde);
+        monMonde.afficheMonde(Victor);
+        /**for (int i = 0; i<nbTDJ;i++){
+            monMonde.tourDeJeu(numTDJ);
+            numTDJ++;
+        }tourdeJeu marche*/ 
+            
         for (int i = 0; i<nbTDJ;i++){
             Victor.tourDeJeuPerso(monMonde,numTDJ);
+            numTDJ++;
         }
         
 
