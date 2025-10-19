@@ -43,7 +43,7 @@ public class Epee extends Objet implements Utilisable{
      */
     
     @Override
-    public void activer(Personnage p,int compteur){
+    public void activer(Personnage p, int compteur){
         setPdurabilite(this.getPdurabilite()-1);
         /*ici ptvie fait référence au nombre de vie de la créature*/
         switch (this.getNiveau()) {
@@ -58,7 +58,10 @@ public class Epee extends Objet implements Utilisable{
                 break;
         }
     }
-    
+    /**
+     * la methode permet de retire les effets de l'objet sur le personnage pris en parametre
+     * @param p 
+     */
     @Override
     public void retirer(Personnage p){
         switch (this.getNiveau()) {
@@ -73,12 +76,14 @@ public class Epee extends Objet implements Utilisable{
                 break;
         }
     }
-    
+    /**
+     * cette methode permet de connaitre la classe de l'instance (ici Coca)
+     * @return 
+     */
     @Override
     public String nomClasse(){
-        return "Epee";
+        return "Coca";
     }
-    
     /**
      * Méthode qui affiche un message si le joueur a ramassé une épée
      */
@@ -86,5 +91,8 @@ public class Epee extends Objet implements Utilisable{
     public void objetRamasse(){
         System.out.println("Vous avez ramasse une epee de niveau "+this.getNiveau()+" qui est dans votre inventaire.");
         System.out.println("Vous pouvez l'utiliser à tout moment");
+    }
+    public String affiche(){
+        return "E";
     }
 }
