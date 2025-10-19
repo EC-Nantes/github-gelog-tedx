@@ -23,4 +23,13 @@ public class NuageToxique extends Objet {
         }
             
     }
+    /**
+     * permet de connaître la classe de l'instance ici (Nuage Toxique)
+     * @return 
+     */
+    public String nomClasse(){
+        return("Nuage Toxique");
+    }  
+    
+    
 }
