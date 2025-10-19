@@ -3,14 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package org.centrale.objet.WoE;
-import java.util.ArrayList;
-import java.util.Random ;
 
 /**
  *
- * @author vdufo
+ * @author rapha
  */
-public class Creature {
+public abstract class Creature extends ElementDeJeu implements Deplacable {
     // Attributs de la classe
     /**
      * dégât d'attaque du personnage (prive)
@@ -28,11 +26,12 @@ public class Creature {
     private int pageAtt;
     private int pagePar;
     private Point2D pos;
+    private Point2D nouvelleposition;
     
-    public Creature(int pV,int pVmax, int dA, int pPar, int paAtt, int paPar, Point2D p){
+    public Creature(int pV,int pVMax, int dA, int pPar, int paAtt, int paPar, Point2D p){
         this.degAtt = dA;
         this.ptVie = pV;
-        this.ptVieMax = pVmax;
+        this.ptVieMax=pVMax;
         this.ptPar = pPar;
         this.pageAtt = paAtt;
         this.pagePar = paPar;
@@ -44,7 +43,7 @@ public class Creature {
     }
     
     public Creature(){
-        this(30,30,2,1,20,20,new Point2D(0,0));
+        this(10,10,2,1,20,20,new Point2D(0,0));
     }
     
     /**
@@ -78,22 +77,6 @@ public class Creature {
     public void setPtVie(int ptVie) {
         this.ptVie = ptVie;
     }
-    
-    /**
-     * Accesseurs de l'attribut ptVieMax
-     * @return le nombre de point de vie max
-     */
-    public int getPtVieMax() {
-        return ptVieMax;
-    }
-
-    /**
-     * Modificateur de l'attribut ptVieMax
-     * @param pvmax
-     */
-    public void setPtVieMax(int pvmax) {
-        this.ptVieMax = pvmax;
-    }
 
     /**
      * Accesseurs de l'attribut ptPar
@@ -117,6 +100,14 @@ public class Creature {
      */
     public int getPagePar() {
         return pagePar;
+    }
+
+    public int getPtVieMax() {
+        return ptVieMax;
+    }
+
+    public void setPtVieMax(int ptVieMax) {
+        this.ptVieMax = ptVieMax;
     }
 
     /**
@@ -158,53 +149,5 @@ public class Creature {
     public void setPos(Point2D pos) {
         this.pos = pos;
     }
-    
-     public double distanceCrea(Creature autre) {
-        return this.getPos().distancecrea(autre.getPos(),this.getPos());
-    }
-     
-    private boolean verif(Point2D A, ArrayList<Point2D> liste){
-       boolean rep = false;
-        for(Point2D element: liste){
-            if (A.memePoint(element)){
-                rep = true;
-                break;
-            }
-        } 
-        return rep;
-    }
-    
-    /**
-     * Méthode sans paramètre d'entrée qui modifie en place la position d'un personnage.
-     * Il peut se déplacer de manière aléatoire sur une case adjacente à la sienne.
-     * On suppose qu'il ne peut pas rester sur la même case.
-     * @param liste liste de Point2D
-     */
-    public void deplace(ArrayList<Point2D> liste){
-        Random genx = new Random();
-        Random geny = new Random();
-        int dx = 0;
-        int dy = 0;
-        while (dx == 0 && dy == 0){
-        dx = genx.nextInt(3)-1;
-        dy = geny.nextInt(3)-1;   
-        }
-        Point2D tempo = new Point2D(this.getPos());
-        tempo.translate(dx,dy);
-        
-        // vérification qu'il est dans la liste
-        boolean rep = verif(tempo,liste);
-        while(rep){
-            tempo.translate(-dx,-dy);
-            while (dx == 0 && dy == 0){
-                dx = genx.nextInt(3)-1;
-                dy = geny.nextInt(3)-1;   
-            }
-            tempo.translate(dx,dy);
-            verif(tempo,liste);
-        }
-        
-        //Si on sort de la boucle while, alors positionpas dans la liste on deplace et on l'actualise
-        this.getPos().translate(dx,dy);
-    }
+
 }
