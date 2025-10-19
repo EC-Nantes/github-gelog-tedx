@@ -11,5 +11,12 @@ import java.util.ArrayList;
  * @author rapha
  */
 public interface Deplacable {
+    /**
+     * La methode deplace doit etre implementer par les classes se deplacant
+     * en parametre la liste des position soit des objets, soit des creatures
+     * @param liste 
+     */
     public void deplace(ArrayList<Point2D> liste);
+    public String nomClasse();
+    public void affiche();
 }
