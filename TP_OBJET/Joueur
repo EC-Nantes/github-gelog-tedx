@@ -17,10 +17,13 @@ public class Joueur {
     private String nom;
     private ArrayList<Utilisable> effets;
     private ArrayList<Utilisable> inventaire;
-    
-    public Joueur(){
+    /**
+     * constructeur du Joueur à partir du monde et ds reponses de l'utilisateur
+     * @param monde 
+     */
+    public Joueur(World monde){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Choisissez un personnage jouable : ");
+        System.out.println("Choisissez un personnage jouable, 'Guerrier' ou 'Archer': ");
         String p = scanner.nextLine();
         System.out.println("Quel nom voulez-vous lui donner ? ");
         String n = scanner.nextLine();
@@ -31,11 +34,11 @@ public class Joueur {
         switch(p){
             case "Guerrier":
                 this.nom = n;
-                this.perso = new Guerrier(this.nom,80,80,30,10,12,100,15,new Point2D(0,0));
+                this.perso = new Guerrier(this.nom,80,80,30,10,12,100,15,new Point2D(monde.longueurMonde/2,monde.hauteurMonde/2));
                 rep = false;
                 break;
             case "Archer":
-                this.perso = new Archer();
+                this.perso = new Archer(this.nom,10,10, 10, 10, 10, 20, 30,new Point2D(monde.longueurMonde/2,monde.hauteurMonde/2),5);
                 this.nom = n;
                 rep=false;
                 break;
@@ -49,7 +52,10 @@ public class Joueur {
         this.effets = new ArrayList<>();
         this.inventaire = new ArrayList<>();
     }
-    
+    /**
+     * permet d'ajouter le personnage du joueur dans le monde en parametere
+     * @param monde 
+     */
     public void ajouterPerso(World monde){
         monde.getLesCreatures().add(perso);
         monde.getPosition().add(this.perso.getPos());
@@ -73,7 +79,7 @@ public class Joueur {
         for(Point2D element: liste){
             if (A.equals(element)){
                 rep = true;
-                break;
+                return rep;
             }
         } 
         return rep;
@@ -106,20 +112,21 @@ public class Joueur {
         
         // On donne la liste des positions sur lesquelles peut se déplacer le joueur et on lui demande où il veut se déplacer
         System.out.println("Voici les positions disponibles : "+positionDep);
-        System.out.println("Sur quelle abcisse voulez-vous déplacer votre personnage (x) ?  ");
+        System.out.println("Sur quelle abcisse voulez-vous deplacer votre personnage (x) ?  ");
         String xDep = demandeDeplace.nextLine();
-        System.out.println("Sur quelle abcisse voulez-vous déplacer votre personnage (y) ?  ");
+        System.out.println("Sur quelle abcisse voulez-vous deplacer votre personnage (y) ?  ");
         String yDep = demandeDeplace.nextLine();
+        // X et Y doivent être des int
         Point2D nouvellePosition= new Point2D(Integer.parseInt(xDep),Integer.parseInt(yDep));
         
         // On vérifie que la position rentrée est bien valide, tant qu'elle ne l'est pas, on redemande  au joueur où il veut se déplacer
         boolean rep = false;
         while(!rep){
             if(verif(nouvellePosition,positionDep)){
-            rep = true;
+                rep = true;
             }
             else{
-                System.out.println("La position que vous avez rentré n'est pas disponible, veuillez en rentrer une autre.");
+                System.out.println("La position que vous avez rentre n'est pas disponible, veuillez en rentrer une autre.");
                 System.out.println("Voici les positions disponibles : "+positionDep);
                 System.out.println("Sur quelle abcisse voulez-vous déplacer votre personnage (x) ?  ");
                 xDep = demandeDeplace.nextLine();
@@ -133,9 +140,10 @@ public class Joueur {
         perso.setPos(nouvellePosition);
         // Si il est sur une position sur laquelle il y a un objet, il le ramasse et l'ajoute donc à son inventaire
         Utilisable objetR = ramasserObjet(monde);
+        
         if (objetR != null){
             objetR.objetRamasse();
-            System.out.println("Vous avez ramassé un objet, voulez vous voir votre inventaire ?");
+            System.out.println("Vous avez ramasse un objet, voulez vous voir votre inventaire ?");
             String reponse = demandeDeplace.nextLine();
             if ("oui".equals(reponse)){
                 if (inventaire.isEmpty()){
@@ -143,7 +151,7 @@ public class Joueur {
                 }
                 else{
                     int compteur = 1;
-                    System.out.println("Voici les éléments de votre inventaire");
+                    System.out.println("Voici les elements de votre inventaire");
                     for(Utilisable util : this.inventaire){
                         System.out.println(compteur+" : "+util.nomClasse()+" de niveau "+util.getNiveau());
                         compteur++;
@@ -161,7 +169,7 @@ public class Joueur {
      * @return ArrayList vide si il n'y a pas d'objet à la position donnée et contenant uniquement l'objet à cette position dans le cas inverse
      */
     private ArrayList<Utilisable> verif2(Point2D A, ArrayList<Utilisable> liste){
-       ArrayList<Utilisable> rep = new ArrayList<>();
+        ArrayList<Utilisable> rep = new ArrayList<>();
         for(Utilisable element: liste){
             if (A.equals(((Objet) element).getPos())){
                 rep.add(element);
@@ -201,6 +209,9 @@ public class Joueur {
     }
     
     /**
+     * la methode combattre perso regarde s'il y a des creatures a combattre a proximite du Joueur
+     * on procede au combat de toutes les creatures dans l
+     * suivant le type de Personnage que joue le joueur
      * Méthode de combat 
      * @param monde Monde dans lequel joue le joueur
      */
@@ -217,7 +228,7 @@ public class Joueur {
         System.out.println("Position adj : "+positionAdj);
         System.out.println("Position des perso du monde : "+positionPossible);
         
-        // Pour toutes les créatures du monde, ajouter à la liste celles qui peuvent combattre le personnage joué
+        // Pour toutes les créatures du monde, ajouter à la liste celles qui peuvent combattre le personnage joue
         for (Creature c : creaMonde){
             if(verif(c.getPos(),positionAdj)){
                 creaAComb.add(c);
@@ -227,19 +238,20 @@ public class Joueur {
         int vie = 0;
         
         if (creaAComb.isEmpty()){
-            System.out.println("Aucun personnage à combattre");
+            System.out.println("Aucun personnage a combattre");
         }
         else{
             for (Creature c :creaAComb){
+                // calcul de la difference de point de vie entre le debut et la fin du combat
                 vie = c.getPtVie();
                 if (this.perso instanceof Guerrier guerrier){
-                    guerrier.combattre(c);
+                    guerrier.combattre(c,monde,monde.getLesCreatures());
                 }
                 else{
-                ((Archer)this.perso).combattre(c);
+                    ((Archer)this.perso).combattre(c,monde,monde.getLesCreatures());
                 }
                 vie -= c.getPtVie();
-                System.out.println("Votre personnage a combattu un "+c.typeCrea());
+                System.out.println("Votre personnage a combattu un "+c.nomClasse());
                 System.out.println("Il a fait "+vie+" degats.");
             }
         }
@@ -248,7 +260,7 @@ public class Joueur {
     
     /**
      * Méthode qui affiche l'inventaire du joueur et qui lui propose d'en utiliser un
-     * Si
+     * si la reponse est oui on active l'effet et le met dans la liste des effets s'appliquant au joueur
      * @param nTDJ numéro du tour de jeu en cours
      */
     public void voirInventaire(int nTDJ){
@@ -258,25 +270,25 @@ public class Joueur {
             System.out.println("L'inventaire est vide, vous ne pouvez rien faire");
         }
         else{
-            System.out.println("Voici les éléments de votre inventaire");
+            System.out.println("Voici les elements de votre inventaire");
             for(Utilisable util : this.inventaire){
                 System.out.println(compteur+" : "+util.nomClasse()+" de niveau "+util.getNiveau());
                 compteur++;
             }
             // Demander s'il veut utiliser un objet
             Scanner demandeInv = new Scanner(System.in);
-            System.out.println("Voulez-vous utiliser un objet ?");
+            System.out.println("Voulez-vous utiliser un objet (oui/non) ?");
             String answer = demandeInv.nextLine();
             
             // Si oui, ajouter l'objet à utiliser et l'activer pour des tours de jeu
             if("oui".equals(answer)){
-                System.out.println("Quel élément voulez vous utiliser ?");
-                int obj = parseInt(demandeInv.nextLine())-1;
+                System.out.println("Quel élément voulez vous utiliser (numero) ?");
+                int iObj = parseInt(demandeInv.nextLine())-1;
             
                 // On passe l'objet de l'inventaire à effets
-                effets.add(inventaire.get(obj));
-                inventaire.get(obj).activer(this.perso, nTDJ);
-                inventaire.remove(obj);
+                effets.add(inventaire.get(iObj));
+                inventaire.get(iObj).activer(this.perso, nTDJ);
+                inventaire.remove(iObj);
             }
             
             
@@ -293,21 +305,36 @@ public class Joueur {
             if (e instanceof Nourriture nourriture){
                 if((compteur - nourriture.getCompteur()) == nourriture.getTourActif()){
                     e.retirer(this.perso);
+                    //il faut enlever l'effet de la liste
                 }
             }
             else{
                 if( (((Objet)e).getPdurabilite()) == 0){
                     e.retirer(this.perso);
+                    //il faut enlever l'effet de la liste
             }
             }
         }
     }
     
+    /**
+     * Cette methode permet de faire un tour de jeu pour le Joueur
+     * elle utilise les methode tour de Jeu permettant de faire un tour de jeu pour les creatures du monde
+     * elle affiche le monde
+     * ensuite elle demande l'action a realiser par le joueur copbattre deplacer voir son inventaire ou ne rien faire
+     * @param monde
+     * @param numeroTDJ 
+     */
     public void tourDeJeuPerso(World monde, int numeroTDJ){
+        monde.tourDeJeu(numeroTDJ);
+        monde.afficheMonde(this);
+        
         Scanner demande = new Scanner(System.in);
-        System.out.println("Voulez-vous combattre (1), vous déplacer (2), voir votre inventaire (3) ou ne rien faire (4) ? ");
+        System.out.println("Voulez-vous combattre (1), vous deplacer (2), voir votre inventaire (3) ou ne rien faire (4) ? ");
         String aFaire = demande.nextLine();
+        this.verifEffet(numeroTDJ);
         boolean repTDJ = true;
+        //different cas de figure
         while(repTDJ){
             switch(aFaire){
                 case "1":
@@ -329,12 +356,19 @@ public class Joueur {
                     System.out.println("Le personnage ne fait rien.");
                     break;
                 default:
-                    System.out.println("Demande erronée, veuillez à bien entrer ce que vous voulez faire.");
+                    System.out.println("Demande erronee, veuillez a bien entrer ce que vous voulez faire.");
                     System.out.println("Voulez-vous 'Combattre', 'Deplacer' ou 'Ne rien faire' ? ");
                     aFaire = demande.nextLine();
                     break;
             }
         }
         
+    }
+    
+    /**
+     * permet d'afficher la lettre J pour pouvoir repérer le joueur sur le graphique
+     */
+    public void affiche(){
+        System.out.printf(" "+'J'+" ");
     }
 }
