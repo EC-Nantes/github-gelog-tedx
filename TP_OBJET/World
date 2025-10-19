@@ -18,6 +18,7 @@ public class World {
      * position - liste des positions des créatures (prive)
      * lesObjets - liste des objets du monde (prive)
      * position objet - liste des positions des objets (prive)
+     * 
      */
 
     private ArrayList<Creature> lesCreatures;
@@ -25,19 +26,56 @@ public class World {
     private ArrayList<Objet> lesObjets;
     private ArrayList<Point2D> positionObjet;
     
+    /**
+     * hauteur et longueur du monde sont des constantes qui doivent etre paire
+     */
+    final int hauteurMonde = 40;
+    final int longueurMonde = 40;
+
+    public int getHauteurMonde() {
+        return hauteurMonde;
+    }
+
+    public int getLongueurMonde() {
+        return longueurMonde;
+    }
+
     
-    final int hauteurMonde = 16;
-    final int longueurMonde = 16;
+    public ArrayList<Objet> getObjets(){
+        return lesObjets;
+    }
+
+    public ArrayList<Objet> getLesObjets() {
+        return lesObjets;
+    }
+
+    public void setLesObjets(ArrayList<Objet> lesObjets) {
+        this.lesObjets = lesObjets;
+    }
+
+    /**
+     * Constructeur de la classe Wolrd sans paramètre qui créer un monde alétoire de 1 à 20 créatures de chaque classe
+     * @param lesObjets
+     */
+    public void setObjets(ArrayList<Objet> lesObjets) {
+        this.lesObjets = lesObjets;
+    }
 
     public World() {
+        
         initCreature();
         initObjet();
+        
     }
-    
+    /*
+    *methode permettant d'initialiser les objets dans le monde avec un nombre egale a nbrObj
+    *on utilise une boucle sur construire un nombre aleatoire  positif
+    *pour créer chaque objets avec des valeur de construire diffenrent
+    */
     private void initObjet(){
         this.lesObjets = new ArrayList<>();
         this.positionObjet = new ArrayList<>();
-        final int nbrObj =5;
+        final int nbrObj =2;
         Random alea = new Random();
         int construire = alea.nextInt(nbrObj)+1;
         
@@ -61,11 +99,13 @@ public class World {
             this.positionObjet.add(this.lesObjets.get(i).getPos());
         }
     }
-    
+    /*
+    *methode permettant d'initialiser les creatures dans le monde avec un nombre egale a nbrCrea
+    */
     private void initCreature(){
         this.lesCreatures = new ArrayList<>();
         this.position = new ArrayList<>();
-        final int nbrCrea =5;
+        final int nbrCrea =6;
         Random alea = new Random();
         int construire = alea.nextInt(nbrCrea)+1;
        
@@ -94,20 +134,7 @@ public class World {
             this.position.add(this.lesCreatures.get(i).getPos());
         }
     }
-
-    public ArrayList<Objet> getObjets(){
-        return lesObjets;
-    }
-
-    /**
-     * Constructeur de la classe Wolrd sans paramètre qui créer un monde alétoire de 1 à 20 créatures de chaque classe
-     * @param lesObjets
-     */
-    public void setObjets(ArrayList<Objet> lesObjets) {
-        this.lesObjets = lesObjets;
-    }
-
-        
+    
     public ArrayList<Creature> getLesCreatures() {
         return lesCreatures;
     }
@@ -148,32 +175,7 @@ public class World {
         return lesObjets;
     }
 
-    public int getHauteurMonde() {
-        return hauteurMonde;
-    }
-
-    public int getLongueurMonde() {
-        return longueurMonde;
-    }
-    
-    
-
-    /**!! a mettre dans poit2D
-     * Méthode privé memePosition qui vérifie si deux points sont identiques
-     * @param A un point2D à tester
-     * @param B un 2e point2D à tester
-     * @return True si les coordonnées du point A et les coordonnées du points B sont identiques, False sinon
-     */
-    private boolean memePosition(Point2D A, ArrayList<Point2D> liste){
-        boolean b = false;
-        for(int i =0; i<liste.size();i++){
-            if(A.getY()==liste.get(i).getY() && A.getX()==liste.get(i).getX()){
-                b = true;
-                break;
-            }
-        }
-        return b;
-    }
+ 
     
     
     /**
@@ -185,13 +187,14 @@ public class World {
   public void creerMondeAlea(){
         Random alea = new Random();
         ArrayList<Point2D> listePosition = new ArrayList<>();
-        listePosition.add(new Point2D(longueurMonde/2,hauteurMonde/2)); // (longueurMonde/2,hauteurMonde/2) position initiale du personnage joué
-        
-        // Creation des creatures
+        listePosition.add(new Point2D(longueurMonde/2,hauteurMonde/2)); // (0,0) position initiale aleatoire du personnage joué
+        //Joueur joueur = new Joueur();
+        //joueur.ajouterPerso(this);
+            // Creation des creaturjoes
         for(int i = 0;i<this.lesCreatures.size();i++){
             Point2D pos = this.lesCreatures.get(i).getPos();
             pos.setPosition(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde));
-            while(memePosition(pos,listePosition)){
+            while(Point2D.memePosition(pos,listePosition)){
                 // System.out.println("MEME POSITION : "+pos+" "+listePosition);
                 pos.setPosition(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde));
             }
@@ -203,7 +206,7 @@ public class World {
         for(int i = 0;i<this.lesObjets.size();i++){
             Point2D positionObj = this.lesObjets.get(i).getPos();
             positionObj.setPosition(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde));
-            while(memePosition(positionObj,listePosition)){
+            while(Point2D.memePosition(positionObj,listePosition)){
                 //System.out.println("MEME POSITION : "+position+" "+listePosition);
                 positionObj.setPosition(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde));
             }
@@ -216,7 +219,7 @@ public class World {
         
     }  
     
-    /**
+      /**
      * Méthode sans paramètre en entrée qui permet d'afficher la position de tous les personnages ainsi que leur nombre de point de vie 
      */
     public void affichePerso(){
@@ -256,7 +259,12 @@ public class World {
             
         }  
     }
-    
+    /**
+     * methode permettant de connaitre si un Point 2D A est la position d'une des creatures de la liste 
+     * @param A
+     * @param liste
+     * @return 
+     */
     private boolean verifListePosition(Point2D A, ArrayList<Creature> liste){
        boolean rep = false;
         for(Creature element: liste){
@@ -267,7 +275,13 @@ public class World {
         } 
         return rep;
     }
-    
+    /**
+     * methode permettant de connaitre si un Point 2D A est la position d'une des creatures de la liste 
+     * et retourne la creature
+     * @param A
+     * @param liste
+     * @return 
+     */
     private Creature verifListePosition2(Point2D A, ArrayList<Creature> liste){
         for(Creature element: liste){
             if (A.equals(((Creature) element).getPos())){
@@ -276,20 +290,11 @@ public class World {
         } 
         return null; // Vu comment cette méthode est utilisée, elle ne retournera jamais null
     }
-    
-    private boolean verifListeObjet(Point2D A, ArrayList<Objet> liste){
-       boolean rep = false;
-        for(Objet element: liste){
-            if (A.equals(((Objet) element).getPos())){
-                rep = true;
-                break;
-            }
-        } 
-        return rep;
-    }
-    
-    
-    public void afficheMonde(Joueur j){
+    /** metthode permettant d'afficher le Monde sur une matrice avec les positions en i et j
+     * 
+     * @param j 
+     */
+     public void afficheMonde(Joueur j){
         // Première ligne (coordonnées des colonnes)
         System.out.print("   "); // Espace pour l'angle (coin vide)
         for (int x = 0; x <= this.longueurMonde; x++) {
@@ -308,20 +313,31 @@ public class World {
                 else if((new Point2D(x,y)).equals(j.getPerso().getPos())){
                     j.affiche();
                 }
+                else if(verifListeObjet(new Point2D(x,y),this.lesObjets)){
+                    System.out.printf("ob"+" ");
+                }
                 else{
                     System.out.print("   "); // Représente une case vide
                 }
                 
-                if(verifListeObjet(new Point2D(x,y),this.lesObjets)){
-                    System.out.printf("ob"+" ");
-                }
+                
             }
             System.out.println();
         }
         
         
     }
-       
+        
+        
+    
+
+    /**
+     * permet de verifier si la creature A est dans la liste de creature liste
+     * renvoie vrai si c'est le cas
+     * @param A
+     * @param liste
+     * @return 
+     */
     private boolean verifListe(Creature A, ArrayList<Creature> liste){
        boolean rep = false;
         for(Creature element: liste){
@@ -332,13 +348,18 @@ public class World {
         } 
         return rep;
     }
+    
+    private boolean verifListeObjet(Point2D A, ArrayList<Objet> liste){
+       boolean rep = false;
+        for(Objet element: liste){
+            if (A.equals(((Objet) element).getPos())){
+                rep = true;
+                break;
+            }
+        } 
+        return rep;
+    }
         
-    /* Méthode Tourdejeu qui simule un tour de jeu complet
-    * le tour de jeu consiste au déplacement de tous les créatures 
-    * lorsqu'une creature peut attaquer avec sa portée alors elle le fait
-    * boucle for sur toutes les creatures du monde avec les actions deplace et combattre qui y sont faites
-    */
-
     /**
      * Méthode Tourdejeu qui simule un tour de jeu complet, cela correspond dans un premier temps au mouvement de jeu du joueur
      * Puis ensuite on deplace et fait combattre chaque creature du monde, pour celles qui le peuvent
@@ -392,7 +413,11 @@ public class World {
         System.out.println("ON A SUPPRIME");
         
     }
-    
+    /**
+     * methode permettant d'enlever les objets du monde 
+     * sert quand l objet est ramasse
+     * @param util 
+     */
     public void supprimerObjet(Utilisable util){
         int c = 0;
         int compteurTempo = 0;
@@ -407,12 +432,20 @@ public class World {
         this.positionObjet.remove(compteurTempo);
     }
     
+    /**
+     * methode permettant de supprimer toutes les creatures necessaires
+     * grace a une boucle sur toutes les creatures
+     * @param liste 
+     */
     public void supprimerApresTDJ(ArrayList<Creature> liste){
         for (Creature c:liste){
             supprimerCreature(c);
         }
     }
-    
+    /**
+     * permet de supprimer la creature donnee en parametre
+     * @param crea 
+     */
     public void supprimerCreature(Creature crea){
         int compt = 0;
         int compteurTempo = 0;
@@ -427,5 +460,4 @@ public class World {
         this.lesCreatures.remove(compteurTempo);
         this.position.remove(compteurTempo);
     }
-    
 }
