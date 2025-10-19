@@ -8,7 +8,7 @@ import java.util.Random ;
  *
  * @author vdufo
  */
-public class Personnage extends Creature {
+public abstract class Personnage extends Creature {
     // Attributs de la classe
     /**
      * nom du personnage (prive)
@@ -74,23 +74,6 @@ public class Personnage extends Creature {
         nom=n;
     }
     
-    /**
-     * Méthode sans paramètre d'entrée qui modifie en place la position d'un personnage.
-     * Il peut se déplacer de manière aléatoire sur une case adjacente à la sienne.
-     * On suppose qu'il ne peut pas rester sur la même case.
-     */
-    public void deplace(){
-        Random genx = new Random();
-        Random geny = new Random();
-        int dx = 0;
-        int dy = 0;
-        while (dx == 0 && dy == 0){
-        dx = genx.nextInt(3)-1;
-        dy = geny.nextInt(3)-1;   
-        }
-        this.getPos().translate(dx,dy);
-        
-    }
     
     /**
      *Méthode qui affiche le nombre de point de vie et la position d'un personnage
