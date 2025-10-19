@@ -28,6 +28,10 @@ public class PeauDeBanane extends Nourriture implements Utilisable{
         this.setCompteur(c);
     }
     
+    /**
+     * cette methode permet de connaitre la classe de l'instance (ici Peau de Banane)
+     * @return 
+     */
     @Override
     public String nomClasse(){
         return "Peau de banane";
@@ -42,9 +46,12 @@ public class PeauDeBanane extends Nourriture implements Utilisable{
         p.setPtPar(p.getPtPar()+20);
     }
     
+   /**
+     * Methode communiquant au joueur qu'un objet a ete ramasse et qu'il peut l'utiliser
+     */
     @Override
     public void objetRamasse(){
-        System.out.println("Vous avez ramasse une peau de banane qui est maintenant dans votre inventaire.");
+        System.out.println("Vous avez ramasse un coca qui est maintenant dans votre inventaire.");
         System.out.println("Vous pouvez l'utiliser à tout moment");
     }
 }
