@@ -71,19 +71,31 @@ public class PotionSoin extends Objet implements Utilisable{
             }
         }  
     }
-    
+    /**
+     * la methode permet de ne pas retirer les effets de la potion de soin sur le personnage p
+     * @param p
+     */
     @Override
     public void retirer(Personnage p) {
         }
-    
+    /**
+     * cette methode permet de connaitre la classe de l'instance (ici potion de soin)
+     * @return 
+     */
     @Override
     public String nomClasse(){
         return "Potion de soin";
     }
-    
+    /**
+     * Méthode qui affiche un message si le joueur a ramassé une potion de soin
+     */
     @Override
     public void objetRamasse(){
         System.out.println("Vous avez ramasse une potion de soin de niveau "+this.getNiveau()+" qui est maintenant dans votre inventaire.");
         System.out.println("Vous pouvez l'utiliser à tout moment");
+    }
+    
+    public String affiche(){
+        return "PS";
     }
 }
