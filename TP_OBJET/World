@@ -75,7 +75,7 @@ public class World {
     private void initObjet(){
         this.lesObjets = new ArrayList<>();
         this.positionObjet = new ArrayList<>();
-        final int nbrObj =2;
+        final int nbrObj =15;
         Random alea = new Random();
         int construire = alea.nextInt(nbrObj)+1;
         
@@ -105,7 +105,7 @@ public class World {
     private void initCreature(){
         this.lesCreatures = new ArrayList<>();
         this.position = new ArrayList<>();
-        final int nbrCrea =6;
+        final int nbrCrea =10;
         Random alea = new Random();
         int construire = alea.nextInt(nbrCrea)+1;
        
@@ -390,6 +390,7 @@ public class World {
                 for(Creature C : lesCreatures){
                     if (C!=c && (!(verifListe(C,stockerASupprimer)))){
                         guerrier.combattre(C,this,stockerASupprimer);
+                        System.out.println("TOUS LES GUERRIERS ONT COMBATTU");
                         }
                     }
                 }
@@ -397,13 +398,15 @@ public class World {
                 for(Creature C : lesCreatures){
                     if (C!=c && (!(verifListe(C,stockerASupprimer)))){
                         loup.combattre(C,this,stockerASupprimer);
+                        System.out.println("TOUS LES LOUPS ONT COMBATTU");
                         }
                     }
                 }
             if (c instanceof Archer archer){
                 for(Creature C : lesCreatures){
                     if (C!=c && (!(verifListe(C,stockerASupprimer)))){
-                        archer.combattre(C,this,stockerASupprimer);                       
+                        archer.combattre(C,this,stockerASupprimer);
+                        System.out.println("TOUS LES ARCHERS ONT COMBATTU");
                      }
                  }
             }
