@@ -1,0 +1,151 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+
+import java.util.ArrayList;
+
+/**
+ *
+ * @author rapha
+ */
+public class Point2D {
+    private double x;
+    private double y;
+    
+    /**
+     *
+     * @param X
+     */
+    public void setX(double X){
+        x=X;
+    }
+    
+    /**
+     *
+     * @param Y
+     */
+    public void setY(double Y){
+        y=Y;
+    }
+    
+    /**
+     *
+     * @param X
+     * @param Y
+     */
+    public void setPosition(double X, double Y){
+        x=X;
+        y=Y;
+        
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+    
+    /**
+
+    
+    /**
+     *
+     * @param dx
+     * @param dy
+     */
+    public void translate(double dx, double dy){
+        x+=dx;
+        y+=dy;
+    }
+
+    /**
+     *
+     */
+    public  Point2D(){
+        x=0;
+        y=0;
+    }
+
+    /**
+     *
+     * @param X
+     * @param Y
+     */
+    public Point2D(double X, double Y){
+        x=X;
+        y=Y;
+    }
+
+    /**
+     *
+     * @param p
+     */
+    public Point2D(Point2D p){
+        x=p.x;
+        y=p.y;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String toString(){
+       String m = "[" + x + "," + y + "]";
+       return(m);
+   }
+    
+    
+    public boolean equals(Point2D A){
+        return ((this.getX()==A.getX()) && (this.getY()==A.getY()));
+    }
+    
+    
+    
+    
+    /**
+     *
+     * @param p
+     * @return
+     */
+    public double distance(Point2D p){
+        return Math.sqrt(p.x*p.x + p.y*p.y);
+    }
+    public static double distanceCrea(Point2D p1,Point2D p2){
+        return Math.sqrt(Math.pow(p1.x*p1.x-p2.x*p2.x,2) + Math.pow(p1.y*p1.y-p2.y*p2.y,2));
+    }
+    
+    public ArrayList<Point2D> caseAdj(){
+        ArrayList<Point2D> positionAdj = new ArrayList<>();
+        double x = this.getX();
+        double y = this.getY();
+        positionAdj.add(new Point2D(x+1,y));
+        positionAdj.add(new Point2D(x+1,y+1));
+        positionAdj.add(new Point2D(x,y+1));
+        positionAdj.add(new Point2D(x-1,y+1));
+        positionAdj.add(new Point2D(x-1,y));
+        positionAdj.add(new Point2D(x-1,y-1));
+        positionAdj.add(new Point2D(x,y-1));
+        positionAdj.add(new Point2D(x+1,y-1));
+        return positionAdj;
+    }
+        /**!! a mettre dans poit2D
+     * Méthode privé memePosition qui vérifie si deux points sont identiques
+     * @param A un point2D à tester
+     * @param B un 2e point2D à tester
+     * @return True si les coordonnées du point A et les coordonnées du points B sont identiques, False sinon
+     */
+    public static boolean memePosition(Point2D A, ArrayList<Point2D> liste){
+        boolean b = false;
+        for(int i =0; i<liste.size();i++){
+            if(A.getY()==liste.get(i).getY() && A.getX()==liste.get(i).getX()){
+                b = true;
+                break;
+            }
+        }
+        return b;
+    }
+}

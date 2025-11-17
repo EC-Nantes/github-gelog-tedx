@@ -1,0 +1,52 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+
+/**
+ *
+ * @author vdufo
+ */
+public class testWoE {
+
+    /**
+     *
+     * @param args
+     */
+    public static void main(String args[]){
+        System.setProperty("stdout.encoding", "UTF-8");
+        
+        World testWorld = new World();
+        
+        //test creerMondeAlea()
+        System.out.println("Test creerMondeAlea() : ");
+        testWorld.creerMondeAlea();
+        testWorld.afficheWorld();
+        
+        System.out.println("Test pour la liste de position() : ");
+        System.out.println(" ");
+        System.out.println(testWorld.getPosition());
+        
+
+        //test deplace
+        
+        testWorld.getRobin().get(0).deplace(testWorld.getPosition());
+        System.out.println(" ");
+        System.out.println(testWorld.getPosition());
+
+        //test tour de jeu 
+        System.out.println(testWorld.getLescreatures());
+        
+        for (int i =0;i<5;i++){
+            System.out.println(testWorld.getPosition());
+            testWorld.tourdeJeu();
+            testWorld.afficheWorld();
+        }
+         
+        
+        System.out.println(" ");
+        System.out.println(testWorld.getPosition());
+        
+    }
+}

@@ -1,0 +1,11 @@
+public void deplace(){
+        Random genx = new Random();
+        Random geny = new Random();
+        int dx = 0;
+        int dy = 0;
+        while (dx == 0 && dy == 0){
+        dx = genx.nextInt(3)-1;
+        dy = geny.nextInt(3)-1;   
+        }
+        this.pos.translate(dx,dy);
+    }

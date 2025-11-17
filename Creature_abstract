@@ -1,0 +1,143 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+
+/**
+ *
+ * @author rapha
+ */
+public abstract class Creature implements Deplacable {
+    // Attributs de la classe
+    /**
+     * dégât d'attaque du personnage (prive)
+     * point de vie du personnage (prive)
+     * point de parade du personnage (prive)
+     * pourcentage d'attaque du personnage (prive)
+     * pourcentage de parade du personnage (prive)
+     * position du personnage (prive)
+     */
+    
+    private int degAtt;
+    private int ptVie;
+    private int ptPar;
+    private int pageAtt;
+    private int pagePar;
+    private Point2D pos;
+    private Point2D nouvelleposition;
+    
+    public Creature(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p){
+        this.degAtt = dA;
+        this.ptVie = pV;
+        this.ptPar = pPar;
+        this.pageAtt = paAtt;
+        this.pagePar = paPar;
+        this.pos = p;      
+    }
+    
+    public Creature(Creature c){
+        this(c.ptVie,c.degAtt,c.ptPar,c.pageAtt,c.pagePar,new Point2D(c.pos));
+    }
+    
+    public Creature(){
+        this(10,2,1,20,20,new Point2D(0,0));
+    }
+    
+    /**
+     * Accesseurs de l'attribut degAtt
+     * @return dégât d'attaque
+     */
+    public int getDegAtt() {
+        return degAtt;
+    }
+
+    /**
+     * Modificateur de l'attribut degAtt
+     * @param degAtt nouveau dégât d'attaque
+     */
+    public void setDegAtt(int degAtt) {
+        this.degAtt = degAtt;
+    }
+
+    /**
+     * Accesseurs de l'attribut ptVie
+     * @return le nombre de point de vie
+     */
+    public int getPtVie() {
+        return ptVie;
+    }
+
+    /**
+     * Modificateur de l'attribut ptVie
+     * @param ptVie
+     */
+    public void setPtVie(int ptVie) {
+        this.ptVie = ptVie;
+    }
+
+    /**
+     * Accesseurs de l'attribut ptPar
+     * @return le nombre de point de parade
+     */
+    public int getPtPar() {
+        return ptPar;
+    }
+
+    /**
+     *Modificateur de l'attribut degAtt ptPar
+     * @param ptPar
+     */
+    public void setPtPar(int ptPar) {
+        this.ptPar = ptPar;
+    }
+
+    /**
+     * Accesseurs de l'attribut pagePar
+     * @return le pourcentage de parade
+     */
+    public int getPagePar() {
+        return pagePar;
+    }
+
+    /**
+     * Modificateur de l'attribut pagePar
+     * @param PagePar
+     */
+    public void setPagePar(int PagePar) {
+        this.pagePar = PagePar;
+    }
+    
+    /**
+     * Accesseurs de l'attribut pageAtt
+     * @return le pourcentage d'attaque
+     */
+    public int getPageAtt() {
+        return pageAtt;
+    }
+
+    /**
+     * Modificateur de l'attribut pagePar
+     * @param pageAtt
+     */
+    public void setPageAtt(int pageAtt) {
+        this.pagePar = pageAtt;
+    }
+
+    /**
+     * Accesseurs de l'attribut pos
+     * @return la position
+     */
+    public Point2D getPos() {
+        return pos;
+    }
+
+    /**
+     * Modificateur de l'attribut pos
+     * @param pos
+     */
+    public void setPos(Point2D pos) {
+        this.pos = pos;
+    }
+
+}

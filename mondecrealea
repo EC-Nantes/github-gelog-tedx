@@ -1,0 +1,18 @@
+public void creerMondeAlea(){
+        Random alea = new Random();
+        ArrayList<Point2D> listePosition = new ArrayList<>();
+        listePosition.add(new Point2D(0,0)); // (0,0) position initiale du personnage joué
+        final int hauteurMonde = 5;
+        final int longueurMonde = 5;
+        
+        for(int i = 0;i<this.lescreatures.size();i++){
+            Point2D position = this.lescreatures.get(i).getPos();
+            position.setPosition(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde));
+            while(memePosition(position,listePosition)){
+                System.out.println("MEME POSITION : "+position+" "+listePosition);
+                position.setPosition(alea.nextInt(longueurMonde),alea.nextInt(hauteurMonde));
+            }
+            listePosition.add(position);
+            this.position.set(i,position);
+        }
+    }  

@@ -1,0 +1,101 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+import java.util.Random;
+/**
+ *
+ * @author rapha
+ */
+public abstract class Personnage extends Creature {
+// Attributs de la classe
+    /**
+     * nom du personnage (prive)
+     * distance max d'attaque du personnage (prive)
+     */
+    
+    private String nom;
+    private int distAttMax;
+    
+    /**
+     * Constructeur d'un personnage à partir de données de l'utilisateur
+     * @param n nom du personnage
+     * @param pV nombre de point de vie du personnage
+     * @param dA nombre de degats d'attaque
+     * @param pPar nombre de point de parade
+     * @param paPar pourcentage de parade
+     * @param paAtt pourcentage d'attaque 
+     * @param dMax distance maximale d'attaque
+     * @param p position du personnage
+     */
+    public Personnage(String n, int pV, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p){
+        super(pV,dA,pPar,paPar,paAtt,p);
+        this.nom=n;
+        this.distAttMax=dMax;
+    }
+    
+    /**
+     * Constructeur d'un personnage à partir d'un personnage
+     * @param perso un objet personnage
+     */
+    public Personnage(Personnage perso){
+        super((Personnage)perso);
+        this.nom = perso.nom;
+        this.distAttMax = perso.distAttMax;
+    }
+    
+    /**
+     * Constructeur par défaut renvoyant un personnage sans paramètre en entrée.
+     * On lui associe par défaut les valeurs suivantes : 
+     * nom "grogon", ptVie 20, degAtt 5, ptPar 5, pagePar 10, pageAtt 10, distAttMax 2, position (0,0)
+     */
+    public Personnage(){
+        super(20, 5, 5, 10, 10, new Point2D(0,0));
+        this.nom = "grogon";
+        this.distAttMax = 2;
+    }
+    
+    
+    /**
+     * Accesseurs de l'attribut nom
+     * @return nom du personnage
+     */
+    public String getNom(){
+        return(nom);
+    }
+    
+    /**
+     * Modificateur sur l'attribut nom
+     * @param n le nouveau nom du personnage
+     */
+    public void setNom(String n){
+        nom=n;
+    }
+    
+    /**
+     * Méthode sans paramètre d'entrée qui modifie en place la position d'un personnage.
+     * Il peut se déplacer de manière aléatoire sur une case adjacente à la sienne.
+     * On suppose qu'il ne peut pas rester sur la même case.
+     */
+
+    
+
+
+
+    /**
+     * Accesseurs de l'attribut distAttMax
+     * @return la distance max d'attaque
+     */
+    public int getDistAttMax() {
+        return distAttMax;
+    }
+
+    /**
+     * Modificateur de l'attribut distAttMax
+     * @param distAttMax
+     */
+    public void setDistAttMax(int distAttMax) {
+        this.distAttMax = distAttMax;
+    }
+}

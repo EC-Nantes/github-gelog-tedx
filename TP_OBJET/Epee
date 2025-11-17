@@ -1,0 +1,98 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+
+import java.util.Random;
+
+/**
+ * Classe de gestion des épées de différents niveaux (1,2 ou 3)
+ * @author vdufo
+ */
+public class Epee extends Objet implements Utilisable{
+
+    
+    public Epee(int Pdurabilite, boolean etat, Point2D pos){
+        super(Pdurabilite,etat,determinerNiveau(),pos);    
+    }
+    
+    public Epee(){
+        super(15,false,determinerNiveau(),new Point2D(0,0));
+    }
+    
+    /**
+     * Méthode privé qui donne un niveau de manière pseudo alétaoire (50% pour le niveau 1, 30% pour le niveau 2 et 20% pour le niveau 3)
+     * @return entier 1, 2 ou 3 qui représente le niveau qu'on associera à l'objet
+     */
+    private static int determinerNiveau() {
+        Random alea = new Random();
+        int rarete = alea.nextInt(100) + 1;
+        if (rarete <= 50) {
+            return 1;
+        } else if (rarete <= 80) {
+            return 2;
+        } else {
+            return 3;
+        }
+    }
+    
+    /**
+     * Permet d'augmenter le nombre de point d'attaque d'une créature en la possession d'une épée par rapport à 3 niveaux d'attaque : 1 -> +5, 2 -> +10, 3 -> +15
+     * @param p Personnage à soigner
+     */
+    
+    @Override
+    public void activer(Personnage p, int compteur){
+        setPdurabilite(this.getPdurabilite()-1);
+        /*ici ptvie fait référence au nombre de vie de la créature*/
+        switch (this.getNiveau()) {
+            case 1:
+                p.setDegAtt(p.getDegAtt()+5);
+                break;
+            case 2:
+                p.setDegAtt(p.getDegAtt()+10);
+                break;
+            default:
+                p.setDegAtt(p.getDegAtt()+15);
+                break;
+        }
+    }
+    /**
+     * la methode permet de retire les effets de l'objet sur le personnage pris en parametre
+     * @param p 
+     */
+    @Override
+    public void retirer(Personnage p){
+        switch (this.getNiveau()) {
+            case 1:
+                p.setDegAtt(p.getDegAtt()-5);
+                break;
+            case 2:
+                p.setDegAtt(p.getDegAtt()-10);
+                break;
+            default:
+                p.setDegAtt(p.getDegAtt()-15);
+                break;
+        }
+    }
+    /**
+     * cette methode permet de connaitre la classe de l'instance (ici Coca)
+     * @return 
+     */
+    @Override
+    public String nomClasse(){
+        return "Coca";
+    }
+    /**
+     * Méthode qui affiche un message si le joueur a ramassé une épée
+     */
+    @Override
+    public void objetRamasse(){
+        System.out.println("Vous avez ramasse une epee de niveau "+this.getNiveau()+" qui est dans votre inventaire.");
+        System.out.println("Vous pouvez l'utiliser à tout moment");
+    }
+    public String affiche(){
+        return "E";
+    }
+}

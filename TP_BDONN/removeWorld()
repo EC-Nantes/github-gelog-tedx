@@ -1,0 +1,68 @@
+/**
+     * remove world sauvegarde from database
+     * @param idJoueur
+     * @param idPartie
+     * @param idSauvegarde
+     */
+    public void removeWorld(Integer idJoueur, int idPartie, int idSauvegarde) {
+        try {
+            World monde = new World();
+            // TO BE DEFINED
+            
+            // Retreive partie infos for the player
+            String infoPlayer = "SELECT * FROM Joueur";
+            PreparedStatement IP = connection.prepareStatement(infoPlayer);
+            ResultSet repInfoPlayer = IP.executeQuery();
+            
+            // Retreive sauvegarde infos for the partie
+            String infoSauvegarde = "SELECT * FROM Joueur";
+            PreparedStatement IS = connection.prepareStatement(infoSauvegarde);
+            ResultSet repInfoSauvegarde = IS.executeQuery();
+            
+            // remove elements de jeu linked to the sauvegarde
+            
+            // On commence par supprimer les tours de jeux de la base
+            String deleteTourDeJeu = "DELETE FROM TourDeJeu WHERE id_sauv=?";
+            PreparedStatement DTJ = connection.prepareStatement(deleteTourDeJeu);
+            DTJ.setInt(1,idSauvegarde);
+                
+            // Ensuite, on supprime toutes les créatures humaines associées à la sauvegarde dont l'id est idsauvegarde
+            String deleteCreaHumaine = "DELETE FROM CreatureHumaine WHERE id_sauv=?";
+            PreparedStatement DCH = connection.prepareStatement(deleteCreaHumaine);
+            DCH.setInt(1, idSauvegarde); 
+                
+            // Puis on supprime tous les monstres associés à cette même sauvegarde
+            String deleteMonstre = "DELETE FROM Monstre WHERE id_sauv=?";
+            PreparedStatement DM = connection.prepareStatement(deleteMonstre);
+            DM.setInt(1, idSauvegarde); 
+                
+            // Et enfin tous les objets associés
+            String deleteObjet = "DELETE FROM Objet WHERE id_sauv=?";
+            PreparedStatement DO = connection.prepareStatement(deleteObjet);
+            DO.setInt(1, idSauvegarde);
+            
+            // remove sauvegarde
+            String deleteSauvegarde = "DELETE FROM Sauvegarde WHERE id_sauv = ?";
+            PreparedStatement DS = connection.prepareStatement(deleteSauvegarde);
+            DS.setInt(1, idSauvegarde);
+            
+            // remove if partie has no more sauvegarde, remove partie
+            
+            boolean rep = false;
+            String sauvegarde = "SELECT id_partie FROM Sauvegarde WHERE id_partie = ?";
+            PreparedStatement connectSauv = connection.prepareStatement(sauvegarde);
+            connectSauv.setInt(1,idPartie);
+            ResultSet resultat = connectSauv.executeQuery();
+            
+            if(resultat ==null){
+                String deletePartie = "DELETE FROM Partie WHERE id_partie=?";
+                PreparedStatement DP = connection.prepareStatement(deletePartie);
+                DP.setInt(1, idPartie);
+            }
+            
+        } 
+        
+        catch (SQLException ex) {
+            System.getLogger(DatabaseTools.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+    }

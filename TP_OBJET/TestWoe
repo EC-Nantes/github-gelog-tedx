@@ -1,0 +1,79 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+
+import java.util.ArrayList;
+
+/**
+ * Classe de test du monde
+ * @author vdufo
+ */
+public class TestWoE {
+
+    /**
+     *
+     * @param args
+     */
+    
+    public static void main(String args[]){
+        System.setProperty("stdout.encoding", "UTF-8");
+        int numTDJ = 0;
+        //nombre de tour de jeu a choisir
+        int nbTDJ = 10;
+        World monMonde = new World();
+        monMonde.creerMondeAlea();
+        monMonde.affichePerso();
+        
+        
+        Joueur Victor = new Joueur(monMonde);
+        monMonde.afficheMonde(Victor);
+        /**for (int i = 0; i<nbTDJ;i++){
+            monMonde.tourDeJeu(numTDJ);
+            numTDJ++;
+        }tourdeJeu marche*/ 
+            
+        for (int i = 0; i<nbTDJ;i++){
+            Victor.tourDeJeuPerso(monMonde,numTDJ);
+            numTDJ++;
+        }
+        
+
+        
+        
+        
+   
+        
+        /**World testWorld = new World();
+
+        //test creerMondeAlea()
+        System.out.println("Test creerMondeAlea() : ");
+        testWorld.creerMondeAlea();
+        testWorld.afficheWorld();
+        
+        System.out.println("Test pour la liste de position : ");
+        System.out.println(testWorld.getPosition());
+        
+
+        //test deplace
+        
+        //testWorld.getRobin().get(0).deplace(testWorld.getPosition());
+        System.out.println(" ");
+        System.out.println("Test deplace() : ");
+        System.out.println(testWorld.getPosition());
+        
+        //test tour de jeu 
+        //System.out.println(testWorld.getCreature());
+        
+        System.out.println(" ");
+        System.out.println("TEST");
+        testWorld.tourdeJeu();
+        System.out.println("TEST2");
+        testWorld.afficheWorld();
+
+        System.out.println(" ");
+        System.out.println(testWorld.getPosition());
+        **/
+    }
+}

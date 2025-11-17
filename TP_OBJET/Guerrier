@@ -1,0 +1,162 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+/**
+ * Classe de gestion des guerriers
+ * @author vdufo
+ */
+public class Guerrier extends Personnage implements Combattant,Deplacable{
+     /**
+      * Constructeur à l'aide de tous les paramètres d'un guerrier
+     * @param n nom
+     * @param pV point de vie
+     * @param pVmax point de vie max
+     * @param dA degat d'attaque
+     * @param pPar point de parade
+     * @param paPar pourcentage de parade
+     * @param paAtt pourcentage d'attaque
+     * @param dMax distance max d'attaque
+     * @param p position
+     */
+    public Guerrier(String n, int pV, int pVmax, int dA, int pPar, int paPar,int paAtt, int dMax, Point2D p){
+        super(n, pV,pVmax, dA, pPar, paPar, paAtt, dMax, p);    
+    }
+
+    /**
+     * Constructeur d'un gerrier à partir d'un autre guerrier
+     * @param g
+     */
+    public Guerrier(Guerrier g){
+        super((Personnage)g);
+    }
+
+    /**
+     * Constructeur d'un guerrier par défaut
+     */
+    public Guerrier(){     
+        super("guerrier", 40,40, 10, 10, 10, 20, 1, new Point2D(0,0)); 
+    }
+    
+    @Override
+    public String nomClasse(){
+        return "Guerrier";
+    }
+    
+    /**
+     * Méthode de combat corps à corps d'un guerrier.
+     * Tire un nombre de manière aléatoire entre 1 et 100, si ce nombre est supérieur au pourcentage d'attaque du guerrier, alors il attaque.
+     * On tire alors un nouveau nombre de manière aléatoire entre 1 et 100, si ce nombre est supérieur au pourcentage de parade du défenseur, alors l'attaque est diminué par son pourcentage.
+     * Et si le pourcentage de parade du défenseur est plus élevé, alors l'attaque ne fait rien.
+     * @param c créature à combattre pour le guerrier
+     * @param monde monde dans lequel se passe le combat
+     * @param liste liste des creatures qui meurent a actualiser à chaque fois
+     */
+    @Override
+    public void combattre(Creature c,World monde, ArrayList<Creature> liste){
+        Random alea = new Random();
+        /*combat corps a corps*/
+        if (c.distanceCrea(this)<1.5){
+            if (alea.nextInt(101)>this.getPageAtt()){
+                if (alea.nextInt(101)>c.getPagePar()){
+                    c.setPtVie(c.getPtVie()-this.getDegAtt()+c.getPagePar());
+                }
+                else {
+                    c.setPtVie(c.getPtVie()-this.getDegAtt());
+                    System.out.println("PT "+c.getPtVie());
+                }
+            }
+        }
+        if (c.getPtVie() <=0){
+            System.out.println("La creature "+((Deplacable)c).nomClasse()+" est morte, tuee par un guerrier !");
+            liste.add(c);
+        }
+        
+    }
+    
+    /**
+     * verif prend en paramêtre A un Point2D et une liste de Point2D 
+     * regarde si le Point2D appartient à la liste
+     * retournant ainsi vrai si le point y est
+     * @param A
+     * @param liste
+     * @return 
+     */
+        private boolean verif(Point2D A, ArrayList<Point2D> liste){
+       boolean rep = false;
+        for(Point2D element: liste){
+            if (A.equals(element)){
+                rep = true;
+                break;
+            }
+        } 
+        return rep;
+    }
+    /**
+     * Cette methode prend en parametre une liste, la nouvelle position et l'ancienne position
+     * elle permet de modifier la position d'un Point2D ancienne position en le faisant pointer sur un autre Point2D la nouvelle position
+     * @param liste
+     * @param anciennePos
+     * @param nouvellePos 
+     */
+    private void modifListe(ArrayList<Point2D> liste, Point2D anciennePos, Point2D nouvellePos){
+        for (int i =0;i<liste.size();i++){
+            if (liste.get(i).equals(anciennePos)){
+                liste.set(i, nouvellePos);
+            }
+        }
+    }
+    
+    /**
+     * Méthode sans paramètre d'entrée qui modifie en place la position d'un personnage.
+     * Il peut se déplacer de manière aléatoire sur une case adjacente à la sienne.
+     * On suppose qu'il ne peut pas rester sur la même case.
+     * @param liste liste de Point2D cette liste représente toutes les cases occupées par les elements du jeu
+     */
+    @Override
+    public void deplace(ArrayList<Point2D> liste){
+        Random genx = new Random();
+        Random geny = new Random();
+        int dx = 0;
+        int dy = 0;
+        while (dx == 0 && dy == 0){
+        dx = genx.nextInt(3)-1;
+        dy = geny.nextInt(3)-1;   
+        }
+        Point2D tempo = new Point2D(this.getPos());
+        tempo.translate(dx,dy);
+        
+        // vérification qu'il est dans la liste
+        boolean rep = verif(tempo,liste);
+        while(rep){
+            tempo.translate(-dx,-dy);
+            while (dx == 0 && dy == 0){
+                dx = genx.nextInt(3)-1;
+                dy = geny.nextInt(3)-1;   
+            }
+            tempo.translate(dx,dy);
+            rep = verif(tempo,liste);
+        }
+        
+        //Si on sort de la boucle while, alors positionpas dans la liste on deplace et on l'actualise
+        modifListe(liste,tempo,this.getPos());
+        this.getPos().translate(dx,dy);  
+
+    }
+
+    /**
+     *Méthode qui affiche le nombre de point de vie et la position d'un personnage
+     */
+    @Override
+    public void affiche(){
+        // Quand on cherche à afficher un monstre, on veut voir son nombre de point de vie et sa position
+        //System.out.println("Point de vie : "+ this.getPtVie());
+        //System.out.println("Position : "+ this.getPos().toString());      
+        System.out.printf(" "+'G'+" ");
+    }
+}

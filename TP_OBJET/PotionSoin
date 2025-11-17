@@ -1,0 +1,101 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+
+import java.util.Random;
+
+/**
+ * Classe de gestion des potions de soins de différents niveaux (1,2 ou 3)
+ * @author vdufo
+ */
+public class PotionSoin extends Objet implements Utilisable{
+    
+    public PotionSoin(int Pdurabilite, boolean etat, Point2D pos) {
+        super(Pdurabilite, etat, determinerNiveau(), pos);
+    }
+    
+    public PotionSoin(){
+        super(1,false,determinerNiveau(),new Point2D(0,0));
+    }
+    
+    /**
+     * Méthode privé qui donne un niveau de manière pseudo alétaoire (50% pour le niveau 1, 30% pour le niveau 2 et 20% pour le niveau 3)
+     * @return entier 1, 2 ou 3 qui représente le niveau qu'on associera à l'objet
+     */
+    private static int determinerNiveau() {
+        Random alea = new Random();
+        int rarete = alea.nextInt(100) + 1;
+        if (rarete <= 50) {
+            return 1;
+        } else if (rarete <= 80) {
+            return 2;
+        } else {
+            return 3;
+        }
+    }
+    
+    /**
+     * Permet de soigner une créature à partir d'une potion d'un certain niveau (1,2 ou 3) qui soigne plus ou moins le personnage
+     * @param p Personnage à soigner
+     */
+
+    @Override
+    public void activer(Personnage p,int compteur){
+        
+        setPdurabilite(0);
+        /*ici ptvie fait référence au nombre de vie de la créature*/
+        if(this.getNiveau()==1){
+            if (p.getPtVie() <= p.getPtVieMax() -5){
+            p.setPtVie(p.getPtVie()+5);
+            }
+            else{
+                p.setPtVie(p.getPtVieMax());
+            }
+        }
+        else if(this.getNiveau()==2){
+            if (p.getPtVie() <= p.getPtVieMax() -10){
+            p.setPtVie(p.getPtVie()+10);
+            }
+            else{
+                p.setPtVie(p.getPtVieMax());
+            }
+        }
+        else{
+            if (p.getPtVie() <= p.getPtVieMax() -15){
+            p.setPtVie(p.getPtVie()+15);
+            }
+            else{
+                p.setPtVie(p.getPtVieMax());
+            }
+        }  
+    }
+    /**
+     * la methode permet de ne pas retirer les effets de la potion de soin sur le personnage p
+     * @param p
+     */
+    @Override
+    public void retirer(Personnage p) {
+        }
+    /**
+     * cette methode permet de connaitre la classe de l'instance (ici potion de soin)
+     * @return 
+     */
+    @Override
+    public String nomClasse(){
+        return "Potion de soin";
+    }
+    /**
+     * Méthode qui affiche un message si le joueur a ramassé une potion de soin
+     */
+    @Override
+    public void objetRamasse(){
+        System.out.println("Vous avez ramasse une potion de soin de niveau "+this.getNiveau()+" qui est maintenant dans votre inventaire.");
+        System.out.println("Vous pouvez l'utiliser à tout moment");
+    }
+    
+    public String affiche(){
+        return "PS";
+    }
+}

@@ -1,0 +1,47 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+
+/**
+ *
+ * @author vdufo
+ */
+public abstract class Nourriture extends Objet {
+    private boolean type; // true = Bonus, false = Malus
+    private int point;
+    private final int tourActif;
+    private int compteur;
+    
+    public Nourriture(boolean etat, Point2D pos, boolean t, int tA, int p) {
+        super(1, etat, 1, pos);
+        this.type = t;
+        this.point = p;
+        this.tourActif = tA;
+    }
+    
+    public boolean getType(){
+        return this.type;
+    }
+    
+    public void setType(boolean t){
+        this.type = t;
+    }
+    
+    public int getTourActif(){
+        return this.tourActif;
+    }
+    
+    public int getCompteur(){
+        return this.compteur;
+    }
+    
+    public int getPoint(){
+        return this.point;
+    }
+    
+    public void setCompteur(int c){
+        this.compteur = c;
+    }
+}

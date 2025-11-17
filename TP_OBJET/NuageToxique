@@ -1,0 +1,35 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.centrale.objet.WoE;
+
+/**
+ *
+ * @author rapha
+ */
+public class NuageToxique extends Objet {
+    private int dA;
+    public NuageToxique(int Pdurabilite, boolean etat,int niveau, Point2D pos){
+        super(Pdurabilite,etat,niveau, pos);
+        if (this.getNiveau()==1){
+            this.dA=30;
+        }
+        if (this.getNiveau()==2){
+            this.dA=50;
+        }
+        if (this.getNiveau()==3){
+            this.dA=100;
+        }
+            
+    }
+    /**
+     * permet de connaître la classe de l'instance ici (Nuage Toxique)
+     * @return 
+     */
+    public String nomClasse(){
+        return("Nuage Toxique");
+    }  
+    
+    
+}

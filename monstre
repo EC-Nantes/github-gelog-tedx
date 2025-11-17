@@ -1,0 +1,50 @@
+/**
+     * @param pV
+     * @param dA
+     * @param pPar
+     * @param paAtt
+     * @param paPar
+     * @param p
+     */
+    public Monstre(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p){
+        super(pV,dA,pPar,paAtt,paPar,p);
+    }
+    
+    /**
+     *
+     * @param m
+     */
+    public Monstre(Monstre m){ 
+        super(m);
+    }
+    
+    /**
+     *
+     */
+    public Monstre(){
+        super();
+    }
+    
+    /**
+     *
+     */
+    public void deplace(){
+        Random genx = new Random();
+        Random geny = new Random();
+        int dx = 0;
+        int dy = 0;
+        while (dx == 0 && dy == 0){
+        dx = genx.nextInt(3)-1;
+        dy = geny.nextInt(3)-1;   
+        }
+        this.getPos().translate(dx,dy);
+    }
+    
+    /**
+     *
+     */
+    public void affiche(){
+        // Quand on cherche à afficher un monstre, on veut voir son nombre de point de vie et sa position
+        System.out.println("Point de vie : "+ this.getPtVie());
+        System.out.println("Position : "+ this.getPos());
+    }
